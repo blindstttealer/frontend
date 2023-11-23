@@ -9,6 +9,7 @@ export default function Home() {
       </Button>
       <Button size="big" color="white">
         Hello
+        Some test text
       </Button>
     </div>
   );
