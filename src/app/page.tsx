@@ -2,7 +2,7 @@
 import Button from "@/components/ui/Button/Button";
 import Input from "@/components/ui/Input/Input";
 import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 export default function Home() {
   const [email, setEmail] = useState("");

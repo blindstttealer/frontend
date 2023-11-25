@@ -7,7 +7,7 @@ interface InputProps {
   type?: string;
   name: string;
   error?: any;
-  options?: RegisterOptions<FieldValues>;
+  options: RegisterOptions<FieldValues>;
   register: UseFormRegister<FieldValues>;
 }
 
