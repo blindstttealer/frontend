@@ -3,10 +3,20 @@ import Button from "@/components/ui/Button/Button";
 import Input from "@/components/ui/Input/Input";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { redirect } from 'next/navigation';
+import { useLayoutEffect } from 'react';
+
 
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isAuth, setIsAuth] = useState("false")
+
+  useLayoutEffect(() => {
+    if (isAuth === "false") {
+      redirect("/auth")
+    }
+  }, [])
 
   const {
     register,
@@ -45,6 +55,7 @@ export default function Home() {
         <Button size="medium" color="yellow">
           Login
         </Button>
+
       </form>
       <div>Your login: {email}</div>
       <div>Your password: {password}</div>
