@@ -3,24 +3,26 @@
   \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 .Button_button__5Fngg {
   cursor: pointer;
-  padding: 4px 20px;
-  border: 1px solid black;
-  border-radius: 4px;
-  background-color: #07be97;
-  color: #fff;
+  padding: 12px 24px;
+  border: 1px solid rgb(80, 35, 235);
+  border-radius: 1px;
+  background-color: #fff;
+  color: #000000;
   font-size: 14px;
+  width: 232px;
+  height: 46px;
   transition: background-color 0.1s ease-in-out;
 }
 .Button_button__5Fngg:active {
-  background-color: #069b7b;
+  background-color: rgb(58, 25, 175);
 }
 
-.Button_yellow__DOEyk {
-  background-color: #ffff00;
-  color: black;
+.Button_purple__IWKMV {
+  background-color: rgb(80, 35, 235);
+  color: white;
 }
-.Button_yellow__DOEyk:active {
-  background-color: #c2c202;
+.Button_purple__IWKMV:active {
+  background-color: rgb(58, 25, 175);
 }
 
 .Button_white__ta6dJ {
@@ -31,11 +33,13 @@
   background-color: #c0c0c0;
 }
 
-.Button_blue__2LUdz {
-  background-color: #0000ff;
+.Button_gray__HSId1 {
+  background-color: rgb(188, 188, 188);
+  border: 1px solid rgb(188, 188, 188);
+  color: white;
 }
-.Button_blue__2LUdz:active {
-  background-color: #0202c7;
+.Button_gray__HSId1:active {
+  background-color: rgb(58, 25, 175);
 }
 
 .Button_small__AR0Cb {
@@ -52,21 +56,27 @@
   padding: 12px 60px;
   font-size: 22px;
 }
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[9].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[9].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[12].oneOf[9].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[12].oneOf[9].use[5]!./src/components/ui/Input/Input.module.scss ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-.Input_input__5WxBl {
-  border-radius: 4px;
-  border: 1px solid #333;
-  outline: none;
-  padding: 4px;
-  transition: border 0.2s ease-in-out;
-}
-.Input_input__5WxBl:focus {
-  border: 1px solid #10fdb6;
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[9].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[9].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[12].oneOf[9].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[12].oneOf[9].use[5]!./src/app/page.module.scss ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.page_container__LLik5 {
+  max-width: 1600px;
+  margin: 0 auto;
 }
 
-.Input_error__xGw3f {
-  color: red;
-  font-size: 14px;
+.page_paragraph__2XjnP {
+  text-align: center;
+  font-size: 42px;
+  font-weight: 600;
+  margin-bottom: 60px;
+}
+
+.page_innerButton__nsSV1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page_bottomButton__A3H1S {
+  margin-top: 24px;
 }
