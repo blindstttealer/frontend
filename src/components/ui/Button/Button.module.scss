@@ -1,47 +1,51 @@
 .button {
   cursor: pointer;
-  padding: 4px 20px;
-  border: 1px solid black;
-  border-radius: 4px;
-  background-color: #07be97;
-  color: #fff;
+  padding: 12px 24px;
+  border: 1px solid rgba(80, 35, 235, 1);
+  border-radius: 1px;
+  background-color: #fff;
+  color: #000000;
   font-size: 14px;
-  transition: background-color .1s ease-in-out;
-  &:active{
-    background-color:#069b7b ;
+  width: 232px;
+  height: 46px;
+  transition: background-color 0.1s ease-in-out;
+  &:active {
+    background-color: rgb(58, 25, 175);
   }
 }
 
-.yellow{
-  background-color: #ffff00;
-  color: black;
-  &:active{
-    background-color:#c2c202 ;
+.purple {
+  background-color: rgba(80, 35, 235, 1);
+  color: white;
+  &:active {
+    background-color: rgb(58, 25, 175);
   }
 }
-.white{
+.white {
   background-color: #fff;
   color: black;
-  &:active{
-    background-color:#c0c0c0 ;
+  &:active {
+    background-color: #c0c0c0;
   }
 }
-.blue{
-  background-color: #0000ff;
-  &:active{
-    background-color:#0202c7 ;
+.gray {
+  background-color: rgba(188, 188, 188, 1);
+  border: 1px solid rgba(188, 188, 188, 1);
+  color: white;
+  &:active {
+    background-color: rgb(58, 25, 175);
   }
 }
 
-.small{
+.small {
   padding: 4px 20px;
   font-size: 14px;
 }
-.medium{
+.medium {
   padding: 8px 40px;
   font-size: 18px;
 }
-.big{
+.big {
   padding: 12px 60px;
   font-size: 22px;
 }

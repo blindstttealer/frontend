@@ -8,7 +8,7 @@ interface IButton
     HTMLButtonElement
   > {
   children: ReactNode;
-  color?: "yellow" | "white" | "blue";
+  color?: "purple" | "white" | "gray";
   size?: "big" | "medium" | "small";
 }
 
@@ -22,9 +22,9 @@ const Button: FC<IButton> = ({
   return (
     <button
       className={cn(styles.button, className, {
-        [styles.yellow]: color === "yellow",
+        [styles.purple]: color === "purple",
         [styles.white]: color === "white",
-        [styles.blue]: color === "blue",
+        [styles.gray]: color === "gray",
         [styles.big]: size === "big",
         [styles.medium]: size === "medium",
         [styles.small]: size === "small",

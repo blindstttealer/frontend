@@ -21,7 +21,7 @@ const Input: FC<InputProps> = ({
   ...rest
 }) => {
   return (
-    <div style={{ marginBottom: "1rem" }}>
+    <div>
       <input
         placeholder={placeholder}
         type={type}
@@ -29,7 +29,7 @@ const Input: FC<InputProps> = ({
         {...rest}
         className={styles.input}
       />
-      {error && <div className={styles.error}>{error}</div>}
+      {error && <span className={styles.error}>{error}</span>}
     </div>
   );
 };

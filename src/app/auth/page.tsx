@@ -5,21 +5,28 @@ import React, { useLayoutEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { axiosInstance } from '@/api';
 import { redirect } from 'next/navigation';
-// import { useLayoutEffect } from 'react';
 
 
 interface IErrors {
     email?: string[],
     password?: string[],
-    username?: string[]
+    username?: string[],
+    detail?: string[]
 }
+
+interface IToken {
+    refresh: string,
+    access: string
+}
+
+
 
 export default function Registration() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [userName, setUserName] = useState('')
     const [user, setGetUser] = useState("")
-    const [token, setToken] = useState()
+    const [token, setToken] = useState<IToken>({ access: '', refresh: '' })
     const [fetchError, setFetchError] = useState<IErrors>({})
     const [flag, setFlag] = useState(true)
     const [isRegisterSuccess, setIsRegisterSuccess] = useState(false)
@@ -51,12 +58,15 @@ export default function Registration() {
                 method: "POST",
                 data,
             }).then((res) => {
+                console.log("res.data", res.data)
                 setToken(res.data);
                 setIsAuth(true)
+                // window.localStorage.setItem("token", 'FFFFFFF')
                 console.log(isAuth)
             });
         } catch (e) {
             console.error(e);
+            setFetchError(e?.response?.data);
         }
     };
 
@@ -67,12 +77,14 @@ export default function Registration() {
     } = useForm();
 
     const onRegister = (data1: any) => {
+        console.log("сработала регистрация")
         setEmail(data1.email);
         setPassword(data1.password);
         setUserName(data1.userName);
         fetchRegister(data1);
     };
     const authorization = (data: any) => {
+        console.log("сработала авторизация")
         setEmail(data.email);
         setPassword(data.password);
         fetchAuthentication(data)
@@ -83,7 +95,9 @@ export default function Registration() {
             redirect("/profile")
         }
     }, [isAuth])
-    
+    // const testToken = window.localStorage.getItem("token")
+    // console.log("testToken", testToken)
+    console.log("токен из стейта", token)
     return (
         <div>
             <p><span onClick={() => setFlag(true)} style={{ cursor: "pointer" }}>Регистрация</span>/ <span onClick={() => setFlag(false)} style={{ cursor: "pointer" }}>Авторизация</span></p>
@@ -155,6 +169,7 @@ export default function Registration() {
                 </div>
             }
             {isRegisterSuccess && <p>Вы успешно зарегистрировались, пожалуйста авторизируйтесь в форме выше</p>}
+            {fetchError.detail ? <p>Такой пользователь не зарегистрирован, пожалуйста зарегистрируйтесь</p> : null}
         </div>
     );
 };
