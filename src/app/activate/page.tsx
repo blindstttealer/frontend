@@ -4,7 +4,7 @@ import Image from "next/image";
 import Button from "@/components/ui/Button/Button";
 import Input from "@/components/ui/Input/Input";
 import { useForm } from "react-hook-form";
-import styles from './page.module.scss'
+import styles from './activate.module.scss'
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { loginStart, loginSuccess, loginFailure } from "@/redux/features/user/userRegistration";
@@ -13,10 +13,8 @@ import { useRouter } from 'next/navigation'
 
 /* этот интерфейс можно заменить на интерфейс из "./userRegistration" */
 interface IRegister {
-    username?: string,
     email: string,
     password: string,
-    repeat_password?: string,
 }
 /* */
 
@@ -24,7 +22,8 @@ export default function Registration() {
 
     const dispatch = useAppDispatch()
     const { isError } = useAppSelector(state => state.userRegistration)
-    const router = useRouter()
+    const state = useAppSelector(state => state.userRegistration)
+    // const router = useRouter()
     const {
         register,
         handleSubmit,
@@ -36,24 +35,23 @@ export default function Registration() {
 
     /* функция отправки данных в базу данных начало */
 
-    const fetchRegister = async (data: IRegister) => {
-        try {
-            dispatch(loginStart())
-            await axiosInstance({
-                url: "users/",
-                method: "POST",
-                data,
-            }).then((res) => dispatch(loginSuccess(res.data)))
-        } catch (e) {
-            dispatch(loginFailure(e))
-        }
-    };
+    // const fetchRegister = async (data: IRegister) => {
+    //     try {
+    //         dispatch(loginStart())
+    //         await axiosInstance({
+    //             url: "users/",
+    //             method: "POST",
+    //             data,
+    //         }).then((res) => dispatch(loginSuccess(res.data)))
+    //     } catch (e) {
+    //         dispatch(loginFailure(e))
+    //     }
+    // };
 
     /* функция отправки данных конец */
     const onSubmit = (data: any) => {
-        fetchRegister(data)
-        dispatch(loginSuccess(data))
-        { !isError && router.push('/activateProfile') }
+        // fetchRegister(data)
+        // dispatch(loginSuccess(data))
     };
 
     const password = watch('password')
@@ -62,23 +60,9 @@ export default function Registration() {
     return (
         <div>
             <div className={styles.container}>
-                <p className={styles.paragraph}>Добро пожаловать в мир су-вид!</p>
+                <p className={styles.paragraph}>С возвращением в мир су-вид!</p>
                 <div className={styles.innerForm}>
-                    <p className={styles.innerForm_paragraph}>Регистрация</p>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <label>Username (поле временное)
-                            <div style={{ marginTop: '12px', marginBottom: '12px' }}>
-                                <Input
-                                    register={register}
-                                    name="username"
-                                    type="text"
-                                    placeholder="Mikhail"
-                                    options={{ maxLength: { message: "Максимально 150 символов", value: 150 }, }}
-                                    error={errors?.username?.message}
-                                />
-                            </div>
-                            {isError?.response?.data?.username && <p style={{ color: "red" }}>Пользователь с таким именем уже есть</p>}
-                        </label>
                         <label>Email
                             <div style={{ marginTop: '12px', marginBottom: '12px' }}>
                                 <Input
@@ -98,7 +82,8 @@ export default function Registration() {
                             </div>
                             {isError?.response?.data?.email && <p style={{ color: "red" }}>Пользователь с таким ящиком уже есть</p>}
                         </label>
-                        <label> Пароль
+                        <label>
+                            <div className={styles.faggotPassword}><span>Пароль</span><span>Забыли пароль?</span></div>
                             <div style={{ marginTop: '12px', marginBottom: '24px' }}>
                                 <Input
                                     register={register}
@@ -117,28 +102,12 @@ export default function Registration() {
                                 />
                             </div>
                         </label>
-                        <label> Повторите пароль
-                            <div style={{ marginTop: '12px', marginBottom: '24px' }}>
-                                <Input
-                                    register={register}
-                                    name="repeat_password"
-                                    type="password"
-                                    placeholder="*********"
-                                    options={{
-                                        required: "Обязательное поле",
-                                        validate: value => value === password || "Пароли не совпадают",
-                                    }}
-                                    error={errors?.repeat_password?.message}
-                                />
-                            </div>
-                        </label>
-
                         {/* Доделай кнопку с позиции дизейблед */}
                         <Button color={"gray"} style={{ width: '100%', marginBottom: '24px' }}>
                             Зарегистрироваться
                         </Button>
                     </form>
-                    <p className={styles.alreadyHaveAccount}>У вас уже есть аккаунт? <span className={styles.login}><Link href={'/activate'}>Войти в аккаунт?</Link></span></p>
+                    <p className={styles.alreadyHaveAccount}>Впервые на нашем сайте? <span className={styles.login}><Link href={'/registration'}>Создайте аккаунт?</Link></span></p>
                     <div className={styles.innerLine}>
                         <hr className={styles.line} style={{ marginRight: '5px' }} />
                         <span>или</span>

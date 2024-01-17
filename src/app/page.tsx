@@ -1,10 +1,5 @@
 "use client";
 import Button from "@/components/ui/Button/Button";
-import Input from "@/components/ui/Input/Input";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { redirect } from 'next/navigation';
-import { useLayoutEffect } from 'react';
 import styles from "./page.module.scss"
 import Link from "next/link";
 
