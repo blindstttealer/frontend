@@ -28,6 +28,7 @@ export const userAuth = createSlice({
             state.tokens = action.payload
             window.localStorage.setItem("access_token", state.tokens.access)
             window.localStorage.setItem("refresh_token", state.tokens.refresh)
+            // state.isLoading = false;
         },
         authFailure: (state, action) => {
             state.isLoading = false;

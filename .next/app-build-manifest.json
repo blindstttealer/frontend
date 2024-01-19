@@ -12,18 +12,6 @@
       "static/css/app/page.css",
       "static/chunks/app/page.js"
     ],
-    "/registration/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/registration/page.css",
-      "static/chunks/app/registration/page.js"
-    ],
-    "/activateProfile/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/activateProfile/page.css",
-      "static/chunks/app/activateProfile/page.js"
-    ],
     "/activate/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -35,6 +23,12 @@
       "static/chunks/main-app.js",
       "static/css/app/profile/page.css",
       "static/chunks/app/profile/page.js"
+    ],
+    "/registration/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/registration/page.css",
+      "static/chunks/app/registration/page.js"
     ]
   }
 }

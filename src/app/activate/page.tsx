@@ -1,6 +1,6 @@
 "use client";
 /* баги */
-/* типизация дефолтных данных в инпутах формы ломает типизацию */
+/* типизация дефолтных данных в инпутах формы ломает типизацию, не работает прелоадер */
 import Image from "next/image";
 import Button from "@/components/ui/Button/Button";
 import Input from "@/components/ui/Input/Input";
