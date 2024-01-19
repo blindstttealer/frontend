@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation'
 export default function Home() {
   /* пока вопрос с таким решением н */
   const router = useRouter();
-  const tokenFromLocalStorage = localStorage.getItem('token');
+  const tokenFromLocalStorage = localStorage.getItem('access_token');
 
   if (tokenFromLocalStorage && tokenFromLocalStorage?.length > 0) {
     router.push('/activate')

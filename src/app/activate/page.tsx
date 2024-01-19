@@ -1,5 +1,6 @@
 "use client";
 /* баги */
+/* типизация дефолтных данных в инпутах формы ломает типизацию */
 import Image from "next/image";
 import Button from "@/components/ui/Button/Button";
 import Input from "@/components/ui/Input/Input";
@@ -38,7 +39,7 @@ export default function Authentication() {
 
     /* функция отправки данных в базу данных начало */
 
-    const fetchAuth = async (data: IAuth) => {
+    const fetchAuth = async (data: any) => {
         try {
             await axiosInstance({
                 url: "jwt/create/",

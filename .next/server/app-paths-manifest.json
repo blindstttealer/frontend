@@ -1,7 +1,7 @@
 {
-  "/activate/page": "app/activate/page.js",
   "/profile/page": "app/profile/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/page": "app/page.js",
-  "/registration/page": "app/registration/page.js"
+  "/registration/page": "app/registration/page.js",
+  "/activate/page": "app/activate/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js"
 }

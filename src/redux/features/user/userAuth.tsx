@@ -26,7 +26,8 @@ export const userAuth = createSlice({
             state.isLoading = true
             console.log("данные которые пришли с бека при авторизации", action.payload)
             state.tokens = action.payload
-            window.localStorage.setItem("token", state.tokens.access)
+            window.localStorage.setItem("access_token", state.tokens.access)
+            window.localStorage.setItem("refresh_token", state.tokens.refresh)
         },
         authFailure: (state, action) => {
             state.isLoading = false;
