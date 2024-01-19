@@ -15,7 +15,7 @@ export default function Profile() {
     const router = useRouter()
     const dispatch = useAppDispatch()
     const { profile, isLoading, isError } = useAppSelector(state => state.dataUser)
-
+    /* функции для теста выхода из профиля н */
     const logOut = () => {
         localStorage.removeItem('access_token')
         router.push('/activate')
@@ -26,6 +26,7 @@ export default function Profile() {
         localStorage.removeItem('refresh_token');
         router.push('/activate')
     }
+    /* функции для теста выхода из профиля к */
 
     /* для теста рандомного токена н */
     const randomAccess_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
@@ -49,7 +50,6 @@ export default function Profile() {
         }
     };
 
-
     React.useEffect(() => {
         fetchCheckAuth()
     }, [])
@@ -58,21 +58,19 @@ export default function Profile() {
         <div className={styles.container}>
             {isLoading &&
                 <p>Получаем данные пользователя...</p>
-
             }
-
             <div>
                 <p>Имя пользователя:{profile.username}</p>
                 <p>Email пользователя:{profile.email}</p>
             </div>
-            {/* юлок для тестов аксесс токена н */}
+            {/* блок для тестов аксесс токена н */}
             <div style={{ width: "300px" }}>
                 <p style={{ marginTop: '22px' }}>Кнопки сугубо для тестов</p>
                 <Button style={{ marginBottom: '25px' }} onClick={logOut}>Выйти из профиля(Удаляем только аксесс токен)</Button>
                 <Button style={{ marginBottom: '25px' }} onClick={logOutAll}>Выйти из профиля(Удаляем аксесс и рефреш токен)</Button>
                 <Button onClick={getRandomToken}>Подставить рандомный токен</Button>
             </div>
-            {/* юлок для тестов аксесс токена к */}
+            {/* блок для тестов аксесс токена к */}
         </div>
 
     );
