@@ -67,6 +67,7 @@ export default function Authentication() {
                             <div style={{ marginTop: '12px', marginBottom: '12px' }}>
                                 <Input
                                     style={{ color: 'black' }}
+                                    //@ts-ignore
                                     register={register}
                                     name="email"
                                     type="text"
@@ -88,6 +89,7 @@ export default function Authentication() {
                             <div style={{ marginTop: '12px', marginBottom: '24px' }}>
                                 <Input
                                     style={{ color: 'black' }}
+                                    //@ts-ignore
                                     register={register}
                                     name="password"
                                     // type="password"
