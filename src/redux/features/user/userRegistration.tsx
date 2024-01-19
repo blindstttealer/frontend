@@ -1,6 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface IInitialState {
+    getFetchUser: {
+        id: number
+        username?: string,
+        email: string,
+    },
     profileFromActivation: {
         username?: string,
         email: string,
@@ -9,17 +14,22 @@ interface IInitialState {
     }
     isAuth?: boolean,
     isError?: any,
-    isLoaded?: boolean,
+    isLoading?: boolean,
 }
 
 const initialState: IInitialState = {
+    getFetchUser: {
+        id: 0,
+        username: '',
+        email: '',
+    },
     profileFromActivation: {
         email: '',
         password: '',
     },
     isAuth: false,
     isError: '',
-    isLoaded: false,
+    isLoading: false,
 }
 
 export const userRegistration = createSlice({
@@ -27,22 +37,27 @@ export const userRegistration = createSlice({
     initialState,
     reducers: {
         loginStart: (state) => {
-            state.isLoaded = true
+            state.isLoading = true
         },
         loginSuccess: (state, action) => {
-            console.log("данные которые пришли с бека", action.payload)
+            state.isLoading = true
+            console.log("данные которые пришли c полей формы", action.payload)
             state.profileFromActivation = action.payload
-            state.isLoaded = false;
+            // state.isLoaded = false;
             state.isAuth = true
         },
         loginFailure: (state, action) => {
             console.log("данные с ошибкой", action.payload)
-            state.isLoaded = false;
+            state.isLoading = false;
             state.isAuth = false
             state.isError = action.payload
         },
+        fetchUserData: (state, action) => {
+            state.isLoading = true
+            state.getFetchUser = action.payload
+        }
     }
 })
 
-export const { loginStart, loginSuccess, loginFailure } = userRegistration.actions;
+export const { loginStart, loginSuccess, loginFailure, fetchUserData } = userRegistration.actions;
 export default userRegistration.reducer

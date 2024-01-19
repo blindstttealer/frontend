@@ -1,8 +1,7 @@
 {
-  "/main/page": "app/main/page.js",
-  "/registration/page": "app/registration/page.js",
-  "/activateProfile/page": "app/activateProfile/page.js",
   "/activate/page": "app/activate/page.js",
-  "/auth/page": "app/auth/page.js",
-  "/page": "app/page.js"
+  "/profile/page": "app/profile/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/page": "app/page.js",
+  "/registration/page": "app/registration/page.js"
 }

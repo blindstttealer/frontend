@@ -7,55 +7,54 @@ import { useForm } from "react-hook-form";
 import styles from './activate.module.scss'
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { loginStart, loginSuccess, loginFailure } from "@/redux/features/user/userRegistration";
 import { axiosInstance } from "@/api";
 import { useRouter } from 'next/navigation'
+import { authFailure, authSuccess } from "@/redux/features/user/userAuth";
 
 /* этот интерфейс можно заменить на интерфейс из "./userRegistration" */
-interface IRegister {
+interface IAuth {
     email: string,
     password: string,
 }
 /* */
 
-export default function Registration() {
+export default function Authentication() {
 
     const dispatch = useAppDispatch()
-    const { isError } = useAppSelector(state => state.userRegistration)
-    const state = useAppSelector(state => state.userRegistration)
-    // const router = useRouter()
+    const { isError, isLoading } = useAppSelector(state => state.userAuth)
+    const { profileFromActivation } = useAppSelector(state => state.userRegistration)
+    const router = useRouter()
     const {
         register,
         handleSubmit,
-        watch,
         formState: { errors },
     } = useForm({
-        mode: "onBlur"
+        mode: "onBlur",
+        defaultValues: {
+            email: profileFromActivation.email,
+            password: profileFromActivation.password,
+        },
     });
 
     /* функция отправки данных в базу данных начало */
 
-    // const fetchRegister = async (data: IRegister) => {
-    //     try {
-    //         dispatch(loginStart())
-    //         await axiosInstance({
-    //             url: "users/",
-    //             method: "POST",
-    //             data,
-    //         }).then((res) => dispatch(loginSuccess(res.data)))
-    //     } catch (e) {
-    //         dispatch(loginFailure(e))
-    //     }
-    // };
+    const fetchAuth = async (data: IAuth) => {
+        try {
+            await axiosInstance({
+                url: "jwt/create/",
+                method: "POST",
+                data,
+            }).then((res) => dispatch(authSuccess(res.data)))
+            router.push('/profile')
+        } catch (e) {
+            dispatch(authFailure(e))
+        }
+    };
 
     /* функция отправки данных конец */
     const onSubmit = (data: any) => {
-        // fetchRegister(data)
-        // dispatch(loginSuccess(data))
+        fetchAuth(data)
     };
-
-    const password = watch('password')
-    const repeat_password = watch('repeat_password')
 
     return (
         <div>
@@ -66,6 +65,7 @@ export default function Registration() {
                         <label>Email
                             <div style={{ marginTop: '12px', marginBottom: '12px' }}>
                                 <Input
+                                    style={{ color: 'black' }}
                                     register={register}
                                     name="email"
                                     type="text"
@@ -86,10 +86,11 @@ export default function Registration() {
                             <div className={styles.faggotPassword}><span>Пароль</span><span>Забыли пароль?</span></div>
                             <div style={{ marginTop: '12px', marginBottom: '24px' }}>
                                 <Input
+                                    style={{ color: 'black' }}
                                     register={register}
                                     name="password"
-                                    type="password"
-                                    placeholder="*********"
+                                    // type="password"
+                                    // placeholder="*********"
                                     options={{
                                         required: "Обязательное поле",
                                         minLength: { message: "Минимальная длинна 8 символов", value: 8 },
@@ -104,8 +105,9 @@ export default function Registration() {
                         </label>
                         {/* Доделай кнопку с позиции дизейблед */}
                         <Button color={"gray"} style={{ width: '100%', marginBottom: '24px' }}>
-                            Зарегистрироваться
+                            Войти
                         </Button>
+                        {isLoading === true ? <p style={{ textAlign: "center", color: "aquamarine" }}>Ждем ответа сервера...</p> : null}
                     </form>
                     <p className={styles.alreadyHaveAccount}>Впервые на нашем сайте? <span className={styles.login}><Link href={'/registration'}>Создайте аккаунт?</Link></span></p>
                     <div className={styles.innerLine}>

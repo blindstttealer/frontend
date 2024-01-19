@@ -7,9 +7,10 @@ import { useForm } from "react-hook-form";
 import styles from './page.module.scss'
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { loginStart, loginSuccess, loginFailure } from "@/redux/features/user/userRegistration";
+import { loginStart, loginSuccess, loginFailure, fetchUserData } from "@/redux/features/user/userRegistration";
 import { axiosInstance } from "@/api";
 import { useRouter } from 'next/navigation'
+import React from "react";
 
 /* этот интерфейс можно заменить на интерфейс из "./userRegistration" */
 interface IRegister {
@@ -23,7 +24,7 @@ interface IRegister {
 export default function Registration() {
 
     const dispatch = useAppDispatch()
-    const { isError } = useAppSelector(state => state.userRegistration)
+    const { isError, isLoading } = useAppSelector(state => state.userRegistration)
     const router = useRouter()
     const {
         register,
@@ -43,7 +44,8 @@ export default function Registration() {
                 url: "users/",
                 method: "POST",
                 data,
-            }).then((res) => dispatch(loginSuccess(res.data)))
+            }).then((res) => dispatch(fetchUserData(res.data)))
+            router.push('/activateProfile')
         } catch (e) {
             dispatch(loginFailure(e))
         }
@@ -53,16 +55,17 @@ export default function Registration() {
     const onSubmit = (data: any) => {
         fetchRegister(data)
         dispatch(loginSuccess(data))
-        { !isError && router.push('/activateProfile') }
     };
-
+    
     const password = watch('password')
     const repeat_password = watch('repeat_password')
+    React.useEffect(() => { }, [isError])
 
     return (
         <div>
             <div className={styles.container}>
                 <p className={styles.paragraph}>Добро пожаловать в мир су-вид!</p>
+
                 <div className={styles.innerForm}>
                     <p className={styles.innerForm_paragraph}>Регистрация</p>
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -137,6 +140,7 @@ export default function Registration() {
                         <Button color={"gray"} style={{ width: '100%', marginBottom: '24px' }}>
                             Зарегистрироваться
                         </Button>
+                        {isLoading === true ? <p style={{ textAlign: "center", color: "aquamarine" }}>Ждем ответа сервера...</p> : null}
                     </form>
                     <p className={styles.alreadyHaveAccount}>У вас уже есть аккаунт? <span className={styles.login}><Link href={'/activate'}>Войти в аккаунт?</Link></span></p>
                     <div className={styles.innerLine}>
