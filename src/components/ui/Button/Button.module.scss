@@ -37,6 +37,15 @@
   }
 }
 
+.disabled {
+  color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(128, 128, 128, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  &:active {
+    background-color: rgba(128, 128, 128, 0.5);
+  }
+}
+
 .small {
   padding: 4px 20px;
   font-size: 14px;
