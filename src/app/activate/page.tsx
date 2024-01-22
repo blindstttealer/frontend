@@ -23,6 +23,8 @@ export default function Authentication() {
 
     const dispatch = useAppDispatch()
     const { isError, isLoading } = useAppSelector(state => state.userAuth)
+
+    console.log("ошибка при авторизации на клиенте", isError)
     const { profileFromActivation } = useAppSelector(state => state.userRegistration)
     const router = useRouter()
     const {
@@ -61,7 +63,9 @@ export default function Authentication() {
         <div>
             <div className={styles.container}>
                 <p className={styles.paragraph}>С возвращением в мир су-вид!</p>
+
                 <div className={styles.innerForm}>
+                    {isError && <p style={{ color: "red" }}>Неверный ящик или пароль</p>}
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <label>Email
                             <div style={{ marginTop: '12px', marginBottom: '12px' }}>
@@ -82,7 +86,7 @@ export default function Authentication() {
                                     error={errors?.email?.message}
                                 />
                             </div>
-                            {isError?.response?.data?.email && <p style={{ color: "red" }}>Пользователь с таким ящиком уже есть</p>}
+
                         </label>
                         <label>
                             <div className={styles.faggotPassword}><span>Пароль</span><span>Забыли пароль?</span></div>
@@ -105,6 +109,7 @@ export default function Authentication() {
                                     error={errors?.password?.message}
                                 />
                             </div>
+
                         </label>
                         {/* Доделай кнопку с позиции дизейблед */}
                         <Button color={"gray"} style={{ width: '100%', marginBottom: '24px' }}>

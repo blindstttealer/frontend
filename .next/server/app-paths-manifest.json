@@ -2,5 +2,5 @@
   "/page": "app/page.js",
   "/activate/page": "app/activate/page.js",
   "/profile/page": "app/profile/page.js",
-  "/registration/page": "app/registration/page.js"
+  "/favicon.ico/route": "app/favicon.ico/route.js"
 }
