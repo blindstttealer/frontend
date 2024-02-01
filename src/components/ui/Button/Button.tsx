@@ -10,6 +10,7 @@ interface IButton
   children: ReactNode;
   color?: "purple" | "white" | "gray";
   size?: "big" | "medium" | "small";
+  disabled?: true | false;
 }
 
 const Button: FC<IButton> = ({
@@ -17,11 +18,13 @@ const Button: FC<IButton> = ({
   className,
   color,
   size,
+  disabled,
   ...props
 }) => {
   return (
     <button
       className={cn(styles.button, className, {
+        [styles.disabled]: disabled === true,
         [styles.purple]: color === "purple",
         [styles.white]: color === "white",
         [styles.gray]: color === "gray",
@@ -29,6 +32,7 @@ const Button: FC<IButton> = ({
         [styles.medium]: size === "medium",
         [styles.small]: size === "small",
       })}
+      disabled={disabled}
       {...props}
     >
       {children}

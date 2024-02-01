@@ -2,16 +2,15 @@
 
 /* есть логи, подумай куда вывести ошибку в случае если она есть */
 import Button from "@/components/ui/Button/Button";
-import styles from "./page.module.scss"
+import styles from "./page.module.scss";
 import Link from "next/link";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import axios from "axios"
+import axios from "axios";
 import { BASE_URL } from "@/api";
 
-
-
 export default function Home() {
+
 
   let refreshTokenFromLoc = {}
 
@@ -22,27 +21,28 @@ export default function Home() {
   }
 
   const [err, setErr] = useState<any>('')
-  // const refreshTokenFromLoc = {
-  //   refresh: localStorage.getItem("refresh_token")
-  // }
+
   const router = useRouter();
 
   const checkAuth = async () => {
     try {
-      const res = await axios.post(`${BASE_URL}jwt/refresh/`, refreshTokenFromLoc);
-      localStorage.setItem('access_token', res.data.access)
-      router.push('/activate')
+      const res = await axios.post(
+        `${BASE_URL}jwt/refresh/`,
+        refreshTokenFromLoc
+      );
+      localStorage.setItem("access_token", res.data.access);
+      router.push("/activate");
     } catch (error) {
-      setErr(error)
+      setErr(error);
     }
-  }
+  };
 
   useEffect(() => {
-    if (localStorage.getItem('refresh_token')) {
-      console.log("функция проверки регистрации сработала")
-      checkAuth()
+    if (localStorage.getItem("refresh_token")) {
+      console.log("функция проверки регистрации сработала");
+      checkAuth();
     }
-  }, [])
+  }, []);
   return (
     <div>
       <div className={styles.container}>
@@ -57,7 +57,12 @@ export default function Home() {
             </Link>
           </span>
         </div>
-        {err && <p style={{ color: "red" }}>Есть ошибка при проверки авторизации пользователя, пока ее не обработал</p>}
+        {err && (
+          <p style={{ color: "red" }}>
+            Есть ошибка при проверки авторизации пользователя, пока ее не
+            обработал
+          </p>
+        )}
       </div>
     </div>
   );
