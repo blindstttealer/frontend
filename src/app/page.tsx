@@ -13,10 +13,18 @@ import { BASE_URL } from "@/api";
 
 export default function Home() {
 
-  const [err, setErr] = useState<any>('')
-  const refreshTokenFromLoc = {
-    refresh: localStorage.getItem("refresh_token")
+  let refreshTokenFromLoc = {}
+
+  if (typeof window !== "undefined") {
+    refreshTokenFromLoc = {
+      refresh: localStorage.getItem("refresh_token"),
+    };
   }
+
+  const [err, setErr] = useState<any>('')
+  // const refreshTokenFromLoc = {
+  //   refresh: localStorage.getItem("refresh_token")
+  // }
   const router = useRouter();
 
   const checkAuth = async () => {

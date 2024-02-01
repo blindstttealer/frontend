@@ -2,9 +2,15 @@ import axios from "axios";
 
 export const BASE_URL = "http://127.0.0.1:8000/api/v1/auth/";
 
-const refresh = {
-  refresh: localStorage.getItem("refresh_token"),
-};
+let refresh = {};
+
+if (typeof window !== "undefined") {
+  refresh = {
+    refresh: localStorage.getItem("refresh_token"),
+  };
+}
+
+console.log("refresh", refresh);
 
 export const axiosInstance = axios.create({
   // withCredentials: true,
