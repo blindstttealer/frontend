@@ -7,10 +7,9 @@ import Input from "@/components/ui/Input/Input";
 import { useForm } from "react-hook-form";
 import styles from './activate.module.scss'
 import Link from "next/link";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { axiosInstance } from "@/api";
+
 import { useRouter } from 'next/navigation'
-import { authFailure, authSuccess } from "@/redux/features/user/userAuth";
+
 
 /* этот интерфейс можно заменить на интерфейс из "./userRegistration" */
 interface IAuth {
@@ -21,11 +20,6 @@ interface IAuth {
 
 export default function Authentication() {
 
-    const dispatch = useAppDispatch()
-    const { isError, isLoading } = useAppSelector(state => state.userAuth)
-
-    console.log("ошибка при авторизации на клиенте", isError)
-    const { profileFromActivation } = useAppSelector(state => state.userRegistration)
     const router = useRouter()
     const {
         register,
@@ -34,29 +28,14 @@ export default function Authentication() {
     } = useForm({
         mode: "onBlur",
         defaultValues: {
-            email: profileFromActivation.email,
-            password: profileFromActivation.password,
+            email: "найди этот текст и измени его",
+            password: "найди этот текст и измени его",
         },
     });
 
-    /* функция отправки данных в базу данных начало */
-
-    const fetchAuth = async (data: any) => {
-        try {
-            await axiosInstance({
-                url: "jwt/create/",
-                method: "POST",
-                data,
-            }).then((res) => dispatch(authSuccess(res.data)))
-            router.push('/profile')
-        } catch (e) {
-            dispatch(authFailure(e))
-        }
-    };
-
-    /* функция отправки данных конец */
     const onSubmit = (data: any) => {
-        fetchAuth(data)
+        console.log(data);
+
     };
 
     return (
@@ -65,7 +44,6 @@ export default function Authentication() {
                 <p className={styles.paragraph}>С возвращением в мир су-вид!</p>
 
                 <div className={styles.innerForm}>
-                    {isError && <p style={{ color: "red" }}>Неверный ящик или пароль</p>}
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <label>Email
                             <div style={{ marginTop: '12px', marginBottom: '12px' }}>
@@ -115,7 +93,6 @@ export default function Authentication() {
                         <Button color={"gray"} style={{ width: '100%', marginBottom: '24px' }}>
                             Войти
                         </Button>
-                        {isLoading === true ? <p style={{ textAlign: "center", color: "aquamarine" }}>Ждем ответа сервера...</p> : null}
                     </form>
                     <p className={styles.alreadyHaveAccount}>Впервые на нашем сайте? <span className={styles.login}><Link href={'/registration'}>Создайте аккаунт?</Link></span></p>
                     <div className={styles.innerLine}>

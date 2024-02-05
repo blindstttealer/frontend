@@ -6,11 +6,10 @@ import Input from "@/components/ui/Input/Input";
 import { useForm } from "react-hook-form";
 import styles from './page.module.scss'
 import Link from "next/link";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { loginStart, loginSuccess, loginFailure, fetchUserData } from "@/redux/features/user/userRegistration";
-import { axiosInstance } from "@/api";
 import { useRouter } from 'next/navigation'
 import React from "react";
+import { fetchRegistration, getDataFromActivation } from "@/store/features/user/user.slice";
+import { useAppDispatch, useAppSelector } from "@/store/features/hooks";
 
 /* этот интерфейс можно заменить на интерфейс из "./userRegistration" */
 interface IRegister {
@@ -24,7 +23,6 @@ interface IRegister {
 export default function Registration() {
 
     const dispatch = useAppDispatch()
-    const { isError, isLoading } = useAppSelector(state => state.userRegistration)
     const router = useRouter()
     const {
         register,
@@ -37,29 +35,30 @@ export default function Registration() {
 
     /* функция отправки данных в базу данных начало */
 
-    const fetchRegister = async (data: IRegister) => {
-        try {
-            dispatch(loginStart())
-            await axiosInstance({
-                url: "users/",
-                method: "POST",
-                data,
-            }).then((res) => dispatch(fetchUserData(res.data)))
-            router.push('/activateProfile')
-        } catch (e) {
-            dispatch(loginFailure(e))
-        }
-    };
+    // const fetchRegister = async (data: IRegister) => {
+    //     try {
+    //         dispatch(loginStart())
+    //         await axiosInstance({
+    //             url: "users/",
+    //             method: "POST",
+    //             data,
+    //         }).then((res) => dispatch(fetchUserData(res.data)))
+    //         router.push('/activateProfile')
+    //     } catch (e) {
+    //         dispatch(loginFailure(e))
+    //     }
+    // };
 
     /* функция отправки данных конец */
-    const onSubmit = (data: any) => {
-        fetchRegister(data)
-        dispatch(loginSuccess(data))
+    const onSubmit = (dataFromInput: any) => {
+        // console.log(dataFromInput)
+        dispatch(getDataFromActivation(dataFromInput))
+        dispatch(fetchRegistration(dataFromInput))
+        // fetchRegister(data)
+        // dispatch(loginSuccess(data))
     };
-    
     const password = watch('password')
     const repeat_password = watch('repeat_password')
-    React.useEffect(() => { }, [isError])
 
     return (
         <div>
@@ -80,7 +79,7 @@ export default function Registration() {
                                     error={errors?.username?.message}
                                 />
                             </div>
-                            {isError?.response?.data?.username && <p style={{ color: "red" }}>Пользователь с таким именем уже есть</p>}
+                            {/* {isError && <p style={{ color: "red" }}>Пользователь с таким именем уже есть</p>} */}
                         </label>
                         <label>Email
                             <div style={{ marginTop: '12px', marginBottom: '12px' }}>
@@ -99,7 +98,7 @@ export default function Registration() {
                                     error={errors?.email?.message}
                                 />
                             </div>
-                            {isError?.response?.data?.email && <p style={{ color: "red" }}>Пользователь с таким ящиком уже есть</p>}
+                            {/* {isError && <p style={{ color: "red" }}>Пользователь с таким ящиком уже есть</p>} */}
                         </label>
                         <label> Пароль
                             <div style={{ marginTop: '12px', marginBottom: '24px' }}>
@@ -140,7 +139,7 @@ export default function Registration() {
                         <Button color={"gray"} style={{ width: '100%', marginBottom: '24px' }}>
                             Зарегистрироваться
                         </Button>
-                        {isLoading === true ? <p style={{ textAlign: "center", color: "aquamarine" }}>Ждем ответа сервера...</p> : null}
+                        {/* {isLoaded === true ? <p style={{ textAlign: "center", color: "aquamarine" }}>Ждем ответа сервера...</p> : null} */}
                     </form>
                     <p className={styles.alreadyHaveAccount}>У вас уже есть аккаунт? <span className={styles.login}><Link href={'/activate'}>Войти в аккаунт?</Link></span></p>
                     <div className={styles.innerLine}>

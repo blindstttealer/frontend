@@ -7,42 +7,42 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { BASE_URL } from "@/api";
+import { BASE_URL } from "@/services/auth/auth.service";
 
 export default function Home() {
 
 
-  let refreshTokenFromLoc = {}
+  // let refreshTokenFromLoc = {}
 
-  if (typeof window !== "undefined") {
-    refreshTokenFromLoc = {
-      refresh: localStorage.getItem("refresh_token"),
-    };
-  }
+  // if (typeof window !== "undefined") {
+  //   refreshTokenFromLoc = {
+  //     refresh: localStorage.getItem("refresh_token"),
+  //   };
+  // }
 
-  const [err, setErr] = useState<any>('')
+  // const [err, setErr] = useState<any>('')
 
   const router = useRouter();
 
-  const checkAuth = async () => {
-    try {
-      const res = await axios.post(
-        `${BASE_URL}jwt/refresh/`,
-        refreshTokenFromLoc
-      );
-      localStorage.setItem("access_token", res.data.access);
-      router.push("/activate");
-    } catch (error) {
-      setErr(error);
-    }
-  };
+  // const checkAuth = async () => {
+  //   try {
+  //     const res = await axios.post(
+  //       `${BASE_URL}jwt/refresh/`,
+  //       refreshTokenFromLoc
+  //     );
+  //     localStorage.setItem("access_token", res.data.access);
+  //     router.push("/activate");
+  //   } catch (error) {
+  //     setErr(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (localStorage.getItem("refresh_token")) {
-      console.log("функция проверки регистрации сработала");
-      checkAuth();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (localStorage.getItem("refresh_token")) {
+  //     console.log("функция проверки регистрации сработала");
+  //     checkAuth();
+  //   }
+  // }, []);
   return (
     <div>
       <div className={styles.container}>
@@ -57,12 +57,12 @@ export default function Home() {
             </Link>
           </span>
         </div>
-        {err && (
+        {/* {err && (
           <p style={{ color: "red" }}>
             Есть ошибка при проверки авторизации пользователя, пока ее не
             обработал
           </p>
-        )}
+        )} */}
       </div>
     </div>
   );
