@@ -33,29 +33,9 @@ export default function Registration() {
         mode: "onBlur"
     });
 
-    /* функция отправки данных в базу данных начало */
-
-    // const fetchRegister = async (data: IRegister) => {
-    //     try {
-    //         dispatch(loginStart())
-    //         await axiosInstance({
-    //             url: "users/",
-    //             method: "POST",
-    //             data,
-    //         }).then((res) => dispatch(fetchUserData(res.data)))
-    //         router.push('/activateProfile')
-    //     } catch (e) {
-    //         dispatch(loginFailure(e))
-    //     }
-    // };
-
-    /* функция отправки данных конец */
     const onSubmit = (dataFromInput: any) => {
-        // console.log(dataFromInput)
         dispatch(getDataFromActivation(dataFromInput))
         dispatch(fetchRegistration(dataFromInput))
-        // fetchRegister(data)
-        // dispatch(loginSuccess(data))
     };
     const password = watch('password')
     const repeat_password = watch('repeat_password')

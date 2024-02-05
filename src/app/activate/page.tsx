@@ -35,7 +35,6 @@ export default function Authentication() {
 
     const onSubmit = (data: any) => {
         console.log(data);
-
     };
 
     return (

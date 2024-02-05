@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { BASE_URL } from "@/services/auth/auth.service";
+import { instanceAxios } from "@/services/auth/auth.service";
 import axios from "axios";
 
 interface IDataFromResolve {
@@ -32,11 +33,14 @@ const initialState = {
 };
 
 export const fetchRegistration = createAsyncThunk<any, IDataFromForm>(
-  "userRegistrate/fetchRegistrate",
-
+  "userRegistration/fetchRegistration",
   async (dataFromForm, { rejectWithValue }) => {
     try {
-      const res = await axios.post(`${BASE_URL}users/`, dataFromForm);
+      const res = await instanceAxios({
+        method: "POST",
+        url: "users/",
+        data: dataFromForm,
+      });
       return res.data;
     } catch (err) {
       // @ts-ignore
@@ -46,7 +50,7 @@ export const fetchRegistration = createAsyncThunk<any, IDataFromForm>(
 );
 
 const userRegistration = createSlice({
-  name: "userRegistrate",
+  name: "userRegistration",
   initialState,
   reducers: {
     getDataFromActivation: (state, action) => {
