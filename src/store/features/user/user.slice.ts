@@ -1,20 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { BASE_URL } from "@/services/auth/auth.service";
-import { instanceAxios } from "@/services/auth/auth.service";
-import axios from "axios";
-
-interface IDataFromResolve {
-  username: string;
-  email: string;
-  id: number;
-}
-
-interface IDataFromForm {
-  username: string;
-  email: string;
-  password: string;
-  repeat_password: string;
-}
+import { createSlice } from "@reduxjs/toolkit";
+import { fetchRegistration } from "./user.actions";
 
 const initialState = {
   profileFromActivation: {
@@ -28,26 +13,10 @@ const initialState = {
     email: "",
     id: 0,
   },
-  isError: {},
+  isError: null,
   isLoaded: false,
+  flag: false,
 };
-
-export const fetchRegistration = createAsyncThunk<any, IDataFromForm>(
-  "userRegistration/fetchRegistration",
-  async (dataFromForm, { rejectWithValue }) => {
-    try {
-      const res = await instanceAxios({
-        method: "POST",
-        url: "users/",
-        data: dataFromForm,
-      });
-      return res.data;
-    } catch (err) {
-      // @ts-ignore
-      return rejectWithValue(err?.response?.data);
-    }
-  }
-);
 
 const userRegistration = createSlice({
   name: "userRegistration",
@@ -61,16 +30,18 @@ const userRegistration = createSlice({
     builder
       .addCase(fetchRegistration.pending, (state) => {
         state.isLoaded = true;
-        state.isError = {};
+        state.isError = null;
       })
       .addCase(fetchRegistration.fulfilled, (state, action) => {
-        console.log("Данные которые пришли, после регистрации", action.payload);
+        // console.log("Данные которые пришли, после регистрации", action.payload);
         state.isLoaded = false;
         state.profile = action.payload;
+        state.flag = true;
       })
       .addCase(fetchRegistration.rejected, (state, action) => {
-        console.log("ошибка из слайса", action.payload);
-        state.isLoaded = false;
+        // console.log("ошибка из слайса", action.payload);
+        state.flag = false, 
+        state.isLoaded = false,
         // @ts-ignore
         state.isError = action.payload;
       });
@@ -78,5 +49,4 @@ const userRegistration = createSlice({
 });
 
 export const { getDataFromActivation } = userRegistration.actions;
-
 export default userRegistration.reducer;

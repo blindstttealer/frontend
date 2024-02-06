@@ -1,29 +1,23 @@
 "use client";
 /* баги */
+// смотри что можно сделать с типизацией в этом файле
 import Image from "next/image";
 import Button from "@/components/ui/Button/Button";
 import Input from "@/components/ui/Input/Input";
 import { useForm } from "react-hook-form";
 import styles from './page.module.scss'
-import Link from "next/link";
 import { useRouter } from 'next/navigation'
 import React from "react";
-import { fetchRegistration, getDataFromActivation } from "@/store/features/user/user.slice";
+import { getDataFromActivation } from "@/store/features/user/user.slice";
 import { useAppDispatch, useAppSelector } from "@/store/features/hooks";
+import { fetchRegistration } from "@/store/features/user/user.actions";
 
-/* этот интерфейс можно заменить на интерфейс из "./userRegistration" */
-interface IRegister {
-    username?: string,
-    email: string,
-    password: string,
-    repeat_password?: string,
-}
-/* */
 
 export default function Registration() {
 
     const dispatch = useAppDispatch()
     const router = useRouter()
+    const { isError, isLoaded, flag } = useAppSelector(state => state.userReg)
     const {
         register,
         handleSubmit,
@@ -32,19 +26,21 @@ export default function Registration() {
     } = useForm({
         mode: "onBlur"
     });
-
     const onSubmit = (dataFromInput: any) => {
         dispatch(getDataFromActivation(dataFromInput))
         dispatch(fetchRegistration(dataFromInput))
     };
-    const password = watch('password')
-    const repeat_password = watch('repeat_password')
+    React.useEffect(() => {
+        if (flag === true) {
+            router.push('/activate-profile')
+        }
+    }, [flag])
 
+    const password = watch('password')
     return (
         <div>
             <div className={styles.container}>
                 <p className={styles.paragraph}>Добро пожаловать в мир су-вид!</p>
-
                 <div className={styles.innerForm}>
                     <p className={styles.innerForm_paragraph}>Регистрация</p>
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -59,7 +55,8 @@ export default function Registration() {
                                     error={errors?.username?.message}
                                 />
                             </div>
-                            {/* {isError && <p style={{ color: "red" }}>Пользователь с таким именем уже есть</p>} */}
+                            {/* @ts-ignore */}
+                            {isError?.username && <p style={{ color: "red" }}>Пользователь с таким именем уже есть</p>}
                         </label>
                         <label>Email
                             <div style={{ marginTop: '12px', marginBottom: '12px' }}>
@@ -78,7 +75,8 @@ export default function Registration() {
                                     error={errors?.email?.message}
                                 />
                             </div>
-                            {/* {isError && <p style={{ color: "red" }}>Пользователь с таким ящиком уже есть</p>} */}
+                            {/* @ts-ignore */}
+                            {isError?.email && <p style={{ color: "red" }}>Пользователь с таким именем уже есть</p>}
                         </label>
                         <label> Пароль
                             <div style={{ marginTop: '12px', marginBottom: '24px' }}>
@@ -116,12 +114,12 @@ export default function Registration() {
                         </label>
 
                         {/* Доделай кнопку с позиции дизейблед */}
-                        <Button color={"gray"} style={{ width: '100%', marginBottom: '24px' }}>
+                        <Button color={"gray"} style={{ width: '100%', marginBottom: '24px' }} >
                             Зарегистрироваться
                         </Button>
-                        {/* {isLoaded === true ? <p style={{ textAlign: "center", color: "aquamarine" }}>Ждем ответа сервера...</p> : null} */}
+                        {isLoaded === true ? <p style={{ textAlign: "center", color: "aquamarine" }}>Ждем ответа сервера...</p> : null}
                     </form>
-                    <p className={styles.alreadyHaveAccount}>У вас уже есть аккаунт? <span className={styles.login}><Link href={'/activate'}>Войти в аккаунт?</Link></span></p>
+                    <p className={styles.alreadyHaveAccount}>У вас уже есть аккаунт? <span className={styles.login} onClick={() => router.push('/activate')}>Войти в аккаунт?</span></p>
                     <div className={styles.innerLine}>
                         <hr className={styles.line} style={{ marginRight: '5px' }} />
                         <span>или</span>
@@ -144,7 +142,7 @@ export default function Registration() {
                     </div>
                 </div>
             </div>
-        </div >
+        </div>
     );
 };
 

@@ -1,3 +1,5 @@
 {
-  "/registration/page": "app/registration/page.js"
+  "/page": "app/page.js",
+  "/registration/page": "app/registration/page.js",
+  "/activate-profile/page": "app/activate-profile/page.js"
 }

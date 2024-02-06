@@ -3,7 +3,6 @@
 /* есть логи, подумай куда вывести ошибку в случае если она есть */
 import Button from "@/components/ui/Button/Button";
 import styles from "./page.module.scss";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -48,13 +47,9 @@ export default function Home() {
       <div className={styles.container}>
         <p className={styles.paragraph}>Добро пожаловать в мир су-вид!</p>
         <div className={styles.innerButton}>
-          <Link href="/registration">
-            <Button color="purple">Зарегистрироваться</Button>
-          </Link>
+          <Button color="purple" onClick={() => router.push("/registration")}>Зарегистрироваться</Button>
           <span className={styles.bottomButton}>
-            <Link href="/main">
-              <Button>Войти без регистрации</Button>
-            </Link>
+            <Button onClick={() => router.push("/main")}>Войти без регистрации</Button>
           </span>
         </div>
         {/* {err && (
