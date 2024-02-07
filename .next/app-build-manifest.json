@@ -23,18 +23,6 @@
       "static/chunks/main-app.js",
       "static/css/app/activate/page.css",
       "static/chunks/app/activate/page.js"
-    ],
-    "/profile/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/profile/page.css",
-      "static/chunks/app/profile/page.js"
-    ],
-    "/activate-profile/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/activate-profile/page.css",
-      "static/chunks/app/activate-profile/page.js"
     ]
   }
 }
