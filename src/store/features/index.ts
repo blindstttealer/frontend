@@ -1,8 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userRegistrationReducer from "./user/user.slice";
+import userRegistrationReducer from "./user/userRegistration.slice";
+import userAuthorizationReducer from "./user/userAuthorization.slice";
+import userDateMeReducer from "./user/userData.slice";
 
 export const store = configureStore({
-  reducer: { userReg: userRegistrationReducer },
+  reducer: {
+    userRegistration: userRegistrationReducer,
+    userAuthorization: userAuthorizationReducer,
+    userDateMe: userDateMeReducer,
+  },
   devTools: process.env.NODE_ENV !== "production",
 });
 

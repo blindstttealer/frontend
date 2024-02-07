@@ -1,26 +1,22 @@
 "use client";
 /* баги */
 /* типизация дефолтных данных в инпутах формы ломает типизацию, не работает прелоадер */
+import React from "react"
 import Image from "next/image";
 import Button from "@/components/ui/Button/Button";
 import Input from "@/components/ui/Input/Input";
 import { useForm } from "react-hook-form";
 import styles from './activate.module.scss'
-import Link from "next/link";
-
-import { useRouter } from 'next/navigation'
-
-
-/* этот интерфейс можно заменить на интерфейс из "./userRegistration" */
-interface IAuth {
-    email: string,
-    password: string,
-}
-/* */
+import { useAppSelector, useAppDispatch } from "@/store/features/hooks";
+import { useRouter } from 'next/navigation';
+import { fetchActivation } from "@/store/features/user/user.actions";
+import { IAuth } from "./activate.types";
 
 export default function Authentication() {
-
+    const { flag, isError, isLoaded } = useAppSelector(state => state.userAuthorization)
+    const { profileFromActivation } = useAppSelector(state => state.userRegistration)
     const router = useRouter()
+    const dispatch = useAppDispatch()
     const {
         register,
         handleSubmit,
@@ -28,14 +24,18 @@ export default function Authentication() {
     } = useForm({
         mode: "onBlur",
         defaultValues: {
-            email: "найди этот текст и измени его",
-            password: "найди этот текст и измени его",
+            email: profileFromActivation.email,
+            password: profileFromActivation.password,
         },
     });
-
-    const onSubmit = (data: any) => {
-        console.log(data);
+    const onSubmit = (dataFromForm: IAuth) => {
+        dispatch(fetchActivation(dataFromForm))
     };
+    React.useEffect(() => {
+        if (flag === true) {
+            router.push('/profile')
+        }
+    }, [flag])
 
     return (
         <div>
@@ -73,8 +73,8 @@ export default function Authentication() {
                                     //@ts-ignore
                                     register={register}
                                     name="password"
-                                    // type="password"
-                                    // placeholder="*********"
+                                    type="password"
+                                    placeholder="*********"
                                     options={{
                                         required: "Обязательное поле",
                                         minLength: { message: "Минимальная длинна 8 символов", value: 8 },
@@ -86,14 +86,15 @@ export default function Authentication() {
                                     error={errors?.password?.message}
                                 />
                             </div>
-
+                            {isError && <p style={{ textAlign: "center", color: "red" }}>Неверные логин или пароль</p>}
                         </label>
                         {/* Доделай кнопку с позиции дизейблед */}
                         <Button color={"gray"} style={{ width: '100%', marginBottom: '24px' }}>
                             Войти
                         </Button>
+                        {isLoaded === true ? <p style={{ textAlign: "center", color: "aquamarine" }}>Ждем ответа сервера...</p> : null}
                     </form>
-                    <p className={styles.alreadyHaveAccount}>Впервые на нашем сайте? <span className={styles.login}><Link href={'/registration'}>Создайте аккаунт?</Link></span></p>
+                    <p className={styles.alreadyHaveAccount}>Впервые на нашем сайте? <span className={styles.login} onClick={() => router.push('/registration')}>Создайте аккаунт?</span></p>
                     <div className={styles.innerLine}>
                         <hr className={styles.line} style={{ marginRight: '5px' }} />
                         <span>или</span>

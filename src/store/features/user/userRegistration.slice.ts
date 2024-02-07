@@ -40,8 +40,8 @@ const userRegistration = createSlice({
       })
       .addCase(fetchRegistration.rejected, (state, action) => {
         // console.log("ошибка из слайса", action.payload);
-        state.flag = false, 
-        state.isLoaded = false,
+        state.flag = false;
+        state.isLoaded = false;
         // @ts-ignore
         state.isError = action.payload;
       });

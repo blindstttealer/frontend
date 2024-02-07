@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IDataFromForm, IDataFromResolve } from "./user.types";
+import { IDataFromForm, IDataFromResolve, ITokens } from "./user.types";
 import { instanceAxios } from "@/services/auth/auth.service";
 
 export const fetchRegistration = createAsyncThunk<
@@ -22,8 +22,8 @@ export const fetchRegistration = createAsyncThunk<
   }
 );
 
-export const fetchActivation = createAsyncThunk(
-  "useActivation/fetchActivation",
+export const fetchActivation = createAsyncThunk<ITokens, IDataFromForm>(
+  "userActivation/fetchActivation",
   async (dataFromForm, { rejectWithValue }) => {
     try {
       const res = await instanceAxios({
@@ -31,6 +31,23 @@ export const fetchActivation = createAsyncThunk(
         url: "jwt/create/",
         data: dataFromForm,
       });
+      return res.data;
+    } catch (err) {
+      // @ts-ignore
+      return rejectWithValue(err?.response?.data);
+    }
+  }
+);
+
+export const fetchDataUser = createAsyncThunk(
+  "userDataMe/fetchDataUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await instanceAxios({
+        method: "GET",
+        url: "users/me",
+      });
+      console.log(res.data);
       return res.data;
     } catch (err) {
       // @ts-ignore

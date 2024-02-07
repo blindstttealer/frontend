@@ -8,16 +8,21 @@ import { useForm } from "react-hook-form";
 import styles from './page.module.scss'
 import { useRouter } from 'next/navigation'
 import React from "react";
-import { getDataFromActivation } from "@/store/features/user/user.slice";
+import { getDataFromActivation } from "@/store/features/user/userRegistration.slice";
 import { useAppDispatch, useAppSelector } from "@/store/features/hooks";
 import { fetchRegistration } from "@/store/features/user/user.actions";
 
+let refresh: null | string = null;
+
+if (typeof window !== "undefined") {
+    refresh = localStorage.getItem("refresh_token_svd")
+}
 
 export default function Registration() {
 
     const dispatch = useAppDispatch()
     const router = useRouter()
-    const { isError, isLoaded, flag } = useAppSelector(state => state.userReg)
+    const { isError, isLoaded, flag } = useAppSelector(state => state.userRegistration)
     const {
         register,
         handleSubmit,
@@ -34,7 +39,11 @@ export default function Registration() {
         if (flag === true) {
             router.push('/activate-profile')
         }
+        if (refresh !== null) {
+            router.push('/activate')
+        }
     }, [flag])
+
 
     const password = watch('password')
     return (
@@ -112,7 +121,6 @@ export default function Registration() {
                                 />
                             </div>
                         </label>
-
                         {/* Доделай кнопку с позиции дизейблед */}
                         <Button color={"gray"} style={{ width: '100%', marginBottom: '24px' }} >
                             Зарегистрироваться

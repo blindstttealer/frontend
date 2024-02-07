@@ -5,8 +5,15 @@ export interface IDataFromResolve {
 }
 
 export interface IDataFromForm {
-  username: string;
+  username?: string;
   email: string;
   password: string;
-  repeat_password: string;
+  repeat_password?: string;
+}
+
+export interface ITokens {
+  tokens: {
+    access: string;
+    refresh: string;
+  };
 }
