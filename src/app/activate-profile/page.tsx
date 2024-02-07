@@ -1,5 +1,5 @@
 import Button from '@/components/ui/Button/Button';
-import styles from './activatePage.module.scss'
+import styles from './activate.module.scss'
 import Link from 'next/link';
 
 export default function Activate() {

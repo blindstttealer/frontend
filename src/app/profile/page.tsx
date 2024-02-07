@@ -1,5 +1,5 @@
 "use client"
-// как сделать защищенный роут
+// посмотри как ведет себя юзЛэйаутЭффект и юзЭффект
 
 import React from 'react';
 import styles from "./profile.module.scss"
@@ -8,21 +8,16 @@ import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/store/features/hooks';
 import { fetchDataUser } from '@/store/features/user/user.actions';
 
-
-
 export default function Profile() {
     const router = useRouter()
     const dispatch = useAppDispatch()
     const dataUser = useAppSelector(state => state.userDateMe)
 
-    let refresh = {};
+    let refresh: string | null = null;
 
     if (typeof window !== "undefined") {
-        refresh = {
-            refresh: localStorage.getItem("refresh_token_svd"),
-        };
+        refresh = localStorage.getItem("refresh_token_svd")
     }
-    console.log(refresh)
 
     /* функции для теста выхода из профиля н */
     const logOut = () => {
@@ -43,7 +38,7 @@ export default function Profile() {
         localStorage.setItem('access_token_svd', randomAccess_token)
     }
 
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
         dispatch(fetchDataUser())
     }, [])
 
@@ -52,7 +47,6 @@ export default function Profile() {
 
             <div>
                 <p>Имя пользователя: {dataUser.user.username}</p>
-                <p>Email пользователя:{dataUser.user.email}</p>
             </div>
             {/* блок для тестов аксесс токена н */}
             <div style={{ width: "300px" }}>

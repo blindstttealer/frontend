@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userRegistrationReducer from "./user/userRegistration.slice";
-import userAuthorizationReducer from "./user/userAuthorization.slice";
-import userDateMeReducer from "./user/userData.slice";
+import userRegistrationReducer from "./user/user-registration.slice";
+import userAuthorizationReducer from "./user/user-authorization.slice";
+import userDateMeReducer from "./user/user-data-me.slice";
 
 export const store = configureStore({
   reducer: {

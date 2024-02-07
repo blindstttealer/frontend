@@ -22,10 +22,10 @@ const userAuthorization = createSlice({
         state.isError = null;
       })
       .addCase(fetchActivation.fulfilled, (state, action) => {
-        console.log(
-          "Данные которые пришли, после авторизации должны быть токены",
-          action.payload
-        );
+        // console.log(
+        //   "Данные которые пришли, после авторизации должны быть токены",
+        //   action.payload
+        // );
         state.isLoaded = false;
         // @ts-ignore
         state.tokens = action.payload;
@@ -34,7 +34,7 @@ const userAuthorization = createSlice({
         state.flag = true;
       })
       .addCase(fetchActivation.rejected, (state, action) => {
-        console.log("ошибка из слайса АВТОРИЗАЦИИ", action.payload);
+        // console.log("ошибка из слайса АВТОРИЗАЦИИ", action.payload);
         state.flag = false;
         state.isLoaded = false;
         // @ts-ignore

@@ -1,14 +1,15 @@
 "use client";
 /* баги */
 // смотри что можно сделать с типизацией в этом файле
+// посмотри как ведет себя юзЛэйаутЭффект и юзЭффект
 import Image from "next/image";
 import Button from "@/components/ui/Button/Button";
 import Input from "@/components/ui/Input/Input";
 import { useForm } from "react-hook-form";
-import styles from './page.module.scss'
+import styles from './registration.module.scss'
 import { useRouter } from 'next/navigation'
 import React from "react";
-import { getDataFromActivation } from "@/store/features/user/userRegistration.slice";
+import { getDataFromActivation } from "@/store/features/user/user-registration.slice";
 import { useAppDispatch, useAppSelector } from "@/store/features/hooks";
 import { fetchRegistration } from "@/store/features/user/user.actions";
 
@@ -35,7 +36,7 @@ export default function Registration() {
         dispatch(getDataFromActivation(dataFromInput))
         dispatch(fetchRegistration(dataFromInput))
     };
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
         if (flag === true) {
             router.push('/activate-profile')
         }
@@ -77,7 +78,7 @@ export default function Registration() {
                                     options={{
                                         required: "Обязательное поле",
                                         pattern: {
-                                            value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/,
+                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i,
                                             message: 'Введите корректный ящик'
                                         }
                                     }}

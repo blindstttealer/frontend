@@ -5,7 +5,10 @@ const initialState = {
   user: {
     username: "",
     id: 5,
-    email: "",
+    avatar: "",
+    is_active: true,
+    is_stuff: false,
+    is_admin: false,
   },
   isError: null,
   isLoaded: false,
@@ -22,19 +25,19 @@ const userDataMe = createSlice({
         state.isError = null;
       })
       .addCase(fetchDataUser.fulfilled, (state, action) => {
-        console.log(
-          "Данные которые пришли, по конкретному пользователю",
-          action.payload
-        );
+        // console.log(
+        //   "Данные которые пришли, по конкретному пользователю",
+        //   action.payload
+        // );
         state.isLoaded = false;
         // @ts-ignore
         state.user = action.payload;
       })
       .addCase(fetchDataUser.rejected, (state, action) => {
-        console.log(
-          "ошибка из слайса >> получения данных пользователя",
-          action.payload
-        );
+        // console.log(
+        //   "ошибка из слайса >> получения данных пользователя",
+        //   action.payload
+        // );
         state.isLoaded = false;
         // @ts-ignore
         state.isError = action.payload;

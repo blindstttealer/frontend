@@ -1,6 +1,7 @@
 "use client";
 /* баги */
-/* типизация дефолтных данных в инпутах формы ломает типизацию, не работает прелоадер */
+/* типизация дефолтных данных в инпутах формы ломает типизацию, */
+// посмотри как ведет себя юзЛэйаутЭффект и юзЭффект
 import React from "react"
 import Image from "next/image";
 import Button from "@/components/ui/Button/Button";
@@ -31,7 +32,7 @@ export default function Authentication() {
     const onSubmit = (dataFromForm: IAuth) => {
         dispatch(fetchActivation(dataFromForm))
     };
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
         if (flag === true) {
             router.push('/profile')
         }

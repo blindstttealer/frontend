@@ -47,7 +47,7 @@ export const fetchDataUser = createAsyncThunk(
         method: "GET",
         url: "users/me",
       });
-      console.log(res.data);
+      // console.log("данные которые пришли с бека", res.data);
       return res.data;
     } catch (err) {
       // @ts-ignore
