@@ -77,7 +77,7 @@ export default function Registration() {
                                     options={{
                                         required: "Обязательное поле",
                                         pattern: {
-                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i,
+                                            value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/,
                                             message: 'Введите корректный ящик'
                                         }
                                     }}
@@ -96,17 +96,18 @@ export default function Registration() {
                                     placeholder="*********"
                                     options={{
                                         required: "Обязательное поле",
-                                        minLength: { message: "Минимальная длинна 8 символов", value: 8 },
+                                        minLength: { message: "Минимальная длина 8 символов", value: 8 },
                                         pattern: {
-                                            value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-                                            message: 'Не менее 8 символов и одной буквы (лат)'
+                                            value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d_]{8,}$/,
+                                            // value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])[A-Za-z\d!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]*\S$/,
+                                            message: 'Не менее 8 символов и одной буквы (лат), без пробелов'
                                         }
                                     }}
                                     error={errors?.password?.message}
                                 />
                             </div>
                         </label>
-                        <label> Повторите пароль
+                        <label> Введите пароль еще раз
                             <div style={{ marginTop: '12px', marginBottom: '24px' }}>
                                 <Input
                                     register={register}
@@ -127,7 +128,7 @@ export default function Registration() {
                         </Button>
                         {isLoaded === true ? <p style={{ textAlign: "center", color: "aquamarine" }}>Ждем ответа сервера...</p> : null}
                     </form>
-                    <p className={styles.alreadyHaveAccount}>У вас уже есть аккаунт? <span className={styles.login} onClick={() => router.push('/activate')}>Войти в аккаунт?</span></p>
+                    <p className={styles.alreadyHaveAccount}>У вас уже есть аккаунт ? <span className={styles.login} onClick={() => router.push('/activate')}>Войти в аккаунт</span></p>
                     <div className={styles.innerLine}>
                         <hr className={styles.line} style={{ marginRight: '5px' }} />
                         <span>или</span>

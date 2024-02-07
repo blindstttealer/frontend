@@ -86,7 +86,7 @@ export default function Authentication() {
                                     error={errors?.password?.message}
                                 />
                             </div>
-                            {isError && <p style={{ textAlign: "center", color: "red" }}>Неверные логин или пароль</p>}
+                            {isError && <p style={{ textAlign: "center", color: "red" }}>Неверные ящик или пароль</p>}
                         </label>
                         {/* Доделай кнопку с позиции дизейблед */}
                         <Button color={"gray"} style={{ width: '100%', marginBottom: '24px' }}>
@@ -94,7 +94,7 @@ export default function Authentication() {
                         </Button>
                         {isLoaded === true ? <p style={{ textAlign: "center", color: "aquamarine" }}>Ждем ответа сервера...</p> : null}
                     </form>
-                    <p className={styles.alreadyHaveAccount}>Впервые на нашем сайте? <span className={styles.login} onClick={() => router.push('/registration')}>Создайте аккаунт?</span></p>
+                    <p className={styles.alreadyHaveAccount}>Впервые на нашем сайте? <span className={styles.login} onClick={() => router.push('/registration')}>Создайте аккаунт</span></p>
                     <div className={styles.innerLine}>
                         <hr className={styles.line} style={{ marginRight: '5px' }} />
                         <span>или</span>
