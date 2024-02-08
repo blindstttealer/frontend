@@ -16,7 +16,7 @@ import { fetchRegistration } from "@/store/features/user/user.actions";
 let refresh: null | string = null;
 
 if (typeof window !== "undefined") {
-  refresh = localStorage.getItem("refresh_token_svd");
+    refresh = localStorage.getItem("refresh_token_svd");
 }
 
 export default function Registration() {
@@ -100,7 +100,7 @@ export default function Registration() {
                                         minLength: { message: "Минимальная длина 8 символов", value: 8 },
                                         pattern: {
                                             // value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d_]{8,}$/,
-                                            value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])[A-Za-z\d!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]*\S$/,
+                                            value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d_!@#$%^&*()-?]{8,}$/,
                                             message: 'Не менее 8 символов и одной буквы (лат), без пробелов'
                                         }
                                     }}

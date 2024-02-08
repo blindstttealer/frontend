@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 // File: D:\Projects\sous-vide-zen\frontend\src\app\layout.tsx
-=======
-// File: D:\git\sous-vide-zen\frontend\src\app\layout.tsx
->>>>>>> 64b75abb8fdc62c4a74387db44bf99dd9415be3d
 import * as entry from '../../../src/app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

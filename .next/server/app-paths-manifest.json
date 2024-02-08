@@ -1,12 +1,8 @@
 {
-<<<<<<< HEAD
+  "/page": "app/page.js",
   "/profile/page": "app/profile/page.js",
-  "/page": "app/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js"
-=======
-  "/page": "app/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/registration/page": "app/registration/page.js",
   "/activate/page": "app/activate/page.js",
-  "/registration/page": "app/registration/page.js"
->>>>>>> 64b75abb8fdc62c4a74387db44bf99dd9415be3d
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/activate-profile/page": "app/activate-profile/page.js"
 }
