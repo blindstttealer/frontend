@@ -1,5 +1,6 @@
 "use client"
 // посмотри как ведет себя юзЛэйаутЭффект и юзЭффект
+// придумай, что то с защищенным роутом
 
 import React from 'react';
 import styles from "./profile.module.scss"
