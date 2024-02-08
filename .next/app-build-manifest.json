@@ -6,6 +6,7 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
+<<<<<<< HEAD
     "/profile/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -17,6 +18,19 @@
       "static/chunks/main-app.js",
       "static/css/app/page.css",
       "static/chunks/app/page.js"
+=======
+    "/registration/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/registration/page.css",
+      "static/chunks/app/registration/page.js"
+    ],
+    "/activate/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/activate/page.css",
+      "static/chunks/app/activate/page.js"
+>>>>>>> 64b75abb8fdc62c4a74387db44bf99dd9415be3d
     ]
   }
 }

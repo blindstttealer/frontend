@@ -16,7 +16,7 @@ import { fetchRegistration } from "@/store/features/user/user.actions";
 let refresh: null | string = null;
 
 if (typeof window !== "undefined") {
-    refresh = localStorage.getItem("refresh_token_svd")
+  refresh = localStorage.getItem("refresh_token_svd");
 }
 
 export default function Registration() {
