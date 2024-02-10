@@ -1,27 +1,33 @@
 'use client'
 
-import Button from '@/components/ui/Button/Button'
-import styles from './page.module.scss'
-import { useRouter } from 'next/navigation'
+import {useRouter} from 'next/navigation'
+import {useAppDispatch, useAppSelector} from "@/store/features/hooks";
+import React from "react";
+import {fetchFeed} from "@/store/features/recipes/recipes.actions";
+import {IRecipe, IRecipeInitialState} from "@/store/features/recipes/recipes.types";
+import Sidebar from "@/components/sidebar/sidebar";
 
 export default function Home() {
-	const router = useRouter()
+    const router = useRouter()
+    const dispatch = useAppDispatch()
+    // @ts-ignore
+    const recipes: IRecipeInitialState = useAppSelector((state) => state.recipesFeed)
 
-	return (
-		<div>
-			<div className="container">
-				<p className={styles.paragraph}>Добро пожаловать в мир су-вид!</p>
-				<div className={styles.innerButton}>
-					<Button color="purple" onClick={() => router.push('/registration')}>
-						Зарегистрироваться
-					</Button>
-					<span className={styles.bottomButton}>
-						<Button onClick={() => router.push('/main')}>
-							Войти без регистрации
-						</Button>
-					</span>
-				</div>
-			</div>
-		</div>
-	)
+    React.useLayoutEffect(() => {
+        dispatch(fetchFeed())
+    }, [dispatch])
+
+    return (
+        <div>
+            <div className="container">
+                <Sidebar/>
+                {recipes.isLoading ? <div>Loading...</div> :
+                    recipes.recipes?.feed?.results?.map((recipe) => (
+                        <div key={recipe.id}>
+                            {recipe.title}
+                        </div>
+                    ))}
+            </div>
+        </div>
+    )
 }

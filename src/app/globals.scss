@@ -1,7 +1,7 @@
 * {
   box-sizing: border-box;
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
 }
 
 a {
@@ -14,5 +14,5 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 100px;
+  width: 100%;
 }
