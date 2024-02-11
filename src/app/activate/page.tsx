@@ -41,7 +41,7 @@ export default function Authentication() {
 
     React.useLayoutEffect(() => {
         if (flag === true) {
-            router.push('/profile')
+            router.push('/')
         }
     }, [flag, router])
 

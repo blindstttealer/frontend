@@ -1,11 +1,11 @@
-export interface IRecipe {
+export interface IRecipeContainer {
     count: number;
     next: string;
     previous: null;
-    results: Result[];
+    results: IRecipe[];
 }
 
-export interface Result {
+export interface IRecipe {
     id: number;
     title: string;
     slug: string;

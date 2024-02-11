@@ -16,28 +16,35 @@
   margin-top: 24px;
 }
 
-.feed {
-  flex-direction: row;
+.recipesContainer {
   width: 100%;
-  display: grid;
-  grid-template-columns: 200px 800px 200px;
-
-  .recipes {
-    padding: 0 20px;
-  }
-
-  div:nth-child(1) {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-
-  }
-
-  div:nth-child(2) {
-
-  }
-
-  div:nth-child(3) {
-
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 10px
 }
+
+//.feed {
+//  flex-direction: row;
+//  width: 100%;
+//  display: grid;
+//  grid-template-columns: 200px 800px 200px;
+//
+//  .recipes {
+//    padding: 0 20px;
+//  }
+//
+//  div:nth-child(1) {
+//    width: 100%;
+//    display: flex;
+//    flex-direction: column;
+//
+//  }
+//
+//  div:nth-child(2) {
+//
+//  }
+//
+//  div:nth-child(3) {
+//
+//  }
+//}
