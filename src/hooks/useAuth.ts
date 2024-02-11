@@ -18,6 +18,7 @@ export const useAuth = () => {
     const logout = () => {
         localStorage.removeItem('access_token_svd');
         localStorage.removeItem('refresh_token_svd');
+        setIsAuth(false)
         router.push('/activate')
     }
 

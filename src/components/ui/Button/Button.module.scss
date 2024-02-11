@@ -1,14 +1,13 @@
 .button {
   cursor: pointer;
-  padding: 12px 24px;
+  padding: 4px;
   border: 1px solid rgba(80, 35, 235, 1);
   border-radius: 1px;
   background-color: #fff;
   color: #000000;
   font-size: 14px;
-  width: 232px;
-  height: 46px;
   transition: background-color 0.1s ease-in-out;
+
   &:active {
     background-color: rgb(58, 25, 175);
   }
@@ -17,21 +16,26 @@
 .purple {
   background-color: rgba(80, 35, 235, 1);
   color: white;
+
   &:active {
     background-color: rgb(58, 25, 175);
   }
 }
+
 .white {
   background-color: #fff;
   color: black;
+
   &:active {
     background-color: #c0c0c0;
   }
 }
+
 .gray {
   background-color: rgba(188, 188, 188, 1);
   border: 1px solid rgba(188, 188, 188, 1);
   color: white;
+
   &:active {
     background-color: rgb(58, 25, 175);
   }
@@ -41,6 +45,7 @@
   color: rgba(255, 255, 255, 0.5);
   background-color: rgba(128, 128, 128, 0.5);
   border: 1px solid rgba(0, 0, 0, 0.2);
+
   &:active {
     background-color: rgba(128, 128, 128, 0.5);
   }
@@ -48,13 +53,12 @@
 
 .small {
   padding: 4px 20px;
-  font-size: 14px;
 }
+
 .medium {
   padding: 8px 40px;
-  font-size: 18px;
 }
+
 .big {
   padding: 12px 60px;
-  font-size: 22px;
 }

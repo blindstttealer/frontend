@@ -150,6 +150,7 @@ export default function Registration() {
                         <Button
                             color={'gray'}
                             style={{width: '100%', marginBottom: '24px'}}
+                            size={"big"}
                         >
                             Зарегистрироваться
                         </Button>
@@ -159,6 +160,9 @@ export default function Registration() {
                             </p>
                         ) : null}
                     </form>
+                    <Button style={{display: "flex", margin: '0 auto 10px auto'}} size={"medium"}
+                            onClick={() => router.push("/")}>Продолжить без
+                        регистрации</Button>
                     <p className={styles.alreadyHaveAccount}>
                         У вас уже есть аккаунт ?{' '}
                         <span

@@ -50,6 +50,7 @@ export default function Authentication() {
             <div className={styles.container}>
                 <p className={styles.paragraph}>С возвращением в мир су-вид!</p>
 
+
                 <div className={styles.innerForm}>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <label>
@@ -110,6 +111,7 @@ export default function Authentication() {
                         </label>
                         {/* Доделай кнопку с позиции дизейблед */}
                         <Button
+                            size={"big"}
                             color={'gray'}
                             style={{width: '100%', marginBottom: '24px'}}
                         >
@@ -121,6 +123,9 @@ export default function Authentication() {
                             </p>
                         ) : null}
                     </form>
+                    <Button style={{display: "flex", margin: '0 auto 10px auto'}} size={"medium"}
+                            onClick={() => router.push("/")}>Продолжить без
+                        авторизации</Button>
                     <p className={styles.alreadyHaveAccount}>
                         Впервые на нашем сайте?{' '}
                         <span
