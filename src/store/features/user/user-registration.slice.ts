@@ -23,6 +23,7 @@ const userRegistration = createSlice({
   initialState,
   reducers: {
     getDataFromActivation: (state, action) => {
+      console.log(action.payload);
       state.profileFromActivation = action.payload;
     },
   },

@@ -13,6 +13,7 @@ import { getDataFromActivation } from "@/store/features/user/user-registration.s
 import { useAppDispatch, useAppSelector } from "@/store/features/hooks";
 import { fetchRegistration } from "@/store/features/user/user.actions";
 
+
 let refresh: null | string = null;
 
 if (typeof window !== "undefined") {
@@ -20,7 +21,6 @@ if (typeof window !== "undefined") {
 }
 
 export default function Registration() {
-
     const dispatch = useAppDispatch()
     const router = useRouter()
     const { isError, isLoaded, flag } = useAppSelector(state => state.userRegistration)
@@ -36,12 +36,12 @@ export default function Registration() {
         dispatch(getDataFromActivation(dataFromInput))
         dispatch(fetchRegistration(dataFromInput))
     };
-    React.useLayoutEffect(() => {
+    React.useEffect(() => {
         if (flag === true) {
-            router.push('/activate-profile')
+            router.push('/activate-instruction')
         }
         if (refresh !== null) {
-            router.push('/activate')
+            router.push('/activate-page')
         }
     }, [flag])
 
@@ -129,7 +129,7 @@ export default function Registration() {
                         </Button>
                         {isLoaded === true ? <p style={{ textAlign: "center", color: "aquamarine" }}>Ждем ответа сервера...</p> : null}
                     </form>
-                    <p className={styles.alreadyHaveAccount}>У вас уже есть аккаунт ? <span className={styles.login} onClick={() => router.push('/activate')}>Войти в аккаунт</span></p>
+                    <p className={styles.alreadyHaveAccount}>У вас уже есть аккаунт ? <span className={styles.login} onClick={() => router.push('/activate-page')}>Войти в аккаунт</span></p>
                     <div className={styles.innerLine}>
                         <hr className={styles.line} style={{ marginRight: '5px' }} />
                         <span>или</span>

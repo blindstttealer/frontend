@@ -23,13 +23,13 @@ export default function Profile() {
     /* функции для теста выхода из профиля н */
     const logOut = () => {
         localStorage.removeItem('access_token_svd')
-        router.push('/activate')
+        router.push('/activate-page')
     }
 
     const logOutAll = () => {
         localStorage.removeItem('access_token_svd');
         localStorage.removeItem('refresh_token_svd');
-        router.push('/activate')
+        router.push('//activate-page')
     }
     /* функции для теста выхода из профиля к */
 
@@ -38,17 +38,36 @@ export default function Profile() {
     const getRandomToken = () => {
         localStorage.setItem('access_token_svd', randomAccess_token)
     }
-
-    React.useLayoutEffect(() => {
-        dispatch(fetchDataUser())
+    /* предварительно рабочий вариант */
+    const fetchGetProfile = async () => {
+        await dispatch(fetchDataUser())
+    }
+    React.useEffect(() => {
+        setTimeout(() => { fetchGetProfile() }, 2000)
     }, [])
+    /* предварительно рабочий вариант */
+    
+    /* решение от гПт 
+     useEffect(() => {
+    const storedProfileData = localStorage.getItem('profileData');
+    if (storedProfileData) {
+      setProfileData(JSON.parse(storedProfileData));
+    } else {
+      router.push('/login');
+    }
+  }, [localStorage.getItem('profileData'), router]); */
 
     return (
         <div className={styles.container}>
-
-            <div>
-                <p>Имя пользователя: {dataUser.user.username}</p>
-            </div>
+            {dataUser.isLoaded === true ?
+                <p style={{ color: 'red' }}>Подгружаем данные...</p>
+                :
+                <div>
+                    <p>Вы успешно зарегистрировались !</p>
+                    <p>Имя пользователя: {dataUser.user.username}</p>
+                </div>
+            }
+            {dataUser.isError !== null ? <p style={{ color: "red" }}>Ошибка</p> : null}
             {/* блок для тестов аксесс токена н */}
             <div style={{ width: "300px" }}>
                 <p style={{ marginTop: '22px' }}>Кнопки сугубо для тестов</p>
