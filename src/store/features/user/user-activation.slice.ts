@@ -22,10 +22,10 @@ const userActivationToEmail = createSlice({
         state.success = true;
       })
       .addCase(fetchActivationUserToEmail.rejected, (state, action) => {
-        console.log(
-          "ошибка из слайса АКТИВАЦИИ АКК через почту",
-          action.payload
-        );
+        // console.log(
+        //   "ошибка из слайса АКТИВАЦИИ АКК через почту",
+        //   action.payload
+        // );
         state.success = false;
         state.isLoaded = false;
         // @ts-ignore

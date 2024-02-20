@@ -6,13 +6,12 @@ import { fetchActivationUserToEmail, fetchActivation } from '@/store/features/us
 import { useAppDispatch, useAppSelector } from '@/store/features/hooks'
 import styles from "./activate.module.scss"
 import Button from '@/components/ui/Button/Button'
-import { fetchDataUser } from '@/store/features/user/user.actions';
 
 
 export default function VerifyPage() {
     const params = useParams()
     const dispatch = useAppDispatch();
-    const { isError, isLoaded, success } = useAppSelector(state => state.userActivation)
+    const { isError, success, isLoaded } = useAppSelector(state => state.userActivation)
     const router = useRouter();
     console.log("ошибка из странички инструкции по активации", isError)
 
@@ -42,23 +41,29 @@ export default function VerifyPage() {
             fetchDataFromLocalStorage()
             console.log("success >>>>", success, "isError>>>>", isError)
         } else if (success === true && isError === null) {
+            console.log("success === true && isError === null")
             localStorage.removeItem("email")
             localStorage.removeItem("password")
-            router.push("/profile");
+            router.push("/activate-success");
         }
     }, [success, isError, params.slug, dispatch, router])
 
     return (
         <div className={styles.container}>
-            <p>Страница активации</p>
-            {/* @ts-ignore */}
-            {isError?.detail === 'Stale token for given user.' ?
-                <div>
-                    <p>Данная ссылка уже была использована для активации, </p>
-                    <Button color={"purple"} size={"small"} onClick={() => router.push('/activate-page')}>Войти в систему?</Button>
-                </div>
+            {isLoaded === true ? <p>Получение данны....</p>
                 :
-                null}
+                <>
+                    {/* @ts-ignore */}
+                    {isError?.detail === 'Stale token for given user.' ?
+                        <div>
+                            <p>Данная ссылка уже была использована для активации, </p>
+                            <Button color={"purple"} size={"small"} onClick={() => router.push('/activate-page')}>Войти в систему?</Button>
+                        </div>
+                        :
+                        null}
+                </>}
+
+
         </div>
     )
 }

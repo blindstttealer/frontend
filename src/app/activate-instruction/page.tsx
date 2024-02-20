@@ -3,6 +3,12 @@
 import styles from './activate-instruction.module.scss'
 import { useAppSelector } from '@/store/features/hooks';
 
+// let refresh: string | null = null;
+
+// if (typeof window !== "undefined") {
+//     refresh = localStorage.getItem("refresh_token_svd")
+// }
+
 export default function Activate() {
     const { profileFromActivation } = useAppSelector(state => state.userRegistration)
 

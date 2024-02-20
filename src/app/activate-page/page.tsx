@@ -32,12 +32,12 @@ export default function Authentication() {
     const onSubmit = (dataFromForm: IAuth) => {
         dispatch(fetchActivation(dataFromForm))
     };
-    React.useLayoutEffect(() => {
+    React.useEffect(() => {
         if (flag === true) {
             router.push('/profile')
         }
     }, [flag])
-
+    console.log("ошибка из страницы activate-page", isError)
     return (
         <div>
             <div className={styles.container}>

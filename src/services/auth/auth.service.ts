@@ -41,15 +41,31 @@ instanceAxios.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    if (error.response.status == 401) {
+    if (
+      error.response.status == 401 &&
+      error.response.data.detail !==
+        "No active account found with the given credentials"
+    ) {
       try {
-        // console.log("сработал перехватчик на 401 ошибку");
+        // console.log("сработал перехватчик на 401 ошибку", error.response);
         const response = await axios.post(`${BASE_URL}jwt/refresh/`, refresh);
         // console.log("данные из перехватчика на 401 ошибку", response);
         localStorage.setItem("access_token_svd", response.data.access);
         return instanceAxios.request(originalRequest);
       } catch (error) {
         // console.log("ошибка интерцептора на обновления токенов", error);
+        return Promise.reject(error);
+      }
+    } else if (
+      error.response.data.detail ===
+      "No active account found with the given credentials"
+    ) {
+      try {
+        // console.log(
+        //   "словил ошибку на No active account found with the given credentials",
+        //   error
+        // );
+      } catch (error) {
         return Promise.reject(error);
       }
     }

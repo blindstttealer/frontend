@@ -70,10 +70,10 @@ export const fetchActivationUserToEmail = createAsyncThunk<any, any>(
       });
       return res.data;
     } catch (err) {
-      console.log(
-        "ошибка которая пришла при попытке активации",
-        rejectWithValue(err)
-      );
+      // console.log(
+      //   "ошибка которая пришла при попытке активации",
+      //   rejectWithValue(err)
+      // );
       // @ts-ignore
       return rejectWithValue(err?.response?.data);
     }

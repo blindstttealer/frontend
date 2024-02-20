@@ -11,7 +11,7 @@ const initialState = {
     is_admin: false,
   },
   isError: null,
-  isLoaded: false,
+  isLoaded: true,
 };
 
 const userDataMe = createSlice({
@@ -21,7 +21,7 @@ const userDataMe = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchDataUser.pending, (state) => {
-        state.isLoaded = true;
+        state.isLoaded = false;
         state.isError = null;
       })
       .addCase(fetchDataUser.fulfilled, (state, action) => {
