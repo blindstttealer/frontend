@@ -1,11 +1,12 @@
 "use client"
 
-import React from 'react';
-import styles from "./profile.module.scss"
-import Button from '@/components/ui/Button/Button';
-import { useRouter } from 'next/navigation';
-import { useAppDispatch, useAppSelector } from '@/store/features/hooks';
-import { fetchDataUser } from '@/store/features/user/user.actions';
+import React from 'react'
+import styles from './profile.module.scss'
+import Button from '@/components/ui/Button/Button'
+import { useRouter } from 'next/navigation'
+import { useAppDispatch, useAppSelector } from '@/store/features/hooks'
+import { fetchDataUser } from '@/store/features/user/user.actions'
+import { useAuth } from '@/hooks/useAuth'
 
 export default function Profile() {
     const router = useRouter();

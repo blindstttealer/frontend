@@ -1,8 +1,0 @@
-{
-  "/registration/page": "app/registration/page.js",
-  "/activate-page/page": "app/activate-page/page.js",
-  "/activate-instruction/page": "app/activate-instruction/page.js",
-  "/activate-success/page": "app/activate-success/page.js",
-  "/user-data-form/page": "app/user-data-form/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js"
-}

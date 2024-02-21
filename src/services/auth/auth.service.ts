@@ -1,37 +1,37 @@
 import axios from "axios";
 
-export const BASE_URL = "http://127.0.0.1:8000/api/v1/auth/";
+export const BASE_URL = "http://127.0.0.1:8000/api/v1/";
 
 export const instanceAxios = axios.create({
-  baseURL: BASE_URL,
+    baseURL: BASE_URL,
 });
 
 let refresh = {};
 
 if (typeof window !== "undefined") {
-  refresh = {
-    refresh: localStorage.getItem("refresh_token_svd"),
-  };
+    refresh = {
+        refresh: localStorage.getItem("refresh_token_svd"),
+    };
 }
 
-const urlsSkipAuth = ["users/", "jwt/create/"];
+const urlsSkipAuth = ["users/", "jwt/create/", "feed/"];
 
 instanceAxios.interceptors.request.use(
-  (config) => {
-    if (config.url && urlsSkipAuth.includes(config.url)) {
-      // console.log("сработал перехватчик на запрос");
-      return config;
+    (config) => {
+        if (config.url && urlsSkipAuth.includes(config.url)) {
+            // console.log("сработал перехватчик на запрос");
+            return config;
+        }
+        config.headers.Authorization = `Bearer ${localStorage.getItem(
+            "access_token_svd"
+        )}`;
+        // console.log("сработал перехватчик на POST устанавливает токен");
+        return config;
+    },
+    (error) => {
+        // console.log("Ошибка перед отправкой из АКСИОСА", error);
+        return Promise.reject(error);
     }
-    config.headers.Authorization = `Bearer ${localStorage.getItem(
-      "access_token_svd"
-    )}`;
-    // console.log("сработал перехватчик на POST устанавливает токен");
-    return config;
-  },
-  (error) => {
-    // console.log("Ошибка перед отправкой из АКСИОСА", error);
-    return Promise.reject(error);
-  }
 );
 
 instanceAxios.interceptors.response.use(
