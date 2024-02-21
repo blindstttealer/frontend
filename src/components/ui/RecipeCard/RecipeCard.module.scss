@@ -10,7 +10,7 @@
   .header {
     display: flex;
     flex-direction: row;
-    justify-content: end;
+    justify-content: flex-end; // было end - в консоли были ошибки
     gap: 16px;
 
     > button {
@@ -39,7 +39,7 @@
     font-size: 12px;
     display: flex;
     flex-direction: column;
-    align-items: end;
+    align-items: flex-end; // было end - в консоли были ошибки
   }
 }
 
@@ -88,7 +88,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: end;
+  align-items: flex-end; // было end - в консоли были ошибки
 
   .footerLeft {
     display: flex;

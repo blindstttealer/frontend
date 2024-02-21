@@ -25,7 +25,7 @@ export default function Registration() {
     return (
         <div>
             <div className={styles.container}>
-                <h2 style={{ color: "red" }}>Данный блок не готов, его не нужно тестировать !!!!</h2>
+                <h2 style={{ color: "red" }}>Данный блок не готов, его не нужно тестировать !!!! Сейчас я его делаю.</h2>
                 <div className={styles.innerForm}>
                     <p className={styles.innerForm_paragraph}>Заполните данные о себе</p>
                     <form onSubmit={handleSubmit(onSubmit)}>

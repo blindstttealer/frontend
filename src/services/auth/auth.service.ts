@@ -14,7 +14,7 @@ if (typeof window !== "undefined") {
     };
 }
 
-const urlsSkipAuth = ["users/", "jwt/create/", "feed/"];
+const urlsSkipAuth = ["auth/users/", "auth/jwt/create/", "feed/"];
 
 instanceAxios.interceptors.request.use(
     (config) => {
@@ -48,7 +48,7 @@ instanceAxios.interceptors.response.use(
     ) {
       try {
         // console.log("сработал перехватчик на 401 ошибку", error.response);
-        const response = await axios.post(`${BASE_URL}jwt/refresh/`, refresh);
+        const response = await axios.post(`${BASE_URL}auth/jwt/refresh/`, refresh);
         // console.log("данные из перехватчика на 401 ошибку", response);
         localStorage.setItem("access_token_svd", response.data.access);
         return instanceAxios.request(originalRequest);
