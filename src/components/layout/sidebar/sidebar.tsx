@@ -17,14 +17,17 @@ export default function Sidebar() {
                 <div className={styles.auth}>
                     <button className={cn(styles.buttons, {
                         [styles.active]: pathname === '/',
-                    })}>
+                    })}
+                            onClick={() => router.push('/')}
+                    >
                         <p>Домой</p>
                         <Image src={pathname === '/' ? "/img/sidebar/active/home.png" : "/img/sidebar/home.png"}
                                alt="home" width={22} height={22}/>
                     </button>
                     <button className={cn(styles.buttons, {
                         [styles.active]: pathname === '/notification',
-                    })}>
+                    })} onClick={() => router.push('/notifications')}
+                    >
                         <p>Уведомления</p>
                         <Image
                             src={pathname === '/notifications' ? "/img/sidebar/active/notification.png" : "/img/sidebar/notification.png"}
@@ -32,7 +35,7 @@ export default function Sidebar() {
                     </button>
                     <button className={cn(styles.buttons, {
                         [styles.active]: pathname === '/favorites',
-                    })}>
+                    })} onClick={() => router.push('/favorites')}>
                         <p>Закладки</p>
                         <Image
                             src={pathname === '/favorites' ? "/img/sidebar/active/save.png" : "/img/sidebar/save.png"}
@@ -40,7 +43,7 @@ export default function Sidebar() {
                     </button>
                     <button className={cn(styles.buttons, {
                         [styles.active]: pathname === '/profile',
-                    })}>
+                    })} onClick={() => router.push('/profile')}>
                         <p>Профиль</p>
                         <Image
                             src={pathname === '/profile' ? "/img/sidebar/active/profile.png" : "/img/sidebar/profile.png"}
@@ -48,7 +51,7 @@ export default function Sidebar() {
                     </button>
                     <button className={cn(styles.buttons, {
                         [styles.active]: pathname === '/setting',
-                    })}>
+                    })} onClick={() => router.push('/setting')}>
                         <p>Настройки</p>
                         <Image
                             src={pathname === '/setting' ? "/img/sidebar/active/setting.png" : "/img/sidebar/setting.png"}
