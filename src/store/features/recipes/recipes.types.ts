@@ -36,6 +36,7 @@ export interface IRecipeInitialState {
         feedSubscriptions: IRecipe
     },
     isError: any,
+
     isLoading: boolean,
     flag: boolean,
 }

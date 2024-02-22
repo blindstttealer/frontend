@@ -1,13 +1,27 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {fetchFeed, fetchFeedActivityCount, fetchFeedSubscriptions} from "@/store/features/recipes/recipes.actions";
-import {IRecipe} from "@/store/features/recipes/recipes.types";
 
-const initialState = {
+interface IInitialState {
+    recipes: {
+        feed: null | any,
+        feedActivity: null | any,
+        feedSubscriptions: null | any
+    },
+    view: 'feed' | 'tile',
+    sort: 'default' | 'top' | 'subscribe',
+    isError: null | any,
+    isLoading: boolean,
+    flag: boolean,
+}
+
+const initialState: IInitialState = {
     recipes: {
         feed: null,
         feedActivity: null,
         feedSubscriptions: null
     },
+    view: 'feed',
+    sort: 'default',
     isError: null,
     isLoading: false,
     flag: false,
@@ -16,7 +30,15 @@ const initialState = {
 const recipesFeed = createSlice({
     name: "recipesFeed",
     initialState,
-    reducers: {},
+    reducers: {
+        // change sort and view
+        setViewMode: (state, action) => {
+            state.view = action.payload
+        },
+        setSortMode: (state, action) => {
+            state.sort = action.payload
+        }
+    },
     extraReducers: (builder) => {
         builder
 
@@ -64,7 +86,10 @@ const recipesFeed = createSlice({
                 // @ts-ignore
                 state.isError = action.payload
             })
+
+
     }
 })
 
+export const {setViewMode, setSortMode} = recipesFeed.actions;
 export default recipesFeed.reducer

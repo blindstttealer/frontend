@@ -13,7 +13,7 @@ export default function Home() {
     const router = useRouter()
     const dispatch = useAppDispatch()
     // @ts-ignore
-    const recipes: IRecipeInitialState = useAppSelector((state) => state.recipesFeed)
+    const recipes = useAppSelector((state) => state.recipesFeed)
 
     React.useLayoutEffect(() => {
         dispatch(fetchFeed())
