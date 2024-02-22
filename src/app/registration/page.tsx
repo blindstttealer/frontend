@@ -7,11 +7,12 @@ import Button from '@/components/ui/Button/Button'
 import Input from '@/components/ui/Input/Input'
 import {useForm} from 'react-hook-form'
 import styles from './registration.module.scss'
-import {useRouter} from 'next/navigation'
-import React from 'react'
-import {getDataFromActivation} from '@/store/features/user/user-registration.slice'
-import {useAppDispatch, useAppSelector} from '@/store/features/hooks'
-import {fetchRegistration} from '@/store/features/user/user.actions'
+import { useRouter } from 'next/navigation'
+import React from "react";
+import { getDataFromActivation } from "@/store/features/user/user-registration.slice";
+import { useAppDispatch, useAppSelector } from "@/store/features/hooks";
+import { fetchRegistration } from "@/store/features/user/user.actions";
+
 
 let refresh: null | string = null
 
@@ -36,13 +37,13 @@ export default function Registration() {
     const onSubmit = (dataFromInput: any) => {
         dispatch(getDataFromActivation(dataFromInput))
         dispatch(fetchRegistration(dataFromInput))
-    }
-    React.useLayoutEffect(() => {
+    };
+    React.useEffect(() => {
         if (flag === true) {
-            router.push('/activate-profile')
+            router.push('/activate-instruction')
         }
         if (refresh !== null) {
-            router.push('/activate')
+            router.push('/activate-page')
         }
     }, [flag])
 
@@ -160,18 +161,7 @@ export default function Registration() {
                             </p>
                         ) : null}
                     </form>
-                    <Button style={{display: "flex", margin: '0 auto 10px auto'}} size={"medium"}
-                            onClick={() => router.push("/")}>Продолжить без
-                        регистрации</Button>
-                    <p className={styles.alreadyHaveAccount}>
-                        У вас уже есть аккаунт ?{' '}
-                        <span
-                            className={styles.login}
-                            onClick={() => router.push('/activate')}
-                        >
-							Войти в аккаунт
-						</span>
-                    </p>
+                    <p className={styles.alreadyHaveAccount}>У вас уже есть аккаунт ? <span className={styles.login} onClick={() => router.push('/activate-page')}>Войти в аккаунт</span></p>
                     <div className={styles.innerLine}>
                         <hr className={styles.line} style={{marginRight: '5px'}}/>
                         <span>или</span>

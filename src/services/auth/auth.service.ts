@@ -14,7 +14,7 @@ if (typeof window !== "undefined") {
     };
 }
 
-const urlsSkipAuth = ["users/", "jwt/create/", "feed/"];
+const urlsSkipAuth = ["auth/users/", "auth/jwt/create/", "feed/"];
 
 instanceAxios.interceptors.request.use(
     (config) => {
@@ -35,25 +35,41 @@ instanceAxios.interceptors.request.use(
 );
 
 instanceAxios.interceptors.response.use(
-    (response) => {
-        // console.log("сработал перехватчик после ответа без ошибок", response);
-        return response;
-    },
-    async (error) => {
-        const originalRequest = error.config;
-        if (error.response.status == 401) {
-            try {
-                // console.log("сработал перехватчик на 401 ошибку");
-                const response = await axios.post(`${BASE_URL}auth/jwt/refresh/`, refresh);
-                // console.log("данные из перехватчика на 401 ошибку", response);
-                localStorage.setItem("access_token_svd", response.data.access);
-                return instanceAxios.request(originalRequest);
-            } catch (error) {
-                // console.log("ошибка интерцептора на обновления токенов", error);
-                return Promise.reject(error);
-            }
-        }
-        // console.log("сработал перехватчик ответа, с ошибкой без статуса 401");
+  (response) => {
+    // console.log("сработал перехватчик после ответа без ошибок", response);
+    return response;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+    if (
+      error.response.status == 401 &&
+      error.response.data.detail !==
+        "No active account found with the given credentials"
+    ) {
+      try {
+        // console.log("сработал перехватчик на 401 ошибку", error.response);
+        const response = await axios.post(`${BASE_URL}auth/jwt/refresh/`, refresh);
+        // console.log("данные из перехватчика на 401 ошибку", response);
+        localStorage.setItem("access_token_svd", response.data.access);
+        return instanceAxios.request(originalRequest);
+      } catch (error) {
+        // console.log("ошибка интерцептора на обновления токенов", error);
         return Promise.reject(error);
+      }
+    } else if (
+      error.response.data.detail ===
+      "No active account found with the given credentials"
+    ) {
+      try {
+        // console.log(
+        //   "словил ошибку на No active account found with the given credentials",
+        //   error
+        // );
+      } catch (error) {
+        return Promise.reject(error);
+      }
     }
+    // console.log("сработал перехватчик ответа, с ошибкой без статуса 401");
+    return Promise.reject(error);
+  }
 );
