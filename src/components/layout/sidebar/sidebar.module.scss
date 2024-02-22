@@ -1,8 +1,7 @@
 .sidebar {
   width: 200px;
 
-  div {
-
+  .auth {
     .buttons {
       cursor: pointer;
       border: none;
@@ -11,13 +10,22 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      width: 100%;
       padding: 0 10px;
       font-size: 14px;
       font-weight: 500;
-
-
+      margin-bottom: 24px;
     }
   }
+}
+
+.active {
+  color: #4BC185;
+}
+
+.hr {
+  margin: 24px 0;
+  border: 1px solid #B7B7B7;
 }
 
 .button {
@@ -52,7 +60,6 @@
   cursor: pointer;
   display: flex;
   flex-direction: row;
-  margin-top: 24px;
   font-size: 12px;
   padding: 0 6px;
   gap: 8px;

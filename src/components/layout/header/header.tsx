@@ -13,7 +13,9 @@ export default function Header() {
         <div className={styles.header}>
             <div className="container">
                 <div className={styles.logo}>
-                    <Link href="/">Логотип</Link>
+                    <Link href="/">
+                        <Image src='/img/logo.png' alt='logo' draggable={false} width={94} height={52}/>
+                    </Link>
                 </div>
                 <div className={styles.inputContainer}>
                     <Image
