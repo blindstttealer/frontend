@@ -33,10 +33,14 @@ const recipesFeed = createSlice({
     reducers: {
         // change sort and view
         setViewMode: (state, action) => {
+            state.isLoading = true
             state.view = action.payload
+            state.isLoading = false
         },
         setSortMode: (state, action) => {
+            state.isLoading = true
             state.sort = action.payload
+            state.isLoading = false
         }
     },
     extraReducers: (builder) => {
