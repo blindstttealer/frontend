@@ -1,9 +1,9 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {
     fetchFeed,
-    fetchFeedActivityCount, fetchFeedActivityCountPages,
-    fetchFeedPages,
-    fetchFeedSubscriptions, fetchFeedSubscriptionsPages
+    fetchFeedActivityCount,
+    fetchFeedPagesDynamic,
+    fetchFeedSubscriptions
 } from "@/store/features/recipes/recipes.actions";
 
 interface IInitialState {
@@ -123,43 +123,25 @@ const recipesFeed = createSlice({
                 state.isError = action.payload
             })
 
-            // next pages
+            // dynamic page fetch
 
-            .addCase(fetchFeedPages.pending, (state, action) => {
+            .addCase(fetchFeedPagesDynamic.pending, (state, action) => {
                 state.isLoading = true
             })
-            .addCase(fetchFeedPages.fulfilled, (state, action) => {
+            .addCase(fetchFeedPagesDynamic.fulfilled, (state, action) => {
                 state.isLoading = false
-                state.recipes.feed.nextPage = action.payload.next
-                state.recipes.feed.result = [...state.recipes.feed.result, ...action.payload.results]
+                if (action.payload.sort === "default") {
+                    state.recipes.feed.nextPage = action.payload.data.next
+                    state.recipes.feed.result = [...state.recipes.feed.result, ...action.payload.data.results]
+                } else if (action.payload.sort === "top") {
+                    state.recipes.feedActivity.nextPage = action.payload.data.next
+                    state.recipes.feedActivity.result = [...state.recipes.feedActivity.result, ...action.payload.data.results]
+                } else if (action.payload.sort === "subscribe") {
+                    state.recipes.feedSubscriptions.nextPage = action.payload.data.next
+                    state.recipes.feedSubscriptions.result = [...state.recipes.feedSubscriptions.result, ...action.payload.data.results]
+                }
             })
-            .addCase(fetchFeedPages.rejected, (state, action) => {
-                state.isLoading = false
-                state.isError = action.payload
-            })
-
-            .addCase(fetchFeedActivityCountPages.pending, (state, action) => {
-                state.isLoading = true
-            })
-            .addCase(fetchFeedActivityCountPages.fulfilled, (state, action) => {
-                state.isLoading = false
-                state.recipes.feedActivity.nextPage = action.payload.next
-                state.recipes.feedActivity.result = [...state.recipes.feedActivity.result, ...action.payload.results]
-            })
-            .addCase(fetchFeedActivityCountPages.rejected, (state, action) => {
-                state.isLoading = false
-                state.isError = action.payload
-            })
-
-            .addCase(fetchFeedSubscriptionsPages.pending, (state, action) => {
-                state.isLoading = true
-            })
-            .addCase(fetchFeedSubscriptionsPages.fulfilled, (state, action) => {
-                state.isLoading = false
-                state.recipes.feedSubscriptions.nextPage = action.payload.next
-                state.recipes.feedSubscriptions.result = [...state.recipes.feedSubscriptions.result, ...action.payload.results]
-            })
-            .addCase(fetchFeedSubscriptionsPages.rejected, (state, action) => {
+            .addCase(fetchFeedPagesDynamic.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = action.payload
             })

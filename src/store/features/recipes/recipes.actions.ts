@@ -1,7 +1,8 @@
 import {createAsyncThunk} from "@reduxjs/toolkit"
-import {instanceAxios} from "@/services/auth/auth.service";
+import {BASE_URL, instanceAxios} from "@/services/auth/auth.service";
 import {useAppSelector} from "@/store/features/hooks";
 import {useState} from "react";
+import axios from "axios";
 
 export const fetchFeed = createAsyncThunk(
     "recipes/feed",
@@ -51,78 +52,18 @@ export const fetchFeedSubscriptions = createAsyncThunk(
     }
 );
 
-export const fetchFeedPages = createAsyncThunk(
-    'recipes/fetchFeedPages',
-    async (_, {rejectWithValue}) => {
-        try {
-            // Обработка URL для извлечения нужной части
-            const recipes = useAppSelector((state) => state.recipesFeed.recipes.feed)
-            if (!recipes.nextPage) return
-            let urlObj = new URL(recipes.nextPage);
-            const path = urlObj?.pathname.substring(urlObj?.pathname.indexOf('feed')) + urlObj.search;
-            const res = await instanceAxios({
-                method: "GET",
-                url: path,
-            });
-            return res.data
-        } catch (error) {
-            // @ts-ignore
-            return rejectWithValue(error.response.data);
-        }
-    }
-);
-export const fetchFeedActivityCountPages = createAsyncThunk(
-    'recipes/fetchFeedActivityCountPages',
-    async (_, {rejectWithValue}) => {
-        try {
-            // Обработка URL для извлечения нужной части
-            const recipes = useAppSelector((state) => state.recipesFeed.recipes.feedActivity)
-            if (!recipes.nextPage) return
-            let urlObj = new URL(recipes.nextPage);
-            const path = urlObj?.pathname.substring(urlObj?.pathname.indexOf('feed')) + urlObj.search;
-            const res = await instanceAxios({
-                method: "GET",
-                url: path,
-            });
-            return res.data
-        } catch (error) {
-            // @ts-ignore
-            return rejectWithValue(error.response.data);
-        }
-    }
-);
-
-export const fetchFeedSubscriptionsPages = createAsyncThunk(
-    'recipes/fetchFeedSubscriptionsPages',
-    async (_, {rejectWithValue}) => {
-        try {
-            // Обработка URL для извлечения нужной части
-            const recipes = useAppSelector((state) => state.recipesFeed.recipes.feedSubscriptions)
-            if (!recipes.nextPage) return
-            let urlObj = new URL(recipes.nextPage);
-            const path = urlObj?.pathname.substring(urlObj?.pathname.indexOf('feed')) + urlObj.search;
-            const res = await instanceAxios({
-                method: "GET",
-                url: path,
-            });
-            return res.data
-        } catch (error) {
-            // @ts-ignore
-            return rejectWithValue(error.response.data);
-        }
-    }
-);
 
 export const fetchFeedPagesDynamic = createAsyncThunk(
     "recipes/feedDynamic",
-    async (_, {rejectWithValue}) => {
+    async ({sort, url}: { sort: string, url: string }, {rejectWithValue}) => {
+        let urlObj = new URL(url);
+        const path = urlObj?.pathname.substring(urlObj?.pathname.indexOf('feed')) + urlObj.search;
         try {
-            const res = await instanceAxios({
+            const res = await axios({
                 method: "GET",
-                url: "feed/?page=2",
+                url: BASE_URL + path,
             });
-            console.log(res)
-            return res.data;
+            return {sort, data: res.data};
         } catch (err) {
             // @ts-ignore
             return rejectWithValue(err?.response?.data);

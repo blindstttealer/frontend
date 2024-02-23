@@ -7,21 +7,17 @@ import Layout from "@/components/layout/layout";
 import RecipeCard from "@/components/ui/RecipeCard/RecipeCard";
 import {IRecipe} from "@/store/features/recipes/recipes.types";
 import {useRecipes} from "@/hooks/useRecipes";
-import {useDispatch} from "react-redux";
-import {
-    fetchFeed,
-    fetchFeedActivityCountPages,
-    fetchFeedPages, fetchFeedPagesDynamic,
-    fetchFeedSubscriptionsPages
-} from "@/store/features/recipes/recipes.actions";
+import {fetchFeedPagesDynamic} from "@/store/features/recipes/recipes.actions";
+import Image from "next/image";
+import {Loader} from "@/components/ui/Loader/Loader";
 
 export default function Home() {
-    const recipes = useAppSelector((state) => state.recipesFeed)
     const recipe = useRecipes()
+    const recipes = useAppSelector((state) => state.recipesFeed)
     const dispatch = useAppDispatch();
 
-    console.log("recipes: ", recipes)
-    console.log("recipe: ", recipe)
+    // console.log("recipes: ", recipes)
+    // console.log("recipe: ", recipe)
 
     const [isScroll, setIsScroll] = useState(false); // Флаг загрузки
 
@@ -32,18 +28,28 @@ export default function Home() {
 
             setIsScroll(true); // Установка флага загрузки
 
+
             if (recipes.sort === "default") {
-                dispatch(fetchFeedPages())
+                if (recipes.recipes.feed.nextPage) dispatch(fetchFeedPagesDynamic({
+                    sort: recipes.sort,
+                    url: recipes.recipes.feed.nextPage
+                }))
                     .finally(() => setIsScroll(false))
             } else if (recipes.sort === "top") {
-                dispatch(fetchFeedActivityCountPages())
+                if (recipes.recipes.feedActivity.nextPage) dispatch(fetchFeedPagesDynamic({
+                    sort: recipes.sort,
+                    url: recipes.recipes.feedActivity.nextPage
+                }))
                     .finally(() => setIsScroll(false))
             } else if (recipes.sort === "subscribe") {
-                dispatch(fetchFeedSubscriptionsPages())
+                if (recipes.recipes.feedSubscriptions.nextPage) dispatch(fetchFeedPagesDynamic({
+                    sort: recipes.sort,
+                    url: recipes.recipes.feedSubscriptions.nextPage
+                }))
                     .finally(() => setIsScroll(false))
             }
 
-        };
+        }
 
 
         window.addEventListener('scroll', handleScroll);
@@ -55,13 +61,15 @@ export default function Home() {
             <div style={{padding: '0 20px'}}>
                 <div className="container">
                     <div className={styles.recipesContainer}>
-                        {recipes.isLoading ? <div>Loading...</div> :
-                            recipe?.length ?
-                                recipe?.map((recipe: IRecipe) => (
-                                    <div key={recipe.id}>
-                                        <RecipeCard recipe={recipe}/>
-                                    </div>
-                                )) : <div>Рецептов нет :(</div>}
+                        {recipe?.length &&
+                            recipe?.map((recipe: IRecipe) => (
+                                <div key={recipe.id}>
+                                    <RecipeCard recipe={recipe}/>
+                                </div>
+                            ))}
+                        {recipes?.isLoading ? <Loader/>
+                            : !recipe?.length &&
+                            <div>Рецептов нет :(</div>}
                     </div>
                 </div>
             </div>
