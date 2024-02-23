@@ -7,20 +7,20 @@ export const useRecipes = () => {
     const recipes = useAppSelector(state => state.recipesFeed);
 
     useEffect(() => {
-        if (recipes.sort === 'default' && recipes.recipes.feed === null) {
+        if (recipes.sort === 'default' && recipes.recipes.feed.result === null) {
             dispatch(fetchFeed());
-        } else if (recipes.sort === 'top' && recipes.recipes.feedActivity === null) {
+        } else if (recipes.sort === 'top' && recipes.recipes.feedActivity.result === null) {
             dispatch(fetchFeedActivityCount());
-        } else if (recipes.sort === 'subscribe' && recipes.recipes.feedSubscriptions === null) {
+        } else if (recipes.sort === 'subscribe' && recipes.recipes.feedSubscriptions.result === null) {
             dispatch(fetchFeedSubscriptions());
         }
     }, [dispatch, recipes]);
 
     if (recipes.sort === 'default') {
-        return recipes.recipes.feed;
+        return recipes.recipes.feed.result;
     } else if (recipes.sort === 'top') {
-        return recipes.recipes.feedActivity;
+        return recipes.recipes.feedActivity.result;
     } else if (recipes.sort === 'subscribe') {
-        return recipes.recipes.feedSubscriptions;
+        return recipes.recipes.feedSubscriptions.result;
     }
 };

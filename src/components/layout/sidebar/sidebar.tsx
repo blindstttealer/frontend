@@ -4,6 +4,7 @@ import styles from './sidebar.module.scss'
 import Image from "next/image";
 import {useParams, usePathname, useRouter} from "next/navigation";
 import cn from 'clsx'
+import {useEffect} from "react";
 
 export default function Sidebar() {
     const {isAuth} = useAuth()
