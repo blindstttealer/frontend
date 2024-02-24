@@ -43,7 +43,7 @@ export default function Home() {
                     url: recipes.recipes.feedActivity.nextPage
                 }))
                     .finally(() => setIsScroll(false))
-            } else if (recipes.sort === "subscribe") {
+            } else if (isAuth && recipes.sort === "subscribe") {
                 if (recipes.recipes.feedSubscriptions.nextPage) dispatch(fetchFeedPagesDynamic({
                     sort: recipes.sort,
                     url: recipes.recipes.feedSubscriptions.nextPage

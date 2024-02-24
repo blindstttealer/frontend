@@ -50,7 +50,7 @@ const initialState: IInitialState = {
         },
     },
     view: 'feed',
-    sort: 'default',
+    sort: 'top',
     isError: null,
     isLoading: false,
     flag: false,

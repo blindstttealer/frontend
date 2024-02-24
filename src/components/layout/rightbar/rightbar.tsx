@@ -31,11 +31,11 @@ export default function Rightbar() {
             <div className={styles.sort}>
                 <h3>Сортировка</h3>
                 <div>
-                    <button className={recipeState.sort === 'default' ? styles.active : ''}
-                            onClick={() => dispatch(setSortMode('default'))}>По времени
-                    </button>
                     <button className={recipeState.sort === 'top' ? styles.active : ''}
                             onClick={() => dispatch(setSortMode('top'))}>Популярное
+                    </button>
+                    <button className={recipeState.sort === 'default' ? styles.active : ''}
+                            onClick={() => dispatch(setSortMode('default'))}>По времени
                     </button>
                     <button className={recipeState.sort === 'subscribe' ? styles.active : ''}
                             onClick={() => dispatch(setSortMode('subscribe'))}>По подпискам
