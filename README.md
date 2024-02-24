@@ -34,7 +34,7 @@ Third:
 ```shell
 npm install
 # or
-yarn add
+yarn
 # or
 ```
 
