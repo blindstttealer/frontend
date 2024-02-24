@@ -1,8 +1,8 @@
 "use client"
 
 import styles from './activate-success.module.scss';
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import {useEffect} from 'react';
+import {useRouter} from 'next/navigation';
 
 export default function Activate() {
     const router = useRouter();

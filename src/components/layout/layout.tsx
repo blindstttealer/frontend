@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import {ReactNode} from "react";
 import Header from "@/components/layout/header/header";
 import Sidebar from "@/components/layout/sidebar/sidebar";
 import Rightbar from "@/components/layout/rightbar/rightbar";
@@ -7,7 +7,7 @@ import styles from './layout.module.scss'
 import {usePathname, useRouter} from "next/navigation";
 
 export default function Layout({children, sidebar = true, rightbar = true}: {
-    children: React.ReactNode,
+    children: ReactNode,
     sidebar?: boolean,
     rightbar?: boolean
 }) {

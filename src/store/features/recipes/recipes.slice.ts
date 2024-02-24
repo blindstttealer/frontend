@@ -130,13 +130,13 @@ const recipesFeed = createSlice({
             })
             .addCase(fetchFeedPagesDynamic.fulfilled, (state, action) => {
                 state.isLoading = false
-                if (action.payload.sort === "default") {
+                if (action?.payload?.sort === "default") {
                     state.recipes.feed.nextPage = action.payload.data.next
                     state.recipes.feed.result = [...state.recipes.feed.result, ...action.payload.data.results]
-                } else if (action.payload.sort === "top") {
+                } else if (action?.payload?.sort === "top") {
                     state.recipes.feedActivity.nextPage = action.payload.data.next
                     state.recipes.feedActivity.result = [...state.recipes.feedActivity.result, ...action.payload.data.results]
-                } else if (action.payload.sort === "subscribe") {
+                } else if (action?.payload?.sort === "subscribe") {
                     state.recipes.feedSubscriptions.nextPage = action.payload.data.next
                     state.recipes.feedSubscriptions.result = [...state.recipes.feedSubscriptions.result, ...action.payload.data.results]
                 }

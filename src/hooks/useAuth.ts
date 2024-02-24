@@ -6,11 +6,9 @@ export const useAuth = () => {
     const [isAuth, setIsAuth] = useState(false)
 
     useEffect(() => {
-        return () => {
-            const token = localStorage.getItem('access_token_svd');
-            setIsAuth(!!token);
-        }
-    }, []);
+        const token = localStorage.getItem('access_token_svd');
+        setIsAuth(!!token);
+    }, [router]);
 
     const login = () => {
     }

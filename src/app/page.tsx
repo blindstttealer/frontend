@@ -1,7 +1,7 @@
 'use client'
 
 import {useAppDispatch, useAppSelector} from "@/store/features/hooks";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import styles from './page.module.scss'
 import Layout from "@/components/layout/layout";
 import RecipeCard from "@/components/ui/RecipeCard/RecipeCard";

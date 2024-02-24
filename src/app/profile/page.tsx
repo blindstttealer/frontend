@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import {useEffect} from 'react'
 import styles from './profile.module.scss'
 import Button from '@/components/ui/Button/Button'
 import {useRouter} from 'next/navigation'
@@ -50,7 +50,7 @@ export default function Profile() {
     const fetchGetProfile = async () => {
         await dispatch(fetchDataUser())
     }
-    React.useEffect(() => {
+    useEffect(() => {
         fetchGetProfile()
         // setTimeout(() => { fetchGetProfile() }, 2000)
     }, [])

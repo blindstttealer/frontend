@@ -16,7 +16,7 @@ export const useRecipes = () => {
         } else if (recipes.sort === 'subscribe' && recipes.recipes.feedSubscriptions.result === null && isAuth) {
             dispatch(fetchFeedSubscriptions());
         }
-    }, [dispatch, recipes]);
+    }, [dispatch, isAuth, recipes]);
 
     if (recipes.sort === 'default') {
         return recipes.recipes.feed.result;

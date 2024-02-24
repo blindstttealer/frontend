@@ -2,7 +2,7 @@
 /* баги */
 /* типизация дефолтных данных в инпутах формы ломает типизацию, */
 // посмотри как ведет себя юзЛэйаутЭффект и юзЭффект
-import React from "react"
+import {useEffect} from "react"
 import Image from "next/image";
 import Button from "@/components/ui/Button/Button";
 import Input from "@/components/ui/Input/Input";
@@ -32,7 +32,7 @@ export default function Authentication() {
     const onSubmit = (dataFromForm: IAuth) => {
         dispatch(fetchActivation(dataFromForm))
     };
-    React.useEffect(() => {
+    useEffect(() => {
         if (flag === true) {
             router.push('/profile')
         }
