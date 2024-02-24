@@ -59,11 +59,19 @@ export const fetchFeedPagesDynamic = createAsyncThunk(
         let urlObj = new URL(url);
         const path = urlObj?.pathname.substring(urlObj?.pathname.indexOf('feed')) + urlObj.search;
         try {
-            const res = await axios({
-                method: "GET",
-                url: BASE_URL + path,
-            });
-            return {sort, data: res.data};
+            if (sort === "default" || sort === "top") {
+                const res = await axios({
+                    method: "GET",
+                    url: BASE_URL + path,
+                });
+                return {sort, data: res.data};
+            } else if (sort === "subscribe") {
+                const res = await instanceAxios({
+                    method: "GET",
+                    url: path,
+                });
+                return {sort, data: res.data};
+            }
         } catch (err) {
             // @ts-ignore
             return rejectWithValue(err?.response?.data);

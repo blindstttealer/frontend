@@ -10,8 +10,10 @@ import {useRecipes} from "@/hooks/useRecipes";
 import {fetchFeedPagesDynamic} from "@/store/features/recipes/recipes.actions";
 import Image from "next/image";
 import {Loader} from "@/components/ui/Loader/Loader";
+import {useAuth} from "@/hooks/useAuth";
 
 export default function Home() {
+    const {isAuth} = useAuth()
     const recipe = useRecipes()
     const recipes = useAppSelector((state) => state.recipesFeed)
     const dispatch = useAppDispatch();
@@ -68,8 +70,9 @@ export default function Home() {
                                 </div>
                             ))}
                         {recipes?.isLoading ? <Loader/>
-                            : !recipe?.length &&
-                            <div>Рецептов нет :(</div>}
+                            : recipes.sort === "subscribe" && !isAuth ? <div>Авторизуйтесь :(</div> :
+                                !recipe?.length &&
+                                <div>Рецептов нет :(</div>}
                     </div>
                 </div>
             </div>
