@@ -8,7 +8,7 @@ interface IButton
     HTMLButtonElement
   > {
   children: ReactNode;
-  color?: "purple" | "white" | "gray";
+  color?: "purple" | "white" | "gray" | "primary";
   size?: "big" | "medium" | "small";
   disabled?: true | false;
 }
@@ -21,10 +21,15 @@ const Button: FC<IButton> = ({
   disabled,
   ...props
 }) => {
+  console.log("из кнопки", disabled)
   return (
+
     <button
       className={cn(styles.button, className, {
         [styles.disabled]: disabled === true,
+        // новое 
+        [styles.primary]: color === "primary",
+        // было
         [styles.purple]: color === "purple",
         [styles.white]: color === "white",
         [styles.gray]: color === "gray",

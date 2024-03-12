@@ -1,64 +1,76 @@
 .button {
-  cursor: pointer;
-  padding: 4px;
-  border: 1px solid rgba(80, 35, 235, 1);
-  border-radius: 1px;
-  background-color: #fff;
-  color: #000000;
-  font-size: 14px;
-  transition: background-color 0.1s ease-in-out;
+	cursor: pointer;
+	border-radius: 12px;
+	font-size: 16px;
+	transition: background-color 0.1s ease-in-out;
 
-  &:active {
-    background-color: rgb(58, 25, 175);
-  }
+	// меняющиеся поля
+	padding: 4px;
+	&:active {
+		background-color: rgb(58, 25, 175);
+	}
 }
 
+.primary {
+	background: var(--primary-color);
+	color: var(--base-color);
+	border: none;
+}
+.primary:hover {
+	background: var(--button-hover);
+}
+.primary:focus {
+	background: var(--button-press);
+}
 .purple {
-  background-color: rgba(80, 35, 235, 1);
-  color: white;
+	background-color: rgba(80, 35, 235, 1);
+	color: white;
 
-  &:active {
-    background-color: rgb(58, 25, 175);
-  }
+	&:active {
+		background-color: rgb(58, 25, 175);
+	}
 }
 
 .white {
-  background-color: #fff;
-  color: black;
+	background-color: #fff;
+	color: black;
 
-  &:active {
-    background-color: #c0c0c0;
-  }
+	&:active {
+		background-color: #c0c0c0;
+	}
 }
 
 .gray {
-  background-color: rgba(188, 188, 188, 1);
-  border: 1px solid rgba(188, 188, 188, 1);
-  color: white;
+	background-color: rgba(188, 188, 188, 1);
+	border: 1px solid rgba(188, 188, 188, 1);
+	color: white;
 
-  &:active {
-    background-color: rgb(58, 25, 175);
-  }
+	&:active {
+		background-color: rgb(58, 25, 175);
+	}
 }
 
 .disabled {
-  color: rgba(255, 255, 255, 0.5);
-  background-color: rgba(128, 128, 128, 0.5);
-  border: 1px solid rgba(0, 0, 0, 0.2);
-
-  &:active {
-    background-color: rgba(128, 128, 128, 0.5);
-  }
+	color: var(--base-color);
+	background: var(--button-disabled);
+	border: none;
+	cursor: default;
+}
+.disabled:hover {
+	color: var(--base-color);
+	background: var(--button-disabled);
+	border: none;
+	cursor: default;
 }
 
 .small {
-  padding: 4px 20px;
+	padding: 4px 20px;
 }
 
 .medium {
-  padding: 8px 40px;
+	padding: 8px 40px;
 }
 
 .big {
-  padding: 12px 60px;
+	padding: 12px 60px;
 }

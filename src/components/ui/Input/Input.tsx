@@ -22,6 +22,7 @@ const Input: FC<InputProps> = ({
 	options,
 	...rest
 }) => {
+	console.log("опции", rest)
 	const optionsForm = options
 		? { ...register(name, options) }
 		: { ...register(name) }

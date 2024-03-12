@@ -1,19 +1,19 @@
 'use client'
 
-import {useAppDispatch, useAppSelector} from "@/store/features/hooks";
-import {useEffect, useState} from "react";
+import { useAppDispatch, useAppSelector } from "@/store/features/hooks";
+import { useEffect, useState } from "react";
 import styles from './page.module.scss'
 import Layout from "@/components/layout/layout";
 import RecipeCard from "@/components/ui/RecipeCard/RecipeCard";
-import {IRecipe} from "@/store/features/recipes/recipes.types";
-import {useRecipes} from "@/hooks/useRecipes";
-import {fetchFeedPagesDynamic} from "@/store/features/recipes/recipes.actions";
+import { IRecipe } from "@/store/features/recipes/recipes.types";
+import { useRecipes } from "@/hooks/useRecipes";
+import { fetchFeedPagesDynamic } from "@/store/features/recipes/recipes.actions";
 import Image from "next/image";
-import {Loader} from "@/components/ui/Loader/Loader";
-import {useAuth} from "@/hooks/useAuth";
+import { Loader } from "@/components/ui/Loader/Loader";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Home() {
-    const {isAuth} = useAuth()
+    const { isAuth } = useAuth()
     const recipe = useRecipes()
     const recipes = useAppSelector((state) => state.recipesFeed)
     const dispatch = useAppDispatch();
@@ -59,17 +59,17 @@ export default function Home() {
     }, [dispatch, isScroll, recipes]);
 
     return (
-        <Layout>
-            <div style={{padding: '0 20px'}}>
+        <Layout isSearch={true}>
+            <div style={{ padding: '0 20px' }}>
                 <div className="container">
                     <div className={styles.recipesContainer}>
                         {recipe?.length &&
                             recipe?.map((recipe: IRecipe) => (
                                 <div key={recipe.id}>
-                                    <RecipeCard recipe={recipe}/>
+                                    <RecipeCard recipe={recipe} />
                                 </div>
                             ))}
-                        {recipes?.isLoading ? <Loader/>
+                        {recipes?.isLoading ? <Loader />
                             : recipes.sort === "subscribe" && !isAuth ? <div>Авторизуйтесь :(</div> :
                                 !recipe?.length &&
                                 <div>Рецептов нет :(</div>}

@@ -1,25 +1,26 @@
 "use client"
-import {ReactNode} from "react";
+import { ReactNode } from "react";
 import Header from "@/components/layout/header/header";
 import Sidebar from "@/components/layout/sidebar/sidebar";
 import Rightbar from "@/components/layout/rightbar/rightbar";
 import styles from './layout.module.scss'
-import {usePathname, useRouter} from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
-export default function Layout({children, sidebar = true, rightbar = true}: {
+export default function Layout({ children, sidebar = true, rightbar = true, isSearch }: {
     children: ReactNode,
     sidebar?: boolean,
-    rightbar?: boolean
+    rightbar?: boolean,
+    isSearch?: boolean | undefined,
 }) {
     const pathname = usePathname()
     return (
         <div className={styles.layout}>
-            <div className='container' style={{flexDirection: "column"}}>
-                <Header/>
+            <div className='container' style={{ flexDirection: "column" }}>
+                <Header isSearch={isSearch} />
                 <div className={styles.layoutTwo}>
-                    {sidebar && <Sidebar/>}
+                    {sidebar && <Sidebar />}
                     {children}
-                    {rightbar && pathname === '/' && <Rightbar/>}
+                    {rightbar && pathname === '/' && <Rightbar />}
                 </div>
             </div>
         </div>

@@ -1,22 +1,42 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: "Inter", sans-serif;
+:root {
+	--base-color: #ffffff;
+	--base-color-dark: #010b00;
+	// основные цвета
+	--primary-color: #6c8777;
+	--primary-color-light: #4bc185;
+	--primary-color-dark: #45624e;
+	--primary-color-darker: #273526;
+	// цвета кнопок
+	--button-default: #45624e;
+	--button-disabled: #bcbcbc;
+	--button-hover: #7da78a;
+	--button-press: #273526;
+	// цвета полей ввода
+	--input-stroke: #c6c6c6;
+	--input-invalid: #da0000;
+	--input-advices: #4bc185;
 }
-
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-family: 'Inter', sans-serif;
+}
+body {
+	color: var(--base-color-dark);
+}
 a {
-  text-decoration: none;
+	text-decoration: none;
 }
 
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	position: relative;
 }

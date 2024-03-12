@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { IDataFromForm, IDataFromResolve, ITokens } from './user.types'
 import { BASE_URL, instanceAxios } from '@/services/auth/auth.service'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 
 export const fetchRegistration = createAsyncThunk<
 	IDataFromResolve,

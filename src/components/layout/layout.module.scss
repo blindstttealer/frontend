@@ -1,13 +1,12 @@
 .layout {
-  .container {
-    flex-direction: column;
-  }
+	.container {
+		flex-direction: column;
+	}
 }
 
 .layoutTwo {
-  flex-direction: row;
-  width: 100%;
-  display: grid;
-  grid-template-columns: 200px 800px 200px;
-
+	flex-direction: row;
+	width: 100%;
+	display: grid;
+	grid-template-columns: 200px 800px 200px;
 }
