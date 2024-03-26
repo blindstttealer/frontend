@@ -3,8 +3,6 @@
 	border-radius: 12px;
 	font-size: 16px;
 	transition: background-color 0.1s ease-in-out;
-
-	// меняющиеся поля
 	padding: 4px;
 	&:active {
 		background-color: rgb(58, 25, 175);
@@ -22,32 +20,10 @@
 .primary:focus {
 	background: var(--button-press);
 }
-.purple {
-	background-color: rgba(80, 35, 235, 1);
-	color: white;
-
-	&:active {
-		background-color: rgb(58, 25, 175);
-	}
-}
-
-.white {
-	background-color: #fff;
-	color: black;
-
-	&:active {
-		background-color: #c0c0c0;
-	}
-}
-
-.gray {
-	background-color: rgba(188, 188, 188, 1);
-	border: 1px solid rgba(188, 188, 188, 1);
-	color: white;
-
-	&:active {
-		background-color: rgb(58, 25, 175);
-	}
+.secondary {
+	background: var(--base-color);
+	color: var(--base-color-dark);
+	border: 1px solid var(--primary-color-light);
 }
 
 .disabled {
