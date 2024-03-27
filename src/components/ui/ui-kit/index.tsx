@@ -1,3 +1,3 @@
-import EyeIconSVG from '../../../../public/img/eye.svg'
+import EyeIconSVG from '../../../../public/img/Eye.svg'
 
 export { EyeIconSVG }

@@ -4,124 +4,191 @@
 import Image from "next/image"
 import Button from "@/components/ui/Button/Button"
 import Input from "@/components/ui/Input/Input"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import styles from './user-data-form.module.scss'
 import { useRouter } from 'next/navigation'
+import Layout from "@/components/layout/layout"
+import { useEffect, useRef, useState } from "react"
+import Select from 'react-select'
+import { resultCountry } from "@/helpers/setCountries"
+import { customStyles } from "@/helpers/customStylesFromReactSelect"
+import { Loader } from "@/components/ui/Loader/Loader"
+import { PatternFormat } from 'react-number-format';
+
+
 
 export default function Registration() {
+
     const router = useRouter()
+
+    /* блок для теста монтирования */
+    const [mount, setMount] = useState<boolean>(false)
+    /* конец */
+
+
+
+    /* блок для прелоадера картинки */
+    const [file, setFile] = useState(null);
+    const [previewUrl, setPreviewUrl] = useState(null);
+
+    useEffect(() => {
+        if (!file) {
+            return;
+        }
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setPreviewUrl(reader.result);
+        }
+        reader.readAsDataURL(file);
+    }, [file]);
+    const ref = useRef<HTMLInputElement>(null);
+    const handlePick = (e: any) => {
+        e.preventDefault()
+        if (ref.current) {
+            ref.current.click();
+        }
+    };
+    /* */
+
+    /*блок для проверки монтирования компонента */
+
+    useEffect(() => {
+        setMount(true)
+    }, [])
+
+    /* end */
+
     const {
         register,
         handleSubmit,
-        watch,
         formState: { errors },
+        control
     } = useForm({
         mode: "onBlur"
     });
     const onSubmit = (dataFromInput: any) => {
-        console.log(dataFromInput)
+        console.log("данные с формы", dataFromInput, "картинка", file)
     };
-    const password = watch('password')
+
     return (
-        <div>
-            <div className={styles.container}>
-                <h2 style={{ color: "red" }}>Данный блок не готов, его не нужно тестировать !!!! Сейчас я его делаю.</h2>
-                <div className={styles.innerForm}>
-                    <p className={styles.innerForm_paragraph}>Заполните данные о себе</p>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <label> Никнейм
-                            <div style={{ marginTop: '12px', marginBottom: '12px' }}>
-                                <Input
-                                    register={register}
-                                    name="nickName"
-                                    type="text"
-                                    options={{ maxLength: { message: "Максимально 150 символов", value: 150 }, }}
-                                    error={errors?.nickName?.message}
+        <Layout sidebar={false} rightbar={false} isSearch={false}>
+            <div></div>
+            {/* в данном случае моунт использую, для фикса ошибки конфликта сервера и клиента с айдишниками*/}
+            {mount === true ?
+                <div className={styles.container}>
+                    <div className={styles.innerForm}>
+                        <p className={styles.innerForm_paragraph}>Расскажите о себе</p>
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            <label> Никнейм
+                                <div style={{ marginTop: '12px', marginBottom: '12px' }}>
+                                    <Input
+                                        register={register}
+                                        name="display_name"
+                                        type="text"
+                                        placeholder="Никнейм"
+                                        error={errors?.display_name?.message}
+                                    />
+                                </div>
+                            </label>
+                            <label>Имя
+                                <div style={{ marginTop: '12px', marginBottom: '12px' }}>
+                                    <Input
+                                        register={register}
+                                        name="first_name"
+                                        type="text"
+                                        placeholder="Иван"
+                                        error={errors?.first_name?.message}
+                                    />
+                                </div>
+                            </label>
+                            <label>Фамилия
+                                <div style={{ marginTop: '12px', marginBottom: '12px' }}>
+                                    <Input
+                                        register={register}
+                                        name="last_name"
+                                        type="text"
+                                        placeholder="Иванов"
+                                        error={errors?.last_name?.message}
+                                    />
+                                </div>
+                            </label>
+                            <label>Телефон
+                                <div style={{ marginTop: '12px', marginBottom: '12px' }}>
+                                    <Controller
+                                        control={control}
+                                        name="phone"
+                                        render={({ field }) => (
+                                            <PatternFormat className={styles.input} {...field} format="+# (###) ###-####" value="" valueIsNumericString={true} />
+                                        )}
+                                    />
+                                </div>
+                            </label>
+                            <label>Страна
+                                <div style={{ marginTop: '12px', marginBottom: '12px' }}>
+                                    <Controller
+                                        control={control}
+                                        name="country"
+                                        render={({ field }) => (
+                                            <Select {...field}
+                                                options={resultCountry}
+                                                placeholder="Россия"
+                                                styles={customStyles}
+                                                inputId={Date.now().toString()}
+                                            />
+                                        )}
+                                    />
+                                </div>
+                            </label>
+                            <label>Город
+                                <div style={{ marginTop: '12px', marginBottom: '12px' }}>
+                                    <Input
+                                        register={register}
+                                        name="town"
+                                        type="text"
+                                        placeholder="Москва"
+                                        error={errors?.town?.message}
+                                    />
+                                </div>
+                            </label>
+                            <label>О себе
+                                <div style={{ marginTop: '12px', marginBottom: '12px' }}>
+                                    <Input
+                                        register={register}
+                                        name="bio"
+                                        type="text"
+                                        error={errors?.bio?.message}
+                                    />
+                                </div>
+                            </label>
+
+                            {/* блок превью картинки */}
+                            <div className={styles.previewPhoto}>
+                                <input
+                                    className={styles.hidden}
+                                    ref={ref}
+                                    type="file"
+                                    onChange={e => setFile(e.target.files[0])}
                                 />
+                                <Button className={styles.addPhoto} size={'medium'} color={"primary"} onClick={handlePick}>
+                                    Добавить фото +
+                                </Button>
+                                {previewUrl && <Image className={styles.img} src={previewUrl} alt="Preview" width={150} height={150} />}
                             </div>
-                        </label>
-                        <label>Имя
-                            <div style={{ marginTop: '12px', marginBottom: '12px' }}>
-                                <Input
-                                    register={register}
-                                    name="userName"
-                                    type="text"
-                                    placeholder="Иван"
-                                    options={{
-                                        required: "Обязательное поле",
-                                        pattern: {
-                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i,
-                                            message: 'Введите корректный ящик'
-                                        }
-                                    }}
-                                    error={errors?.userName?.message}
-                                />
-                            </div>
-                        </label>
-                        <label> Пароль
-                            <div style={{ marginTop: '12px', marginBottom: '24px' }}>
-                                <Input
-                                    register={register}
-                                    name="password"
-                                    type="password"
-                                    placeholder="*********"
-                                    options={{
-                                        required: "Обязательное поле",
-                                        minLength: { message: "Минимальная длина 8 символов", value: 8 },
-                                        pattern: {
-                                            // value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d_]{8,}$/,
-                                            value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d_!@#$%^&*()-?]{8,}$/,
-                                            message: 'Не менее 8 символов и одной буквы (лат), без пробелов'
-                                        }
-                                    }}
-                                    error={errors?.password?.message}
-                                />
-                            </div>
-                        </label>
-                        <label> Введите пароль еще раз
-                            <div style={{ marginTop: '12px', marginBottom: '24px' }}>
-                                <Input
-                                    register={register}
-                                    name="repeat_password"
-                                    type="password"
-                                    placeholder="*********"
-                                    options={{
-                                        required: "Обязательное поле",
-                                        validate: value => value === password || "Пароли не совпадают",
-                                    }}
-                                    error={errors?.repeat_password?.message}
-                                />
-                            </div>
-                        </label>
-                        {/* Доделай кнопку с позиции дизейблед */}
-                        <Button color={"gray"} style={{ width: '100%', marginBottom: '24px' }} >
-                            Зарегистрироваться
-                        </Button>
-                    </form>
-                    <p className={styles.alreadyHaveAccount}>У вас уже есть аккаунт ? <span className={styles.login} onClick={() => router.push('/activate-page')}>Войти в аккаунт</span></p>
-                    <div className={styles.innerLine}>
-                        <hr className={styles.line} style={{ marginRight: '5px' }} />
-                        <span>или</span>
-                        <hr className={styles.line} style={{ marginLeft: '5px' }} />
-                    </div>
-                    <div className={styles.innerImg}>
-                        <Image
-                            style={{ marginRight: "12px" }}
-                            src="/img/vk.svg"
-                            width={38}
-                            height={38}
-                            alt="vk"
-                        />
-                        <Image
-                            src="/img/ya.svg"
-                            width={38}
-                            height={38}
-                            alt="yandex"
-                        />
+                            {/*  */}
+                            {/* Доделай кнопку с позиции дизейблед */}
+                            <Button size={'medium'} color={"primary"} style={{ width: '100%', marginBottom: '24px' }} >
+                                Сохранить
+                            </Button>
+                            <Button size={'medium'} color={"secondary"} style={{ width: '100%', marginBottom: '24px' }} >
+                                Заполнить позже
+                            </Button>
+                        </form>
                     </div>
                 </div>
-            </div>
-        </div >
+                :
+                <Loader />
+            }
+        </Layout>
     );
 };
 

@@ -11,7 +11,8 @@ import { useEffect } from "react"
 import { getDataFromActivation } from "@/store/features/user/user-registration.slice"
 import { useAppDispatch, useAppSelector } from "@/store/features/hooks"
 import { fetchRegistration } from "@/store/features/user/user.actions"
-import Layout from '../../components/layout/layout'
+import Layout from "@/components/layout/layout";
+import cn from "clsx";
 
 
 export default function Registration() {
@@ -25,11 +26,10 @@ export default function Registration() {
         register,
         handleSubmit,
         watch,
-        formState: { errors },
+        formState: { errors, touchedFields },
     } = useForm({
         mode: 'onBlur',
     })
-    console.log("ошибка из регистрации", isError, "просто ошибки из инпутов", errors?.email?.message?.length)
     const onSubmit = (dataFromInput: any) => {
         dispatch(getDataFromActivation(dataFromInput))
         dispatch(fetchRegistration(dataFromInput))
@@ -56,7 +56,12 @@ export default function Registration() {
                             Email
                             <div style={{ marginTop: '12px', marginBottom: '12px' }}>
                                 <Input
+                                    className={cn({
+                                        // @ts-ignore
+                                        [styles.errorInput]: isError?.email
+                                    })}
                                     register={register}
+                                    touchedFields={touchedFields}
                                     name="email"
                                     type="text"
                                     placeholder="ivanov@gmail.com"
@@ -120,11 +125,18 @@ export default function Registration() {
                                 />
                             </div>
                         </label>
-                        {/* Доделай кнопку с позиции дизейблед */}
                         <Button
                             disabled=
                             { //@ts-ignore
-                                errors?.email?.message?.length > 0 || errors?.password?.message?.length > 0 || errors?.repeat_password?.message?.length > 0 || isError
+                                errors?.email?.message?.length > 0 ||
+                                    //@ts-ignore
+                                    errors?.password?.message?.length > 0 ||
+                                    //@ts-ignore
+                                    errors?.repeat_password?.message?.length > 0 ||
+                                    isError ||
+                                    !touchedFields.email ||
+                                    !touchedFields.password ||
+                                    !touchedFields.repeat_password
                                     ? true : false
                             }
                             color={'primary'}

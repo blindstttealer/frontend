@@ -1,5 +1,5 @@
 'use client'
-
+// чекни какая ошибка прилетает с бека при активации аккаунта, если уже был использован токен
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { fetchActivationUserToEmail, fetchActivation } from '@/store/features/user/user.actions'
@@ -13,7 +13,7 @@ export default function VerifyPage() {
     const dispatch = useAppDispatch();
     const { isError, success, isLoaded } = useAppSelector(state => state.userActivation)
     const router = useRouter();
-    console.log("ошибка из странички инструкции по активации", isError)
+    // console.log("ошибка из странички инструкции по активации", isError)
 
     useEffect(() => {
         const dataFromUrl = {
@@ -25,7 +25,7 @@ export default function VerifyPage() {
             email: localStorage.getItem("email") || "",
             password: localStorage.getItem("password") || ""
         }
-        console.log("данные перед отправкой", dataFromLocalStorage)
+        // console.log("данные перед отправкой", dataFromLocalStorage)
         /* код ниже - успешная автоизация */
         const fetchDataFromLocalStorage = async () => {
             try {
@@ -33,15 +33,15 @@ export default function VerifyPage() {
                 await dispatch(fetchActivation(dataFromLocalStorage));
             } catch (error) {
                 // Обработка ошибок
-                console.error("Ошибка при выполнении асинхронных действий:", error);
+                // console.error("Ошибка при выполнении асинхронных действий:", error);
             }
         }
         /* код ниже - успешная автоизация */
         if (success === false && isError === null) {
             fetchDataFromLocalStorage()
-            console.log("success >>>>", success, "isError>>>>", isError)
+            // console.log("success >>>>", success, "isError>>>>", isError)
         } else if (success === true && isError === null) {
-            console.log("success === true && isError === null")
+            // console.log("success === true && isError === null")
             localStorage.removeItem("email")
             localStorage.removeItem("password")
             router.push("/activate-success");

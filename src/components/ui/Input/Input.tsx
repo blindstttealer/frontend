@@ -1,6 +1,7 @@
 import styles from './Input.module.scss'
 import { FC, useState } from 'react'
 import { FieldValues, RegisterOptions, UseFormRegister } from 'react-hook-form'
+import cn from 'clsx';
 import { EyeIconSVG } from '../ui-kit'
 
 interface InputProps {
@@ -9,6 +10,9 @@ interface InputProps {
 	name: string
 	className?: string
 	error?: any
+	touchedFields?: Partial<Readonly<{
+		[x: string]: any;
+	}>>
 	options?: RegisterOptions<FieldValues>
 	register: UseFormRegister<FieldValues>
 }
@@ -19,11 +23,12 @@ const Input: FC<InputProps> = ({
 	type = 'text',
 	name,
 	className,
+	touchedFields,
 	register,
 	options,
 	...rest
 }) => {
-	console.log('опции', rest)
+	// console.log("error", error, "touchedFields", touchedFields)
 	const optionsForm = options
 		? { ...register(name, options) }
 		: { ...register(name) }
@@ -40,14 +45,16 @@ const Input: FC<InputProps> = ({
 	}
 
 	return (
-		<fieldset className={className}>
+		<div className={className}>
 			<div className={styles.input__wrapper}>
 				<input
 					placeholder={placeholder}
 					type={isPassword ? typeInput : type}
 					{...optionsForm}
 					{...rest}
-					className={styles.input}
+					className={cn(styles.input, {
+						[styles.borderError]: error !== undefined
+					})}
 				/>
 				{error || isPassword ? (
 					<div className={styles.input__icons}>
@@ -65,7 +72,7 @@ const Input: FC<InputProps> = ({
 				) : null}
 			</div>
 			{error && <span className={styles.error}>{error}</span>}
-		</fieldset>
+		</div>
 	)
 }
 
