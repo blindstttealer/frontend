@@ -1,8 +1,8 @@
 import styles from './Input.module.scss'
 import { FC, useState } from 'react'
 import { FieldValues, RegisterOptions, UseFormRegister } from 'react-hook-form'
-import cn from 'clsx';
-import { EyeIconSVG } from '../ui-kit'
+import cn from 'clsx'
+import EyeIcon from '../../../../public/img/eye.svg'
 
 interface InputProps {
 	placeholder?: string
@@ -10,9 +10,11 @@ interface InputProps {
 	name: string
 	className?: string
 	error?: any
-	touchedFields?: Partial<Readonly<{
-		[x: string]: any;
-	}>>
+	touchedFields?: Partial<
+		Readonly<{
+			[x: string]: any
+		}>
+	>
 	options?: RegisterOptions<FieldValues>
 	register: UseFormRegister<FieldValues>
 }
@@ -53,7 +55,7 @@ const Input: FC<InputProps> = ({
 					{...optionsForm}
 					{...rest}
 					className={cn(styles.input, {
-						[styles.borderError]: error !== undefined
+						[styles.borderError]: error !== undefined,
 					})}
 				/>
 				{error || isPassword ? (
@@ -65,7 +67,7 @@ const Input: FC<InputProps> = ({
 								onMouseDown={handleMouseDown}
 								onMouseUp={handleMouseUp}
 							>
-								<EyeIconSVG />
+								<EyeIcon />
 							</button>
 						) : null}
 					</div>
