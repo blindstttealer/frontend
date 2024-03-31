@@ -44,7 +44,7 @@ instanceAxios.interceptors.response.use(
         if (
             error.response.status == 401 &&
             error.response.data.detail !==
-            "No active account found with the given credentials"
+            "Не найдено активной учетной записи с указанными данными"
         ) {
             try {
                 // console.log("сработал перехватчик на 401 ошибку", error.response);
@@ -58,7 +58,7 @@ instanceAxios.interceptors.response.use(
             }
         } else if (
             error.response.data.detail ===
-            "No active account found with the given credentials"
+            "Не найдено активной учетной записи с указанными данными"
         ) {
             try {
                 // console.log(

@@ -34,12 +34,13 @@ export default function Registration() {
         dispatch(getDataFromActivation(dataFromInput))
         dispatch(fetchRegistration(dataFromInput))
     };
+    console.log('errors', errors, "touchedFields", touchedFields, 'isError', isError)
     useEffect(() => {
-        console.log('ререндер')
+
         if (success === true) {
             router.push('/activate-instruction')
         }
-    }, [success, errors])
+    }, [success, errors, router])
 
     const password = watch('password')
     return (
@@ -112,7 +113,7 @@ export default function Registration() {
                             <div style={{ marginTop: '12px', marginBottom: '24px' }}>
                                 <Input
                                     register={register}
-                                    name="repeat_password"
+                                    name="password2"
                                     type="password"
                                     placeholder="*********"
                                     options={{
@@ -125,17 +126,15 @@ export default function Registration() {
                             </div>
                         </label>
                         <Button
-                            disabled=
-                            { //@ts-ignore
+                            disabled =
+                            {
                                 errors?.email?.message?.length > 0 ||
-                                    //@ts-ignore
                                     errors?.password?.message?.length > 0 ||
-                                    //@ts-ignore
-                                    errors?.repeat_password?.message?.length > 0 ||
+                                    errors?.password2?.message?.length > 0 ||
                                     isError ||
-                                    !touchedFields.email ||
-                                    !touchedFields.password ||
-                                    !touchedFields.repeat_password
+                                    touchedFields.email !== true ||
+                                    touchedFields.password !== true ||
+                                    touchedFields.password2 !== true
                                     ? true : false
                             }
                             color={'primary'}

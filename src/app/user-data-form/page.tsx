@@ -1,6 +1,7 @@
 "use client";
 /* баги */
 // смотри что можно сделать с типизацией в этом файле
+{/* в компоненте летит ошибка по ref */ }
 import Image from "next/image"
 import Button from "@/components/ui/Button/Button"
 import Input from "@/components/ui/Input/Input"
@@ -13,23 +14,43 @@ import Select from 'react-select'
 import { resultCountry } from "@/helpers/setCountries"
 import { customStyles } from "@/helpers/customStylesFromReactSelect"
 import { Loader } from "@/components/ui/Loader/Loader"
-import { PatternFormat } from 'react-number-format';
+import { PatternFormat } from 'react-number-format'
+import { useAppDispatch, useAppSelector } from "@/store/features/hooks";
+import { fetchDataUser, fetchFormDataUser } from "@/store/features/user/user.actions";
+import { IDataForm } from "./user-data-fors.types";
+
 
 
 
 export default function Registration() {
 
     const router = useRouter()
+    const dispatch = useAppDispatch()
+    const { username } = useAppSelector(state => state.userDateMe.user)
+    const { isError, isLoaded, success } = useAppSelector(state => state.userFormDataEdit)
+    console.log("isError", isError);
 
+    const ref = useRef<HTMLInputElement>(null);
     /* блок для теста монтирования */
     const [mount, setMount] = useState<boolean>(false)
     /* конец */
 
 
-
     /* блок для прелоадера картинки */
     const [file, setFile] = useState(null);
-    const [previewUrl, setPreviewUrl] = useState(null);
+    const [previewUrl, setPreviewUrl] = useState();
+
+    /* функция для получения картинки */
+    const saveFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFile(e.target.files[0]);
+    };
+
+    const handlePick = (e: any) => {
+        e.preventDefault()
+        if (ref.current) {
+            ref.current.click();
+        }
+    };
 
     useEffect(() => {
         if (!file) {
@@ -41,33 +62,46 @@ export default function Registration() {
         }
         reader.readAsDataURL(file);
     }, [file]);
-    const ref = useRef<HTMLInputElement>(null);
-    const handlePick = (e: any) => {
-        e.preventDefault()
-        if (ref.current) {
-            ref.current.click();
-        }
-    };
+
     /* */
 
     /*блок для проверки монтирования компонента */
-
     useEffect(() => {
         setMount(true)
-    }, [])
-
+        // понаблюдай за первой загрузкой, как будто там не авторизованный пользователь прилетает
+        dispatch(fetchDataUser())
+    }, [dispatch, mount])
     /* end */
+
+    useEffect(() => {
+        if (success === true) {
+            router.push('/')
+        }
+    }, [router, success])
+
+
 
     const {
         register,
         handleSubmit,
         formState: { errors },
         control
-    } = useForm({
+    } = useForm<IDataForm>({
+        defaultValues: {
+            display_name: '',
+            first_name: '',
+            last_name: '',
+            phone: '+79999999999',
+            country: '',
+            city: '',
+            bio: '',
+            avatar: ''
+        },
         mode: "onBlur"
     });
-    const onSubmit = (dataFromInput: any) => {
-        console.log("данные с формы", dataFromInput, "картинка", file)
+
+    const onSubmit = (dataFromInput: IDataForm) => {
+        dispatch(fetchFormDataUser({ username: username, dataFromInput, avatar: file }))
     };
 
     return (
@@ -86,6 +120,12 @@ export default function Registration() {
                                         name="display_name"
                                         type="text"
                                         placeholder="Никнейм"
+                                        options={{
+                                            maxLength: {
+                                                message: "Поле не должно содержать более 30 символов",
+                                                value: 30,
+                                            }
+                                        }}
                                         error={errors?.display_name?.message}
                                     />
                                 </div>
@@ -97,8 +137,15 @@ export default function Registration() {
                                         name="first_name"
                                         type="text"
                                         placeholder="Иван"
-                                        error={errors?.first_name?.message}
+                                        options={{
+                                            maxLength: {
+                                                message: "Поле не должно содержать более 30 символов",
+                                                value: 30,
+                                            },
+                                        }}
+                                        error={errors?.first_name?.message || isError?.first_name && isError?.first_name[0]}
                                     />
+                                    {/* { && <p style={{ color: 'var(--input-invalid)', textAlign: 'center' }}>Поле имени заполнено неверно</p>} */}
                                 </div>
                             </label>
                             <label>Фамилия
@@ -108,17 +155,24 @@ export default function Registration() {
                                         name="last_name"
                                         type="text"
                                         placeholder="Иванов"
-                                        error={errors?.last_name?.message}
+                                        options={{
+                                            maxLength: {
+                                                message: "Поле не должно содержать более 30 символов",
+                                                value: 30,
+                                            },
+                                        }}
+                                        error={errors?.last_name?.message || isError?.last_name && isError?.last_name[0]}
                                     />
                                 </div>
                             </label>
                             <label>Телефон
                                 <div style={{ marginTop: '12px', marginBottom: '12px' }}>
+                                    {/* в компоненте летит ошибка по ref */}
                                     <Controller
                                         control={control}
                                         name="phone"
                                         render={({ field }) => (
-                                            <PatternFormat className={styles.input} {...field} format="+# (###) ###-####" value="" valueIsNumericString={true} />
+                                            <PatternFormat className={styles.input} {...field} format="+# (###) ###-####" placeholder="+7 (841) " value="" valueIsNumericString={true} />
                                         )}
                                     />
                                 </div>
@@ -143,10 +197,16 @@ export default function Registration() {
                                 <div style={{ marginTop: '12px', marginBottom: '12px' }}>
                                     <Input
                                         register={register}
-                                        name="town"
+                                        name="city"
                                         type="text"
                                         placeholder="Москва"
-                                        error={errors?.town?.message}
+                                        options={{
+                                            maxLength: {
+                                                message: "Поле не должно содержать более 30 символов",
+                                                value: 30,
+                                            },
+                                        }}
+                                        error={errors?.city?.message || isError?.city && isError?.city[0]}
                                     />
                                 </div>
                             </label>
@@ -156,19 +216,35 @@ export default function Registration() {
                                         register={register}
                                         name="bio"
                                         type="text"
+                                        options={{
+                                            maxLength: {
+                                                message: "Поле не должно содержать более 200 символов",
+                                                value: 200,
+                                            },
+                                        }}
                                         error={errors?.bio?.message}
                                     />
                                 </div>
                             </label>
 
-                            {/* блок превью картинки */}
+                            {/* скрытый блок превью картинки */}
                             <div className={styles.previewPhoto}>
-                                <input
-                                    className={styles.hidden}
-                                    ref={ref}
-                                    type="file"
-                                    onChange={e => setFile(e.target.files[0])}
+                                <Controller
+                                    control={control}
+                                    name="avatar"
+                                    render={({ field }) => (
+                                        <input
+                                            className={styles.hidden}
+                                            {...field}
+                                            ref={ref}
+                                            type="file"
+                                            onChange={saveFiles}
+                                            accept="image/*,.png,.jpg"
+                                        // multiple
+                                        />
+                                    )}
                                 />
+                                {/*  */}
                                 <Button className={styles.addPhoto} size={'medium'} color={"primary"} onClick={handlePick}>
                                     Добавить фото +
                                 </Button>
@@ -176,13 +252,20 @@ export default function Registration() {
                             </div>
                             {/*  */}
                             {/* Доделай кнопку с позиции дизейблед */}
-                            <Button size={'medium'} color={"primary"} style={{ width: '100%', marginBottom: '24px' }} >
+                            {isLoaded === true ? (
+                                <p style={{ textAlign: 'center', color: 'aquamarine' }}>
+                                    Ждем ответа сервера...
+                                </p>
+                            ) : null}
+                            <Button size={'medium'} color={"primary"} style={{ width: '100%', marginBottom: '24px' }}>
                                 Сохранить
                             </Button>
-                            <Button size={'medium'} color={"secondary"} style={{ width: '100%', marginBottom: '24px' }} >
-                                Заполнить позже
-                            </Button>
+
                         </form>
+                        {isError && <p style={{ color: 'var(--input-invalid)', textAlign: 'center' }}>Исправьте ошибки в форме</p>}
+                        <Button onClick={() => router.push('/')} size={'medium'} color={"secondary"} style={{ width: '100%', marginBottom: '24px' }} >
+                            Заполнить позже
+                        </Button>
                     </div>
                 </div>
                 :

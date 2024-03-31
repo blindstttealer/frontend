@@ -25,6 +25,16 @@
 	color: var(--base-color-dark);
 	border: 1px solid var(--primary-color-light);
 }
+.secondary:hover {
+	background: var(--button-hover);
+	border-color: var(--button-hover);
+	color: var(--base-color);
+}
+.secondary:focus {
+	background: var(--button-press);
+	border-color: var(--button-hover);
+	color: var(--base-color);
+}
 
 .disabled {
 	color: var(--base-color);
