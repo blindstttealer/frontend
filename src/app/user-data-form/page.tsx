@@ -84,7 +84,7 @@ export default function Registration() {
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, touchedFields },
         control
     } = useForm<IDataForm>({
         defaultValues: {
@@ -99,7 +99,7 @@ export default function Registration() {
         },
         mode: "onBlur"
     });
-
+    console.log("touchedFields", touchedFields)
     const onSubmit = (dataFromInput: IDataForm) => {
         dispatch(fetchFormDataUser({ username: username, dataFromInput, avatar: file }))
     };
@@ -240,7 +240,6 @@ export default function Registration() {
                                             type="file"
                                             onChange={saveFiles}
                                             accept="image/*,.png,.jpg"
-                                        // multiple
                                         />
                                     )}
                                 />
@@ -257,7 +256,20 @@ export default function Registration() {
                                     Ждем ответа сервера...
                                 </p>
                             ) : null}
-                            <Button size={'medium'} color={"primary"} style={{ width: '100%', marginBottom: '24px' }}>
+                            <Button
+                                size={'medium'}
+                                color={"primary"}
+                                style={{ width: '100%', marginBottom: '24px' }}
+                                disabled={
+                                    touchedFields.display_name !== true &&
+                                        touchedFields.first_name !== true &&
+                                        touchedFields.last_name !== true &&
+                                        touchedFields.phone !== true &&
+                                        touchedFields.country !== true &&
+                                        touchedFields.city !== true &&
+                                        touchedFields.bio !== true
+                                        ? true : false
+                                }>
                                 Сохранить
                             </Button>
 
@@ -271,7 +283,7 @@ export default function Registration() {
                 :
                 <Loader />
             }
-        </Layout>
+        </Layout >
     );
 };
 
