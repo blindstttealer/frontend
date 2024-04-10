@@ -28,7 +28,6 @@ export default function Registration() {
     const dispatch = useAppDispatch()
     const { username } = useAppSelector(state => state.userDateMe.user)
     const { isError, isLoaded, success } = useAppSelector(state => state.userFormDataEdit)
-    console.log("isError", isError);
 
     const ref = useRef<HTMLInputElement>(null);
     /* блок для теста монтирования */
@@ -79,8 +78,6 @@ export default function Registration() {
         }
     }, [router, success])
 
-
-
     const {
         register,
         handleSubmit,
@@ -99,7 +96,6 @@ export default function Registration() {
         },
         mode: "onBlur"
     });
-    console.log("touchedFields", touchedFields)
     const onSubmit = (dataFromInput: IDataForm) => {
         dispatch(fetchFormDataUser({ username: username, dataFromInput, avatar: file }))
     };
