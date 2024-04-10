@@ -1,7 +1,8 @@
 import styles from './Input.module.scss'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { FieldValues, RegisterOptions, UseFormRegister } from 'react-hook-form'
-import cn from 'clsx';
+import cn from 'clsx'
+import EyeIcon from '../../../../public/img/eye.svg'
 
 interface InputProps {
 	placeholder?: string
@@ -9,9 +10,11 @@ interface InputProps {
 	name: string
 	className?: string
 	error?: any
-	touchedFields?: Partial<Readonly<{
-		[x: string]: any;
-	}>>
+	touchedFields?: Partial<
+		Readonly<{
+			[x: string]: any
+		}>
+	>
 	options?: RegisterOptions<FieldValues>
 	register: UseFormRegister<FieldValues>
 }
@@ -32,21 +35,46 @@ const Input: FC<InputProps> = ({
 		? { ...register(name, options) }
 		: { ...register(name) }
 
+	const isPassword = type === 'password'
+
+	const [typeInput, setTypeInput] = useState(type)
+	const handleMouseDown = () => {
+		setTypeInput('text')
+	}
+
+	const handleMouseUp = () => {
+		setTypeInput(type)
+	}
+
 	return (
-		<>
-			<div className={className}>
+		<div className={className}>
+			<div className={styles.input__wrapper}>
 				<input
 					placeholder={placeholder}
-					type={type}
+					type={isPassword ? typeInput : type}
 					{...optionsForm}
 					{...rest}
 					className={cn(styles.input, {
-						[styles.borderError]: error !== undefined
+						[styles.borderError]: error !== undefined,
 					})}
 				/>
+				{error || isPassword ? (
+					<div className={styles.input__icons}>
+						{isPassword ? (
+							<button
+								className={styles.input__eye}
+								type="button"
+								onMouseDown={handleMouseDown}
+								onMouseUp={handleMouseUp}
+							>
+								<EyeIcon />
+							</button>
+						) : null}
+					</div>
+				) : null}
 			</div>
 			{error && <span className={styles.error}>{error}</span>}
-		</>
+		</div>
 	)
 }
 
