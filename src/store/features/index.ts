@@ -5,6 +5,8 @@ import userDateMeReducer from './user/user-data-me.slice'
 import userActivateAccountReducer from './user/user-activation.slice'
 import recipesFeedReducer from './recipes/recipes.slice'
 import userFormDataEdit from './user/user-data-form-edit.slice'
+import getFavoriteReducer from './favorites/favorites.slice'
+import getUserNameWithoutToken from './user/user-getData-username.slice'
 
 export const store = configureStore({
 	reducer: {
@@ -14,6 +16,8 @@ export const store = configureStore({
 		userActivation: userActivateAccountReducer,
 		userFormDataEdit: userFormDataEdit,
 		recipesFeed: recipesFeedReducer,
+		favorites: getFavoriteReducer,
+		userName: getUserNameWithoutToken,
 	},
 	devTools: process.env.NODE_ENV !== 'production',
 })

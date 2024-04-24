@@ -20,7 +20,10 @@ export default function Layout({ children, sidebar = true, rightbar = true, isSe
                 <div className={styles.layoutTwo}>
                     {sidebar && <Sidebar />}
                     {children}
-                    {rightbar && pathname === '/' && <Rightbar />}
+                    {/* было */}
+                    {/* {rightbar && pathname === '/' && <Rightbar />} */}
+                    {/* изменил на */}
+                    {rightbar && <Rightbar />}
                 </div>
             </div>
         </div>

@@ -4,6 +4,7 @@ import { IDataFromForm, IDataFromResolve, ITokens } from './user.types'
 import { BASE_URL, instanceAxios } from '@/services/auth/auth.service'
 import axios from 'axios'
 
+// регистрация пользователя
 export const fetchRegistration = createAsyncThunk<
 	IDataFromResolve,
 	IDataFromForm
@@ -23,7 +24,7 @@ export const fetchRegistration = createAsyncThunk<
 		}
 	},
 )
-
+// активация пользователя, получение токенов
 export const fetchActivation = createAsyncThunk<ITokens, IDataFromForm>(
 	'userActivation/fetchActivation',
 	async (dataFromForm, { rejectWithValue }) => {
@@ -41,6 +42,7 @@ export const fetchActivation = createAsyncThunk<ITokens, IDataFromForm>(
 	},
 )
 
+// данные пользователя
 export const fetchDataUser = createAsyncThunk(
 	'userDataMe/fetchDataUser',
 	async (_, { rejectWithValue }) => {
@@ -58,6 +60,7 @@ export const fetchDataUser = createAsyncThunk(
 	},
 )
 
+// активация пользователя по эл.почте
 export const fetchActivationUserToEmail = createAsyncThunk<any, any>(
 	'userActivationToEmail/fetchActivationUserToEmail',
 	async (dataFromUrlEmail, { rejectWithValue }) => {
@@ -80,11 +83,10 @@ export const fetchActivationUserToEmail = createAsyncThunk<any, any>(
 		}
 	},
 )
-
+// форма для изменения данных пользователя
 export const fetchFormDataUser = createAsyncThunk<any, any>(
 	'formDataUser/fetchFormDataUser',
 	async (dataFormUser, { rejectWithValue }) => {
-		console.log('dataFormUser', dataFormUser)
 		try {
 			const formData = new FormData()
 			formData.append('display_name', dataFormUser.dataFromInput.display_name)
@@ -109,6 +111,43 @@ export const fetchFormDataUser = createAsyncThunk<any, any>(
 			// 	rejectWithValue(err),
 			// )
 			//@ts-ignore
+			return rejectWithValue(err?.response?.data)
+		}
+	},
+)
+
+// получение пользователя по username
+
+interface IResUserName {
+	id: number
+	username: string
+	display_name: string
+	email: string
+	avatar: string
+	city: string
+	country: string
+	bio: string
+	date_joined: string
+	first_name: string
+	last_name: string
+	is_active: boolean
+	is_banned: boolean
+	is_staff: boolean
+	is_admin: boolean
+}
+
+export const fetchDataUserName = createAsyncThunk<IResUserName, string>(
+	'dataUserName/fetchDataUserName',
+	async (username, { rejectWithValue }) => {
+		try {
+			const res = await instanceAxios({
+				method: 'GET',
+				url: `user/${username}`,
+			})
+			// console.log("данные которые пришли с бека", res.data);
+			return res.data
+		} catch (err) {
+			// @ts-ignore
 			return rejectWithValue(err?.response?.data)
 		}
 	},
