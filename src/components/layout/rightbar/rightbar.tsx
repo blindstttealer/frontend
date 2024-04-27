@@ -2,8 +2,8 @@
 import styles from './rightbar.module.scss'
 import Image from "next/image";
 import {useAppDispatch, useAppSelector} from "@/store/features/hooks";
-import {IRecipeInitialState} from "@/store/features/recipes/recipes.types";
-import {setSortMode, setViewMode} from "@/store/features/recipes/recipes.slice";
+import {setSortMode} from "@/store/features/recipes/recipes.slice";
+import ListView from '../list-view/list-view';
 
 export default function Rightbar() {
     const dispatch = useAppDispatch()
@@ -17,17 +17,7 @@ export default function Rightbar() {
                     <Image src='/img/rightbar/plus.png' alt='plus' width={22} height={22}/>
                 </button>
             </div>
-            <div className={styles.view}>
-                <h3>Вид ленты</h3>
-                <div>
-                    <button className={recipeState.view === 'feed' ? styles.active : ''}
-                            onClick={() => dispatch(setViewMode('feed'))}>Лента
-                    </button>
-                    <button className={recipeState.view === 'tile' ? styles.active : ''}
-                            onClick={() => dispatch(setViewMode('tile'))}>Плитка
-                    </button>
-                </div>
-            </div>
+            <ListView/>
             <div className={styles.sort}>
                 <h3>Сортировка</h3>
                 <div>
