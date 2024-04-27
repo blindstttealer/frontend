@@ -1,46 +1,51 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { fetchActivation } from "./user.actions";
+import { createSlice } from '@reduxjs/toolkit'
+import { fetchAuthorization } from './user.actions'
+import { IToken } from './user.types'
 
-const initialState = {
-  tokens: {
-    access: "",
-    refresh: "",
-  },
-  isError: null,
-  isLoaded: false,
-  flag: false,
-};
+interface IAuthState {
+	tokens: IToken
+	//todo: проверить ответы сервера при неправильных email, password и привести тип в порядок
+	error: null | { email: string, detail: string }
+	isLoading: boolean
+}
+
+const initialState: IAuthState = {
+	tokens: {
+		access: '',
+		refresh: '',
+	},
+	error: null,
+	isLoading: false,
+}
 
 const userAuthorization = createSlice({
-  name: "userAuthorization",
-  initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchActivation.pending, (state) => {
-        state.isLoaded = true;
-        state.isError = null;
-      })
-      .addCase(fetchActivation.fulfilled, (state, action) => {
-        // console.log(
-        //   "Данные которые пришли, после авторизации должны быть токены",
-        //   action.payload
-        // );
-        state.isLoaded = false;
-        // @ts-ignore
-        state.tokens = action.payload;
-        window.localStorage.setItem("access_token_svd", state.tokens.access);
-        window.localStorage.setItem("refresh_token_svd", state.tokens.refresh);
-        state.flag = true;
-      })
-      .addCase(fetchActivation.rejected, (state, action) => {
-        // console.log("ошибка из слайса АВТОРИЗАЦИИ", action.payload);
-        state.flag = false;
-        state.isLoaded = false;
-        // @ts-ignore
-        state.isError = action.payload;
-      });
-  },
-});
+	name: 'userAuthorization',
+	initialState: initialState,
+	reducers: {},
+	extraReducers: (builder) => {
+		builder
+			.addCase(fetchAuthorization.pending, (state) => {
+				state.isLoading = true
+				state.error = null
+			})
+			.addCase(fetchAuthorization.fulfilled, (state, action) => {
+				state.isLoading = false
+				state.tokens = action.payload
+				window.localStorage.setItem('access_token_svd', state.tokens.access)
+				window.localStorage.setItem('refresh_token_svd', state.tokens.refresh)
+				const url = window.location.href.split('%22')[1]
 
-export default userAuthorization.reducer;
+				// перенапрявляем на страницу, где поймали ошибку авторизации, либо в профиль
+				window.location.href = url || '/profile'
+			})
+			.addCase(fetchAuthorization.rejected, (state, action) => {
+				console.error('ошибка из слайса АВТОРИЗАЦИИ', action.payload)
+				state.isLoading = false
+
+				// @ts-ignore
+				state.error = action.payload
+			})
+	},
+})
+
+export default userAuthorization.reducer

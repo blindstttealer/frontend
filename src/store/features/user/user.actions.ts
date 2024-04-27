@@ -1,6 +1,6 @@
 // сделай типизацию
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { IDataFromForm, IDataFromResolve, ITokens } from './user.types'
+import { IDataFromForm, IDataFromResolve, IToken } from './user.types'
 import { BASE_URL, instanceAxios } from '@/services/auth/auth.service'
 import axios from 'axios'
 
@@ -24,9 +24,29 @@ export const fetchRegistration = createAsyncThunk<
 		}
 	},
 )
+
+//todo: протестировать АКТИВАЦИЮ пользователя
 // активация пользователя, получение токенов
-export const fetchActivation = createAsyncThunk<ITokens, IDataFromForm>(
+export const fetchActivation = createAsyncThunk<IToken, IDataFromForm>(
 	'userActivation/fetchActivation',
+	async (dataFromForm, { rejectWithValue }) => {
+		try {
+			const res = await instanceAxios({
+				method: 'POST',
+				url: 'auth/jwt/create/',
+				data: dataFromForm,
+			})
+			return res.data
+		} catch (err) {
+			// @ts-ignore
+			return rejectWithValue(err?.response?.data)
+		}
+	},
+)
+
+// авторизация пользователя, получение токенов
+export const fetchAuthorization = createAsyncThunk<IToken, IDataFromForm>(
+	'userActivation/fetchAuthorization',
 	async (dataFromForm, { rejectWithValue }) => {
 		try {
 			const res = await instanceAxios({
@@ -83,6 +103,7 @@ export const fetchActivationUserToEmail = createAsyncThunk<any, any>(
 		}
 	},
 )
+
 // форма для изменения данных пользователя
 export const fetchFormDataUser = createAsyncThunk<any, any>(
 	'formDataUser/fetchFormDataUser',
