@@ -21,6 +21,7 @@ export interface IRecipe {
     total_reactions_count: number;
     reactions: any[];
     activity_count: number;
+    is_favorite: boolean
 }
 
 export interface Author {
