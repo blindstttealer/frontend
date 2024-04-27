@@ -1,9 +1,9 @@
 'use client'
-import styles from './list-view.module.scss'
+import styles from './ListViewChanger.module.scss'
 import { useAppDispatch, useAppSelector } from '@/store/features/hooks'
 import { setViewMode } from '@/store/features/recipes/recipes.slice'
 
-export default function ListView() {
+export default function ListViewChanger() {
   const dispatch = useAppDispatch()
   const { view } = useAppSelector((state) => state.recipesFeed)
 

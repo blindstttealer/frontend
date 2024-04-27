@@ -3,7 +3,7 @@ import styles from './rightbar.module.scss'
 import Image from "next/image";
 import {useAppDispatch, useAppSelector} from "@/store/features/hooks";
 import {setSortMode} from "@/store/features/recipes/recipes.slice";
-import ListView from '../list-view/list-view';
+import ListViewChanger from '../../ui/listViewChanger/ListViewChanger';
 
 export default function Rightbar() {
     const dispatch = useAppDispatch()
@@ -17,7 +17,7 @@ export default function Rightbar() {
                     <Image src='/img/rightbar/plus.png' alt='plus' width={22} height={22}/>
                 </button>
             </div>
-            <ListView/>
+            <ListViewChanger/>
             <div className={styles.sort}>
                 <h3>Сортировка</h3>
                 <div>

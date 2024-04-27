@@ -1,7 +1,5 @@
 import {createAsyncThunk} from "@reduxjs/toolkit"
 import {BASE_URL, instanceAxios} from "@/services/auth/auth.service";
-import {useAppSelector} from "@/store/features/hooks";
-import {useState} from "react";
 import axios from "axios";
 
 export const fetchFeed = createAsyncThunk(
