@@ -5,6 +5,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    margin-bottom: 36px;
 
     button {
       cursor: pointer;
@@ -19,34 +20,6 @@
       justify-content: center;
       align-items: center;
       gap: 8px;
-    }
-  }
-
-  .view {
-    margin-top: 36px;
-
-    h3 {
-      font-size: 24px;
-      font-weight: 400;
-      margin-bottom: 24px;
-    }
-
-    div {
-      display: flex;
-      flex-wrap: wrap;
-      row-gap: 16px;
-      column-gap: 12px;
-
-      button {
-        cursor: pointer;
-        padding: 8px 16px;
-        background: transparent;
-        border: 1px solid #000;
-        border-radius: 14px;
-        font-size: 14px;
-        font-weight: 400;
-        transition: all .1s ease-in-out;
-      }
     }
   }
 
