@@ -4,6 +4,7 @@ import Image from "next/image";
 import {useAppDispatch, useAppSelector} from "@/store/features/hooks";
 import {setSortMode} from "@/store/features/recipes/recipes.slice";
 import ListViewChanger from '../../ui/listViewChanger/ListViewChanger';
+import { useRouter } from 'next/navigation'
 
 export default function Rightbar() {
     const dispatch = useAppDispatch()
