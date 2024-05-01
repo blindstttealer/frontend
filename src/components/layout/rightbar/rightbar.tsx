@@ -4,15 +4,17 @@ import Image from "next/image";
 import {useAppDispatch, useAppSelector} from "@/store/features/hooks";
 import {IRecipeInitialState} from "@/store/features/recipes/recipes.types";
 import {setSortMode, setViewMode} from "@/store/features/recipes/recipes.slice";
+import { useRouter } from "next/navigation";
 
 export default function Rightbar() {
     const dispatch = useAppDispatch()
+    const router = useRouter()
     const recipeState = useAppSelector((state) => state.recipesFeed)
 
     return (
         <div className={styles.rightbar}>
             <div className={styles.publish}>
-                <button>
+                <button onClick={() => router.push("add-new-recipe")}>
                     <span>Опубликовать</span>
                     <Image src='/img/rightbar/plus.png' alt='plus' width={22} height={22}/>
                 </button>

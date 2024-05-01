@@ -17,7 +17,7 @@ import { Loader } from "@/components/ui/Loader/Loader"
 import { PatternFormat } from 'react-number-format'
 import { useAppDispatch, useAppSelector } from "@/store/features/hooks";
 import { fetchDataUser, fetchFormDataUser } from "@/store/features/user/user.actions";
-import { IDataForm } from "./user-data-fors.types";
+import { IDataForm } from "./user-data-form.types";
 
 
 

@@ -17,7 +17,7 @@
 .primary:hover {
 	background: var(--button-hover);
 }
-.primary:focus {
+.primary:active {
 	background: var(--button-press);
 }
 .secondary {
@@ -30,7 +30,7 @@
 	border-color: var(--button-hover);
 	color: var(--base-color);
 }
-.secondary:focus {
+.secondary:active {
 	background: var(--button-press);
 	border-color: var(--button-hover);
 	color: var(--base-color);
@@ -54,7 +54,7 @@
 }
 
 .medium {
-	padding: 8px 40px;
+	 padding: 8px 0px;
 }
 
 .big {

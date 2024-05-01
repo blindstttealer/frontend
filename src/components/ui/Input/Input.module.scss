@@ -1,6 +1,6 @@
 .input {
 	border-radius: 12px;
-	border: 1px solid #dbdade;
+	border: 1px solid var(--input-stroke);
 	outline: none;
 	padding: 12px 14px;
 	transition: all 0.3s ease-in-out;
