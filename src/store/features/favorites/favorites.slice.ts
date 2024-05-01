@@ -1,94 +1,57 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { fetchGetFavorites } from './favorite.actions'
-import { AxiosError } from 'axios'
+import { IRecipe } from '../recipes/recipes.types'
 
+export interface IFetchListData {
+  count: number
+  next: string
+  previous: string
+  results: IRecipe[]
+  detail?: string
+}
 interface IInitialState {
-	favorite: IFavorite
-	isError: null | AxiosError
-	isLoaded: boolean
-	success: boolean
+  fetchData: IFetchListData
+  favorites: IRecipe[]
+  error: null | string
+  isLoading: boolean
+  status: 'idle' | 'pending' | 'success' | 'error'
 }
 
-interface IFavorite {
-	count: number
-	next: string
-	previous: string
-	results: [
-		{
-			id: 1
-			title: string
-			slug: string
-			author: {
-				id: 1
-				username: string
-				display_name: string
-				avatar: null | string
-			}
-			preview: string
-			short_text: string
-			tags: string[]
-			comments_count: number
-			reactions_count: number
-			views_count: number
-			cooking_time: number
-			pub_date?: '2022-01-01T00:00:00Z'
-		},
-	]
-	detail?: string
-}
-
-const initialState: IInitialState = {
-	favorite: {
-		count: 1,
-		next: '',
-		previous: '',
-		results: [
-			{
-				id: 1,
-				title: '',
-				slug: '',
-				author: {
-					id: 1,
-					username: '',
-					display_name: '',
-					avatar: null,
-				},
-				preview: '',
-				short_text: '',
-				tags: [],
-				comments_count: 10,
-				reactions_count: 10,
-				views_count: 100,
-				cooking_time: 30,
-				pub_date: '2022-01-01T00:00:00Z',
-			},
-		],
-	},
-
-	isError: null,
-	isLoaded: true,
-	success: false,
+export const initialState: IInitialState = {
+  fetchData: {
+    count: 1,
+    next: '',
+    previous: '',
+    results: [],
+  },
+  favorites: [],
+  error: null,
+  isLoading: false,
+  status: 'idle',
 }
 
 const getFavorite = createSlice({
-	name: 'getFavorite',
-	initialState,
-	reducers: {},
-	extraReducers: (builder) => {
-		builder
-			.addCase(fetchGetFavorites.pending, (state) => {
-				state.isLoaded = false
-				state.isError = null
-			})
-			.addCase(fetchGetFavorites.fulfilled, (state, action) => {
-				// action payload may be {detail: ""} or initialState{}
-				state.favorite = action.payload
-			})
-			.addCase(fetchGetFavorites.rejected, (state, action) => {
-				// @ts-ignore
-				state.isError = action.payload
-			})
-	},
+  name: 'getFavorite',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchGetFavorites.pending, (state) => {
+        state.isLoading = true
+        state.status = 'pending'
+      })
+      .addCase(fetchGetFavorites.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.status = 'success'
+        state.fetchData = action.payload
+        state.favorites = [...state.favorites, ...action.payload.results]
+      })
+      .addCase(fetchGetFavorites.rejected, (state, action) => {
+        state.isLoading = false
+        state.status = 'error'
+        state.error = action.error.message ?? null
+      })
+  },
 })
 
 export default getFavorite.reducer

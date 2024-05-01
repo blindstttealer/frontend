@@ -1,0 +1,28 @@
+.view {
+  h3 {
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 24px;
+  }
+
+  div {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 16px;
+    column-gap: 12px;
+
+    button {
+      cursor: pointer;
+      padding: 8px 16px;
+      background: transparent;
+      border: 2px solid #000;
+      font-size: 14px;
+      font-weight: 400;
+      transition: all 0.1s ease-in-out;
+
+      &.active {
+        border-color: #5023eb;
+      }
+    }
+  }
+}

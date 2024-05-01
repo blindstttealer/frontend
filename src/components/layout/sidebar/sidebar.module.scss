@@ -20,12 +20,29 @@
 }
 
 .active {
-  color: #4BC185;
+  color: #4bc185;
 }
 
 .hr {
   margin: 24px 0;
-  border: 1px solid #B7B7B7;
+  border: 1px solid #b7b7b7;
+}
+
+.link {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px 24px 10px;
+  background: transparent;
+  transition: all 0.2s ease-in-out;
+
+  p {
+    color: black;
+    font-size: 14px;
+  }
+
+  &:active {
+    background-color: rgb(58, 25, 175);
+  }
 }
 
 .button {
@@ -35,7 +52,7 @@
   border: 1px solid #000;
   background: transparent;
   font-size: 16px;
-  transition: all .2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 
   &:active {
     background-color: rgb(58, 25, 175);
@@ -50,10 +67,9 @@
     margin-bottom: 16px;
 
     &:nth-child(2) {
-      margin-bottom: 46px
+      margin-bottom: 46px;
     }
   }
-
 }
 
 .mobileApp {
@@ -66,6 +82,6 @@
 
   p {
     flex-wrap: wrap;
-    color: #B7B7B7;
+    color: #b7b7b7;
   }
 }
