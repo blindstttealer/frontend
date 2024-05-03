@@ -50,11 +50,13 @@ const getFavorite = createSlice({
         state.isLoading = false
         state.status = 'success'
         state.fetchData = action.payload
-        const newItems = action.payload.results.map((recipe: IRecipe) => ({
-          ...recipe,
-          // поля is_favorite нет в результатах запроса. Добавлено для универсальности использования компонента Recipe в списке рецептов и закладках
-          is_favorite: true,
-        }))
+        const newItems = Array.isArray(action.payload.results)
+          ? action.payload.results.map((recipe: IRecipe) => ({
+              ...recipe,
+              // поля is_favorite нет в результатах запроса. Добавлено для универсальности использования компонента Recipe в списке рецептов и закладках
+              is_favorite: true,
+            }))
+          : []
         state.favorites = [...state.favorites, ...newItems]
       })
       .addCase(fetchGetFavorites.rejected, (state, action) => {

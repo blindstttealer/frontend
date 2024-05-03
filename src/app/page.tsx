@@ -10,6 +10,7 @@ import { useRecipes } from "@/hooks/useRecipes";
 import { fetchFeedPagesDynamic } from "@/store/features/recipes/recipes.actions";
 import { Loader } from "@/components/ui/Loader/Loader";
 import { useAuth } from "@/hooks/useAuth";
+import EmptyRecipeList from "@/components/ui/RecipeList/EmptyRecipeList";
 
 export default function Home() {
     const { isAuth } = useAuth()
@@ -78,7 +79,7 @@ export default function Home() {
                         {recipes?.isLoading ? <Loader />
                             : recipes.sort === "subscribe" && !isAuth ? <div>Авторизуйтесь :(</div> :
                                 !recipe?.length &&
-                                <div>Рецептов нет :(</div>}
+                                <EmptyRecipeList />}
                     </div>
                 </div>
             </div>

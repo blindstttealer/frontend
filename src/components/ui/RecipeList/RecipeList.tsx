@@ -1,10 +1,12 @@
 'use client'
+
 import RecipeCard from '@/components/ui/RecipeCard/RecipeCard'
 import { IRecipe } from '@/store/features/recipes/recipes.types'
 import styles from './RecipeList.module.scss'
 import { FC, useEffect, useRef, useState } from 'react'
 import { useAppSelector } from '@/store/features/hooks'
 import { RecipeListDispatcher } from '@/hooks/useFavorites'
+import EmptyRecipeList from './EmptyRecipeList'
 
 const RecipeList: FC<{ dispatcher: RecipeListDispatcher }> = ({
   dispatcher,
@@ -49,13 +51,17 @@ const RecipeList: FC<{ dispatcher: RecipeListDispatcher }> = ({
       {status === 'error' && <p>error {error}</p>}
 
       <div className={containerStyles.join(' ')}>
-        {recipies?.map((recipe: IRecipe) => (
-          <RecipeCard
-            key={recipe.id}
-            recipe={recipe}
-            refreshListOnRemoveFromFavorites={true}
-          />
-        ))}
+        {recipies?.length ? (
+          recipies?.map((recipe: IRecipe) => (
+            <RecipeCard
+              key={recipe.id}
+              recipe={recipe}
+              refreshListOnRemoveFromFavorites={true}
+            />
+          ))
+        ) : (
+          <EmptyRecipeList/>
+        )}
       </div>
 
       <div ref={loaderRef}>{isLoading && <p>Loading...</p>}</div>
