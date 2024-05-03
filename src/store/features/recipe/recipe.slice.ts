@@ -38,7 +38,7 @@ const recipeFeed = createSlice({
         state.error = action.payload
       })
 
-      // fetch remore reom favorites
+      // fetch remove from favorites
       .addCase(fetchRemoveFromFavorites.pending, (state, action) => {
         state.isLoading = true
       })

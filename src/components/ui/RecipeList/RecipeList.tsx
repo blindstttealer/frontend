@@ -6,17 +6,16 @@ import { FC, useEffect, useRef, useState } from 'react'
 import { useAppSelector } from '@/store/features/hooks'
 import { RecipeListDispatcher } from '@/hooks/useFavorites'
 
-const RecipeList: FC<{
-  dispatcher: RecipeListDispatcher
-}> = ({ dispatcher }) => {
+const RecipeList: FC<{ dispatcher: RecipeListDispatcher }> = ({
+  dispatcher,
+}) => {
   const loaderRef = useRef(null)
   const { view } = useAppSelector((state) => state.recipesFeed)
   const [containerStyles, setContainerStyles] = useState<string[]>([
     styles.wrapper,
   ])
 
-  const { recipies, loadNextPageRef, isLoading, status, error } =
-    dispatcher()
+  const { recipies, loadNextPageRef, isLoading, status, error } = dispatcher()
 
   // отслеживаем скроллинг и догружаем элементы списка
   useEffect(() => {
@@ -51,7 +50,11 @@ const RecipeList: FC<{
 
       <div className={containerStyles.join(' ')}>
         {recipies?.map((recipe: IRecipe) => (
-          <RecipeCard key={recipe.id} recipe={recipe} />
+          <RecipeCard
+            key={recipe.id}
+            recipe={recipe}
+            refreshListOnRemoveFromFavorites={true}
+          />
         ))}
       </div>
 

@@ -7,18 +7,21 @@ import {
   fetchAddToFavorites,
   fetchRemoveFromFavorites,
 } from '@/store/features/recipe/recipe.actions'
+import { removeFromList } from '@/store/features/favorites/favorites.slice'
 
 interface IRecipeCard {
   recipe: IRecipe
+  refreshListOnRemoveFromFavorites?: boolean
 }
 
-export default function RecipeCard({ recipe }: IRecipeCard) {
+export default function RecipeCard({ recipe, refreshListOnRemoveFromFavorites: refreshListOnDelete }: IRecipeCard) {
   const { timeAgo, formattedDate } = useData(recipe.pub_date)
   const dispatch = useAppDispatch()
 
-  const addToFavoriteHandler = () => {
+  const changeIsFavoriteHandler = () => {
     if (recipe.is_favorite) {
       dispatch(fetchRemoveFromFavorites(recipe.slug))
+      refreshListOnDelete && dispatch(removeFromList({slug: recipe.slug}))
     } else {
       dispatch(fetchAddToFavorites(recipe.slug))
     }
@@ -69,9 +72,12 @@ export default function RecipeCard({ recipe }: IRecipeCard) {
         ) : (
           <div className={styles.notPreview}></div>
         )}
-        <button className={styles.previewSave} onClick={addToFavoriteHandler}>
+        <button
+          className={styles.previewSave}
+          onClick={changeIsFavoriteHandler}
+        >
           <Image
-            src="/img/recipe-card/save.png"
+            src={`/img/recipe-card/${recipe.is_favorite ? 'save-filled.svg' : 'save.svg'}`}
             alt="save"
             width={26}
             height={26}

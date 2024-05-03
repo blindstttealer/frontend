@@ -9,9 +9,7 @@ interface ValidationError {
 
 export const fetchGetFavorites = createAsyncThunk(
   'getFavorite/fetchGetFavorite',
-  async ({page, url1}: { page?: number, url1?: string }, { rejectWithValue }) => {
-    const url = url1 || `recipe/favorites/?page=${page || 1}`
-
+  async (url: string, { rejectWithValue }) => {
     try {
       const res = await instanceAxios({
         method: 'GET',

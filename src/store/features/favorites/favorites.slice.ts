@@ -33,7 +33,13 @@ export const initialState: IInitialState = {
 const getFavorite = createSlice({
   name: 'getFavorite',
   initialState,
-  reducers: {},
+  reducers: {
+    removeFromList: (state, action) => {
+      state.favorites = state.favorites.filter(
+        (el) => el.slug !== action.payload.slug,
+      )
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchGetFavorites.pending, (state) => {
@@ -44,7 +50,12 @@ const getFavorite = createSlice({
         state.isLoading = false
         state.status = 'success'
         state.fetchData = action.payload
-        state.favorites = [...state.favorites, ...action.payload.results]
+        const newItems = action.payload.results.map((recipe: IRecipe) => ({
+          ...recipe,
+          // поля is_favorite нет в результатах запроса. Добавлено для универсальности использования компонента Recipe в списке рецептов и закладках
+          is_favorite: true,
+        }))
+        state.favorites = [...state.favorites, ...newItems]
       })
       .addCase(fetchGetFavorites.rejected, (state, action) => {
         state.isLoading = false
@@ -54,4 +65,5 @@ const getFavorite = createSlice({
   },
 })
 
+export const { removeFromList } = getFavorite.actions
 export default getFavorite.reducer
