@@ -8,7 +8,6 @@ import RecipeCard from "@/components/ui/RecipeCard/RecipeCard";
 import { IRecipe } from "@/store/features/recipes/recipes.types";
 import { useRecipes } from "@/hooks/useRecipes";
 import { fetchFeedPagesDynamic } from "@/store/features/recipes/recipes.actions";
-import Image from "next/image";
 import { Loader } from "@/components/ui/Loader/Loader";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -16,12 +15,21 @@ export default function Home() {
     const { isAuth } = useAuth()
     const recipe = useRecipes()
     const recipes = useAppSelector((state) => state.recipesFeed)
+    const { view } = useAppSelector((state) => state.recipesFeed)
     const dispatch = useAppDispatch();
+    const [containerStyles, setContainerStyles] = useState<string[]>([
+        styles.wrapper,
+    ])
 
-    // console.log("recipes: ", recipes)
-    // console.log("recipe: ", recipe)
-
-    const [isScroll, setIsScroll] = useState(false); // Флаг загрузки
+    const [isScroll, setIsScroll] = useState(false); // Флаг 
+    
+    useEffect(() => {
+        const newStyles = [styles.wrapper]
+        if (view === 'tile') {
+          newStyles.push(styles.tile)
+        }
+        setContainerStyles(newStyles)
+      }, [view])
 
     useEffect(() => {
         const handleScroll = () => {
@@ -62,12 +70,10 @@ export default function Home() {
         <Layout isSearch={true}>
             <div style={{ padding: '0 20px' }}>
                 <div className="container">
-                    <div className={styles.recipesContainer}>
+                    <div className={containerStyles.join(' ')}>
                         {recipe?.length &&
                             recipe?.map((recipe: IRecipe) => (
-                                <div key={recipe.id}>
-                                    <RecipeCard recipe={recipe} />
-                                </div>
+                                <RecipeCard key={recipe.id} recipe={recipe} />
                             ))}
                         {recipes?.isLoading ? <Loader />
                             : recipes.sort === "subscribe" && !isAuth ? <div>Авторизуйтесь :(</div> :

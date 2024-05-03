@@ -16,11 +16,14 @@
   margin-top: 24px;
 }
 
-.recipesContainer {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px
+.wrapper {
+  display: grid;
+  row-gap: 24px;
+  column-gap: 12px;
+
+  &.tile {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 //.feed {
