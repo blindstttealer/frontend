@@ -100,7 +100,7 @@ export default function RecipeCard({ recipe, refreshListOnRemoveFromFavorites: r
               height={24}
               draggable={false}
             />
-            {recipe.total_reactions_count}
+            {recipe.reactions_count}
           </button>
           <button>
             <Image
@@ -110,7 +110,7 @@ export default function RecipeCard({ recipe, refreshListOnRemoveFromFavorites: r
               height={24}
               draggable={false}
             />
-            {recipe.total_comments_count}
+            {recipe.comments_count}
           </button>
           <button>
             <Image
@@ -132,7 +132,7 @@ export default function RecipeCard({ recipe, refreshListOnRemoveFromFavorites: r
               height={24}
               draggable={false}
             />
-            {recipe.total_views_count}
+            {recipe.views_count}
           </button>
         </div>
       </div>
