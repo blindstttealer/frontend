@@ -16,9 +16,9 @@ export interface IRecipe {
     pub_date: string;
     tag: any[];
     cooking_time: number;
-    total_comments_count: number;
-    total_views_count: number;
-    total_reactions_count: number;
+    comments_count: number;
+    views_count: number;
+    reactions_count: number;
     reactions: any[];
     activity_count: number;
     is_favorite: boolean
