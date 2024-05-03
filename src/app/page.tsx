@@ -10,6 +10,7 @@ import { useRecipes } from "@/hooks/useRecipes";
 import { fetchFeedPagesDynamic } from "@/store/features/recipes/recipes.actions";
 import { Loader } from "@/components/ui/Loader/Loader";
 import { useAuth } from "@/hooks/useAuth";
+import EmptyRecipeList from "@/components/ui/RecipeList/EmptyRecipeList";
 
 export default function Home() {
     const { isAuth } = useAuth()
@@ -31,10 +32,11 @@ export default function Home() {
         setContainerStyles(newStyles)
       }, [view])
 
+    //todo: плохая реализация: трата ресурсов на обработку каджого скрола + утечка памяти из-за отсутствия отписок на событие   
     useEffect(() => {
         const handleScroll = () => {
-            // Проверка на загрузку и достижение нижней части страницы
-            if (isScroll || window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) return;
+            // Проверка на загрузку и достижение нижней части страницы. Добавил 10px для надежного распознавания конца страницы
+            if (isScroll || window.innerHeight + document.documentElement.scrollTop + 10 < document.documentElement.offsetHeight) return;
 
             setIsScroll(true); // Установка флага загрузки
 
@@ -78,7 +80,7 @@ export default function Home() {
                         {recipes?.isLoading ? <Loader />
                             : recipes.sort === "subscribe" && !isAuth ? <div>Авторизуйтесь :(</div> :
                                 !recipe?.length &&
-                                <div>Рецептов нет :(</div>}
+                                <EmptyRecipeList />}
                     </div>
                 </div>
             </div>
