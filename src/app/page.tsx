@@ -32,10 +32,11 @@ export default function Home() {
         setContainerStyles(newStyles)
       }, [view])
 
+    //todo: плохая реализация: трата ресурсов на обработку каджого скрола + утечка памяти из-за отсутствия отписок на событие   
     useEffect(() => {
         const handleScroll = () => {
-            // Проверка на загрузку и достижение нижней части страницы
-            if (isScroll || window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) return;
+            // Проверка на загрузку и достижение нижней части страницы. Добавил 10px для надежного распознавания конца страницы
+            if (isScroll || window.innerHeight + document.documentElement.scrollTop + 10 < document.documentElement.offsetHeight) return;
 
             setIsScroll(true); // Установка флага загрузки
 
