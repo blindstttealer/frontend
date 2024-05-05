@@ -1,10 +1,7 @@
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import Image from 'next/image'
 import styles from './Reactions.module.scss'
 import { useGetRecipeReactionsQuery } from '@/store/features/reactions/reactions.actions'
-import { useAppDispatch, useAppSelector } from '@/store/features/hooks'
-import { RootState } from '@reduxjs/toolkit/query'
-import { useSelector } from 'react-redux'
 
 interface ReactionsProps {
   slug: string
@@ -13,25 +10,21 @@ interface ReactionsProps {
 const Reactions: FC<ReactionsProps> = ({ slug }) => {
   const { data } = useGetRecipeReactionsQuery(slug)
   const { reactions } = data ?? {}
-  const dispatch = useAppDispatch()
-
-  // const count = useAppSelector((state) => state.recipeReactions)
-  console.log('count', reactions)
 
   const onHeartClick = () => {
     console.log('heart')
   }
 
   const onLikeClick = () => {
-    console.log('up')
+    console.log('like')
   }
 
   const onDislikeClick = () => {
-    console.log('down')
+    console.log('dislike')
   }
 
   const onFireClick = () => {
-    console.log('ev')
+    console.log('fire')
   }
 
   return (
