@@ -32,7 +32,7 @@ export default function Home() {
         setContainerStyles(newStyles)
       }, [view])
 
-    //todo: плохая реализация: трата ресурсов на обработку каджого скрола + утечка памяти из-за отсутствия отписок на событие   
+    //todo: плохая реализация: трата ресурсов на обработку каждого скрола + утечка памяти из-за отсутствия отписок на событие   
     useEffect(() => {
         const handleScroll = () => {
             // Проверка на загрузку и достижение нижней части страницы. Добавил 10px для надежного распознавания конца страницы
@@ -70,8 +70,7 @@ export default function Home() {
 
     return (
         <Layout isSearch={true}>
-            <div style={{ padding: '0 20px' }}>
-                <div className="container">
+                <div className={styles.container}>
                     <div className={containerStyles.join(' ')}>
                         {recipe?.length &&
                             recipe?.map((recipe: IRecipe) => (
@@ -83,7 +82,6 @@ export default function Home() {
                                 <EmptyRecipeList />}
                     </div>
                 </div>
-            </div>
         </Layout>
     )
 }
