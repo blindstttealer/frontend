@@ -1,5 +1,14 @@
 .recipesContainer {
-  padding: 0 20px;
+  padding: 0 20px 0 10px;
+  // высота экрана за вычетом шапки (~140px)
+  height: calc(100vh - 140px);
+  overflow-y: auto;
+  transform: rotateY(180deg);
+  scrollbar-width: thin;
+
+  &>div {
+    transform: rotateY(-180deg);
+  }
 }
 
 .rightbar {
