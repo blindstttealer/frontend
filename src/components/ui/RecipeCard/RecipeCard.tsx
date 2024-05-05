@@ -1,3 +1,4 @@
+import { FC } from 'react'
 import { IRecipe } from '@/store/features/recipes/recipes.types'
 import Image from 'next/image'
 import styles from './RecipeCard.module.scss'
@@ -8,20 +9,25 @@ import {
   fetchRemoveFromFavorites,
 } from '@/store/features/recipe/recipe.actions'
 import { removeFromList } from '@/store/features/favorites/favorites.slice'
+import Reactions from '@/components/ui/Reactions/Reactions'
+import Popup from '@/components/ui/Popup/Popup'
 
-interface IRecipeCard {
+interface RecipeCardProps {
   recipe: IRecipe
   refreshListOnRemoveFromFavorites?: boolean
 }
 
-export default function RecipeCard({ recipe, refreshListOnRemoveFromFavorites: refreshListOnDelete }: IRecipeCard) {
+const RecipeCard: FC<RecipeCardProps> = ({
+  recipe,
+  refreshListOnRemoveFromFavorites: refreshListOnDelete,
+}) => {
   const { timeAgo, formattedDate } = useData(recipe.pub_date)
   const dispatch = useAppDispatch()
 
   const changeIsFavoriteHandler = () => {
     if (recipe.is_favorite) {
       dispatch(fetchRemoveFromFavorites(recipe.slug))
-      refreshListOnDelete && dispatch(removeFromList({slug: recipe.slug}))
+      refreshListOnDelete && dispatch(removeFromList({ slug: recipe.slug }))
     } else {
       dispatch(fetchAddToFavorites(recipe.slug))
     }
@@ -92,19 +98,24 @@ export default function RecipeCard({ recipe, refreshListOnRemoveFromFavorites: r
       </div>
       <div className={styles.footer}>
         <div className={styles.footerLeft}>
+          <Popup
+            Content={() => (
+              <button className={styles.like}>
+                <Image
+                  src="/img/recipe-card/like.svg"
+                  alt="like button"
+                  width={24}
+                  height={24}
+                  draggable={false}
+                />
+                {recipe.reactions_count}
+              </button>
+            )}
+            Tooltip={() => <Reactions slug={recipe.slug} />}
+          />
           <button>
             <Image
-              src="/img/recipe-card/like.png"
-              alt="like button"
-              width={24}
-              height={24}
-              draggable={false}
-            />
-            {recipe.reactions_count}
-          </button>
-          <button>
-            <Image
-              src="/img/recipe-card/comment.png"
+              src="/img/recipe-card/comment.svg"
               alt="comment button"
               width={24}
               height={24}
@@ -114,7 +125,7 @@ export default function RecipeCard({ recipe, refreshListOnRemoveFromFavorites: r
           </button>
           <button>
             <Image
-              src="/img/recipe-card/share.png"
+              src="/img/recipe-card/share.svg"
               alt="share button"
               width={24}
               height={24}
@@ -126,7 +137,7 @@ export default function RecipeCard({ recipe, refreshListOnRemoveFromFavorites: r
         <div className={styles.footerRight}>
           <button>
             <Image
-              src="/img/recipe-card/views.png"
+              src="/img/recipe-card/views.svg"
               alt="views"
               width={24}
               height={24}
@@ -139,3 +150,5 @@ export default function RecipeCard({ recipe, refreshListOnRemoveFromFavorites: r
     </div>
   )
 }
+
+export default RecipeCard
