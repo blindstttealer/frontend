@@ -1,17 +1,19 @@
 $border-color: rgba(0, 0, 0, 1);
 
 .wrapper {
+  position: relative;
+  display: inline-block;
+
   .tooltip {
     position: absolute;
     opacity: 0;
     visibility: hidden;
 
-    transition: all ease-out 0.15s;
+    transition: all ease-out 0.3s;
     box-shadow: none;
 
-    bottom: 82%;
-    margin-bottom: 26px;
-    left: -16px;
+    bottom: 36px;
+    left: calc(50% - 54px);
 
     background-color: #fff;
     color: black;
