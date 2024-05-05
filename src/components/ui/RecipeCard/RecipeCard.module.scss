@@ -1,6 +1,6 @@
 .recipe {
   border-radius: 12px;
-  border: 1px solid #6C8777;
+  border: 1px solid #6c8777;
   padding: 16px;
   width: 100%;
 
@@ -11,7 +11,7 @@
   .header {
     display: flex;
     flex-direction: row;
-    justify-content: flex-end; // было end - в консоли были ошибки
+    justify-content: flex-end;
     gap: 16px;
 
     > button {
@@ -21,28 +21,47 @@
       padding: 0;
     }
   }
-
 }
 
 .user {
-  display: flex;
-  justify-content: space-between;
+  container: header / inline-size;
 
-  .userLeft {
+  .userWrapper {
     display: flex;
-    align-items: center;
-    font-size: 14px;
-    gap: 8px;
+    justify-content: space-between;
+
+    .userLeft {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      gap: 8px;
+    }
+
+    .userRight {
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
   }
 
-  .userRight {
-    font-size: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end; // было end - в консоли были ошибки
+  // правила для рецептов в режиме 3х колонок
+  @container header (width < 600px) {
+    div {
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    div div:first-child {
+      flex-direction: row;
+    }
+
+    div div:last-child {
+      flex-direction: row !important;
+      justify-content: space-between;
+    }
   }
 }
-
 
 .preview {
   margin-top: 24px;
@@ -52,7 +71,7 @@
   .notPreview {
     width: 100%;
     height: 300px;
-    background: #8B8B8B;
+    background: #8b8b8b;
     border-radius: 12px;
   }
 
@@ -75,7 +94,6 @@
     top: 16px;
     left: 18px;
   }
-
 
   .previewTime {
     position: absolute;
@@ -104,10 +122,10 @@
 }
 
 .footer {
+  container: footer / inline-size;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-end; // было end - в консоли были ошибки
 
   .footerLeft {
     display: flex;
@@ -124,7 +142,7 @@
       outline: none;
       background: none;
       font-size: 18px;
-      gap: 6px;
+      gap: 8px;
     }
   }
 
@@ -143,6 +161,13 @@
       background: none;
       font-size: 18px;
       gap: 6px;
+    }
+  }
+
+  // правила для рецептов в режиме 3х колонок
+  @container footer (width < 600px) {
+    div:first-child {
+      gap: 12px;
     }
   }
 }

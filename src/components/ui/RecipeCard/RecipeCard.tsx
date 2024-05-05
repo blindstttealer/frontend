@@ -36,25 +36,26 @@ const RecipeCard: FC<RecipeCardProps> = ({
   return (
     <div className={styles.recipe}>
       <div className={styles.user}>
-        <div className={styles.userLeft}>
-          {recipe.id}
-          {/*проверка на аватарку*/}
-          {/*{recipe?.author?.avatar ?*/}
-          {/*    <Image src={recipe.author.avatar} alt='avatar' width={30} height={30} draggable={false}/> :*/}
-          {/*    <Image src='/img/recipe-card/profile.png' alt='avatar' width={30} height={30}*/}
-          {/*           draggable={false}/>}*/}
-          <Image
-            src="/img/recipe-card/profile.png"
-            alt="avatar"
-            width={30}
-            height={30}
-            draggable={false}
-          />
-          <p>{recipe.author.username}</p>
-        </div>
-        <div className={styles.userRight}>
-          <p>{formattedDate}</p>
-          <p>{timeAgo}</p>
+        <div className={styles.userWrapper}>
+          <div className={styles.userLeft}>
+            {/*проверка на аватарку*/}
+            {/*{recipe?.author?.avatar ?*/}
+            {/*    <Image src={recipe.author.avatar} alt='avatar' width={30} height={30} draggable={false}/> :*/}
+            {/*    <Image src='/img/recipe-card/profile.png' alt='avatar' width={30} height={30}*/}
+            {/*           draggable={false}/>}*/}
+            <Image
+              src="/img/recipe-card/profile.svg"
+              alt="avatar"
+              width={30}
+              height={30}
+              draggable={false}
+            />
+            <p>{recipe.author.username}</p>
+          </div>
+          <div className={styles.userRight}>
+            <p>{formattedDate}</p>
+            <p>{timeAgo}</p>
+          </div>
         </div>
       </div>
       <div className={styles.preview}>
