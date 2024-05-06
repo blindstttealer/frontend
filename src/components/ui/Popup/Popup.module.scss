@@ -1,0 +1,52 @@
+$border-color: rgba(0, 0, 0, 1);
+
+.wrapper {
+  position: relative;
+  display: inline-block;
+
+  .tooltip {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+
+    transition: all ease-out 0.3s;
+    box-shadow: none;
+
+    bottom: 36px;
+    left: calc(50% - 54px);
+
+    background-color: #fff;
+    color: black;
+    text-align: center;
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid $border-color;
+
+    z-index: 998;
+
+    // клювик внизу tooltip
+    &::after {
+      content: '';
+
+      position: absolute;
+      transform: translateY(-50%) rotate(-45deg);
+
+      width: 10px;
+      height: 10px;
+      top: 100%;
+      left: 38px;
+
+      background-color: #fff;
+
+      border: 1px solid transparent;
+      border-left-color: $border-color;
+      border-bottom-color: $border-color;
+      z-index: 999;
+    }
+  }
+
+  &:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+  }
+}

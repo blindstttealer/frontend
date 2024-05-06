@@ -1,7 +1,7 @@
-import axios from 'axios'
+import { BaseQueryFn } from '@reduxjs/toolkit/query'
+import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 
-//todo: все константы перенести в отдельный файл и заполнять из process.env
-export const BASE_URL =  'http://127.0.0.1:8000/api/v1/'
+export const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://127.0.0.1:8000/api/v1/'
 
 export const instanceAxios = axios.create({
   baseURL: BASE_URL,
@@ -79,3 +79,39 @@ instanceAxios.interceptors.response.use(
     return Promise.reject(error)
   },
 )
+
+//todo: проверить отработку ошибок
+
+// для использования в RTK
+export const axiosBaseQuery =
+  (): BaseQueryFn<
+    {
+      url: string
+      method?: AxiosRequestConfig['method']
+      data?: AxiosRequestConfig['data']
+      params?: AxiosRequestConfig['params']
+      headers?: AxiosRequestConfig['headers']
+    },
+    unknown,
+    unknown
+  > =>
+  async ({ url, method, data, params, headers }) => {
+    try {
+      const result = await instanceAxios({
+        url: BASE_URL + url,
+        method,
+        data,
+        params,
+        headers,
+      })
+      return { data: result.data }
+    } catch (axiosError) {
+      const err = axiosError as AxiosError
+      return {
+        error: {
+          status: err.response?.status,
+          data: err.response?.data || err.message,
+        },
+      }
+    }
+  }

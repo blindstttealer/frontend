@@ -1,7 +1,6 @@
 'use client'
 
 import RecipeCard from '@/components/ui/RecipeCard/RecipeCard'
-import { IRecipe } from '@/store/features/recipes/recipes.types'
 import styles from './RecipeList.module.scss'
 import { FC, useEffect, useRef, useState } from 'react'
 import { useAppSelector } from '@/store/features/hooks'
@@ -52,7 +51,7 @@ const RecipeList: FC<{ dispatcher: RecipeListDispatcher }> = ({
 
       <div className={containerStyles.join(' ')}>
         {recipies?.length ? (
-          recipies?.map((recipe: IRecipe) => (
+          recipies?.map((recipe) => (
             <RecipeCard
               key={recipe.id}
               recipe={recipe}
@@ -60,7 +59,7 @@ const RecipeList: FC<{ dispatcher: RecipeListDispatcher }> = ({
             />
           ))
         ) : (
-          <EmptyRecipeList/>
+          <EmptyRecipeList />
         )}
       </div>
 
