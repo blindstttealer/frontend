@@ -1,7 +1,8 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/query'
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 
-export const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://127.0.0.1:8000/api/v1/'
+export const BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://127.0.0.1:8000/api/v1/'
 
 export const instanceAxios = axios.create({
   baseURL: BASE_URL,
@@ -19,7 +20,6 @@ const urlsSkipAuth = [
   'auth/users/',
   'auth/jwt/create/',
   'feed/',
-  'feed/?ordering=-activity_count',
 ]
 
 instanceAxios.interceptors.request.use(
@@ -28,10 +28,13 @@ instanceAxios.interceptors.request.use(
       // console.log("сработал перехватчик на запрос");
       return config
     }
-    config.headers.Authorization = `Bearer ${localStorage.getItem(
-      'access_token_svd',
-    )}`
-    // console.log("сработал перехватчик на POST устанавливает токен");
+    
+    const authToken = localStorage.getItem('access_token_svd')
+    if (authToken) {
+      config.headers.Authorization = `Bearer ${authToken}`
+      // console.log("сработал перехватчик на POST устанавливает токен");
+    }
+    
     return config
   },
   (error) => {
