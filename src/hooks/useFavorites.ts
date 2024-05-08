@@ -1,15 +1,17 @@
 import { useAppDispatch, useAppSelector } from '@/store/features/hooks'
-import { MutableRefObject, useEffect, useRef, useState } from 'react'
+import { MutableRefObject, useEffect, useRef } from 'react'
 import { fetchGetFavorites } from '@/store/features/favorites/favorite.actions'
 import { IFetchListData } from '@/store/features/favorites/favorites.slice'
 import { IRecipe } from '@/store/features/recipe/recipe.types'
+import { QueryStatus } from '@reduxjs/toolkit/query'
 
 export type RecipeListDispatcher = () => {
   isLoading: boolean
-  status: 'success' | 'pending' | 'error' | 'idle'
-  error: string | null
-  fetchData: IFetchListData
-  recipies: IRecipe[]
+  isFetching?: boolean
+  status?: QueryStatus
+  error: any
+  fetchData?: IFetchListData
+  recipies?: IRecipe[]
   loadNextPageRef: MutableRefObject<() => void>
 }
 

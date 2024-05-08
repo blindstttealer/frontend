@@ -41,3 +41,10 @@ export interface IRecipeInitialState {
     isLoading: boolean,
     flag: boolean,
 }
+export interface IFetchListData {
+  count: number
+  next: string
+  previous: string
+  results: IRecipe[]
+  detail?: string
+}
