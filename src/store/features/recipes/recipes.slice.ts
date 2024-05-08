@@ -6,6 +6,7 @@ import {
     fetchFeedSubscriptions
 } from "@/store/features/recipes/recipes.actions";
 
+export type RecipeView = 'feed' | 'tile'
 interface IInitialState {
     recipes: {
         feed: {
@@ -24,7 +25,7 @@ interface IInitialState {
             nextPage: string | null
         },
     },
-    view: 'feed' | 'tile',
+    view: RecipeView,
     sort: 'default' | 'top' | 'subscribe',
     isError: null | any,
     isLoading: boolean,
