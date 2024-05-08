@@ -1,90 +1,48 @@
 'use client'
 
-import Image from 'next/image'
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import styles from './profile.module.scss'
-import {
-  useGetCurentUserDataQuery,
-  useLazyGetUserDataQuery,
-} from '@/store/features/user/user.actions'
+import { useGetCurentUserDataQuery } from '@/store/features/user/user.actions'
 import Layout from '@/components/layout/layout'
 import { Loader } from '@/components/ui/Loader/Loader'
 import Tabs, { TabData } from '@/components/ui/Tabs/Tabs.module'
 import MyRecipies from '@/components/ui/MyRecipies/MyRecipies'
 import Subscriptions from '@/components/ui/Subscriptions/Subscriptions'
 import Subscribers from '@/components/ui/Subscribers/Subscribers'
-import Button from '@/components/ui/Button/Button'
+import UserCard from '@/components/ui/UserCard/UserCard'
 
 export default function Profile() {
-  const { data: loginedUsedData, isLoading: isLoadingPre } =
-    useGetCurentUserDataQuery()
-
-  const [trigger, { data, error, isError, isLoading, isFetching }] =
-    useLazyGetUserDataQuery()
-
-    // console.log('loginedUsedData', data);
-    
-
-  useEffect(() => {
-    if (loginedUsedData?.username) {
-      trigger(loginedUsedData.username)
-    }
-  }, [loginedUsedData, trigger])
+  const { data, isLoading, error } = useGetCurentUserDataQuery()
 
   const tabs: TabData[] = useMemo(
     () =>
-      loginedUsedData?.username
+      data?.username
         ? [
             {
               label: `Рецепты`,
-              Content: <MyRecipies username={loginedUsedData?.username} />,
+              Content: <MyRecipies username={data?.username} />,
             },
             {
               label: `Мои подписки`,
-              Content: <Subscriptions username={loginedUsedData?.username}/>,
+              Content: <Subscriptions username={data?.username} />,
             },
             {
               label: `Мои подписчики`,
-              Content: <Subscribers username={loginedUsedData?.username}/>,
+              Content: <Subscribers username={data?.username} />,
             },
           ]
         : [],
-    [loginedUsedData?.username],
+    [data?.username],
   )
 
-  const editProfileHandler = () => {
-    console.log('edit profile')
-  }
+  if (error) return <div>{String(error)}</div>
+
+  if (isLoading) <Loader />
 
   return (
     <Layout isSearch={true} rightbar={false}>
       <div className={`${styles.container} scroll scroll--left scroll__thin`}>
-        {isLoadingPre || isLoading ? (
-          <Loader />
-        ) : (
-          <div className={styles.userContainer}>
-            <div className={styles.userFooter}>
-              <Image
-                src={data?.avatar ?? '/img/user-big.svg'}
-                priority={true}
-                width={120}
-                height={120}
-                alt="user image"
-              />
-              <Button onClick={editProfileHandler}>
-                Редактировать профиль
-              </Button>
-            </div>
-            <div className={styles.userCard}>
-              <h2>{data?.display_name}</h2>
-              <div className={styles.userInfo}>
-                <p>город {data?.city}</p>
-                <p>{data?.bio}</p>
-              </div>
-            </div>
-          </div>
-        )}
-
+        <UserCard username={data?.username} />
         <Tabs tabs={tabs} />
       </div>
     </Layout>
