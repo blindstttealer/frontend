@@ -1,41 +1,30 @@
 .container {
-  padding: 0 20px 0 10px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 40px;
 
-  .userContainer {
+  .top {
+    width: 292px;
     display: flex;
     flex-direction: column;
     gap: 16px;
 
-    .userFooter {
+    .buttons {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
 
       button {
-        align-self: flex-start;
         border: none;
         background: none;
-      }
-    }
-
-    .userCard {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-
-      h2 {
         font-size: 18px;
       }
     }
 
-    .userInfo {
+    .calendar {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      font-size: 14px;
+      gap: 24px;
     }
   }
 }

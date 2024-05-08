@@ -6,7 +6,8 @@ import { FC, useEffect, useRef, useState } from 'react'
 import { useAppSelector } from '@/store/features/hooks'
 import { RecipeListDispatcher } from '@/hooks/useFavorites'
 import EmptyRecipeList from './EmptyRecipeList'
-import ListLoader from '../Loaders/ListLoader'
+import ListLoader from '../ListLoader/ListLoader'
+import { ListLoadingError } from '../ListLoadingError/ListLoadingError'
 
 const RecipeList: FC<{ dispatcher: RecipeListDispatcher }> = ({
   dispatcher,
@@ -17,7 +18,7 @@ const RecipeList: FC<{ dispatcher: RecipeListDispatcher }> = ({
     styles.wrapper,
   ])
 
-  const { recipies, loadNextPageRef, isLoading, status, error } = dispatcher()
+  const { recipies, loadNextPageRef, isLoading, error } = dispatcher()
 
   // отслеживаем скроллинг и догружаем элементы списка
   useEffect(() => {
@@ -48,7 +49,7 @@ const RecipeList: FC<{ dispatcher: RecipeListDispatcher }> = ({
 
   return (
     <div className={styles.container}>
-      {error && <p>error {error}</p>}
+      {error && <ListLoadingError error={error} />}
 
       <div className={containerStyles.join(' ')}>
         {recipies?.length ? (
