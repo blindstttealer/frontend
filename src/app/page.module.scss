@@ -17,19 +17,12 @@
 
 .container {
   padding: 0 20px 0 10px;
-  //todo: криво работает подгрузка бесконечного списка - неправильно определяется элемент, на котором надо скролить. Без внутреннего скрола все ОК
-  // высота экрана за вычетом шапки (~140px)
-  height: calc(100vh - 140px);
-  overflow-y: auto;
-  transform: rotateY(180deg);
-  scrollbar-width: thin;
 }
 
 .wrapper {
   display: grid;
   row-gap: 24px;
   column-gap: 12px;
-  transform: rotateY(-180deg);
 
   &.tile {
     grid-template-columns: repeat(3, 1fr);

@@ -8,7 +8,7 @@ import RecipeList from '@/components/ui/RecipeList/RecipeList'
 export default function Favorites() {
   return (
     <Layout isSearch={true} rightbar={false}>
-      <div className={styles.recipesContainer}>
+      <div className={`${styles.recipesContainer} scroll scroll--left scroll__thin`}>
         <RecipeList dispatcher={useFavorites} />
       </div>
       <div className={styles.rightbar}>

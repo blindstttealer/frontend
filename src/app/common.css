@@ -1,0 +1,16 @@
+.scroll {
+  /* высота экрана за вычетом шапки (~140px) */
+  height: calc(100vh - 140px);
+  overflow-y: auto;
+}
+
+.scroll__thin {
+  scrollbar-width: thin;
+}
+
+.scroll--left {
+  transform: rotateY(180deg);
+  & > div {
+    transform: rotateY(-180deg);
+  }
+}
