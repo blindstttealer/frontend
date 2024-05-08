@@ -6,6 +6,7 @@ import styles from './UserCard.module.scss'
 import { useLazyGetUserDataQuery } from '@/store/features/user/user.actions'
 import { Loader } from '@/components/ui/Loader/Loader'
 import Button from '@/components/ui/Button/Button'
+import ProfileAvatar from '../ProfileAvatar/ProfileAvatar'
 
 type Props = {
   username?: string
@@ -32,13 +33,7 @@ const UserCard: FC<Props> = ({ username }) => {
   return (
     <div className={styles.userContainer}>
       <div className={styles.userFooter}>
-        <Image
-          src={data?.avatar ?? '/img/user-big.svg'}
-          priority={true}
-          width={120}
-          height={120}
-          alt="user image"
-        />
+        <ProfileAvatar data={data} />
         <Button onClick={editProfileHandler}>Редактировать профиль</Button>
       </div>
       <div className={styles.userCard}>
