@@ -6,6 +6,7 @@ import { FC, useEffect, useRef, useState } from 'react'
 import { useAppSelector } from '@/store/features/hooks'
 import { RecipeListDispatcher } from '@/hooks/useFavorites'
 import EmptyRecipeList from './EmptyRecipeList'
+import ListLoader from '../Loaders/ListLoader'
 
 const RecipeList: FC<{ dispatcher: RecipeListDispatcher }> = ({
   dispatcher,
@@ -47,7 +48,7 @@ const RecipeList: FC<{ dispatcher: RecipeListDispatcher }> = ({
 
   return (
     <div className={styles.container}>
-      {status === 'error' && <p>error {error}</p>}
+      {error && <p>error {error}</p>}
 
       <div className={containerStyles.join(' ')}>
         {recipies?.length ? (
@@ -61,9 +62,11 @@ const RecipeList: FC<{ dispatcher: RecipeListDispatcher }> = ({
         ) : (
           <EmptyRecipeList />
         )}
+
+        {isLoading && <ListLoader />}
       </div>
 
-      <div ref={loaderRef}>{isLoading && <p>Loading...</p>}</div>
+      <div ref={loaderRef}></div>
     </div>
   )
 }

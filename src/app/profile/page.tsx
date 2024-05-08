@@ -1,53 +1,86 @@
-"use client"
+'use client'
 
-import { useEffect } from 'react'
+import Image from 'next/image'
+import { useEffect, useMemo } from 'react'
 import styles from './profile.module.scss'
-import { useRouter } from 'next/navigation'
-import { useAppDispatch, useAppSelector } from '@/store/features/hooks'
-import { fetchDataUser, fetchDataUserName } from '@/store/features/user/user.actions'
-import { useAuth } from '@/hooks/useAuth'
-import Layout from "@/components/layout/layout";
+import {
+  useGetCurentUserDataQuery,
+  useLazyGetUserDataQuery,
+} from '@/store/features/user/user.actions'
+// import { useAuth } from '@/hooks/useAuth'
+import Layout from '@/components/layout/layout'
+// import { Loader } from '@/components/ui/Loader/Loader'
+import RecipeList from '@/components/ui/RecipeList/RecipeList'
+import Tabs, { TabData } from '@/components/ui/Tabs/Tabs.module'
+import Subscriptions from '@/components/ui/Subscriptions/Subscriptions'
+import Subscribers from '@/components/ui/Subscribers/Subscribers'
+import { getUseMyRecipies } from '@/hooks/useMyRecipies'
 import { Loader } from '@/components/ui/Loader/Loader'
 
 export default function Profile() {
-    const router = useRouter();
-    const dispatch = useAppDispatch();
-    const dataUser = useAppSelector(state => state.userDateMe);
-    // ниже данные с которыми необходимо работать
-    const userNameDataFromAll = useAppSelector(state => state.userName)
-    console.log("userNameDataFromAll", userNameDataFromAll);
+  const { data: loginedUsedData, isLoading: isLoadingPre } =
+    useGetCurentUserDataQuery()
+  // console.log('loginedUsedData', loginedUsedData)
 
-    // @ts-ignore
-    // эту функцию надо тестить это ридерект, если токен протух на страницу авторизации
-    dataUser?.isError?.code && dataUser.isError.code === "token_not_valid" ? router.push('/activate-page') : null
+  const [trigger, { data, error, isError, isLoading, isFetching }] =
+    useLazyGetUserDataQuery()
 
-    /* предварительно рабочий вариант */
+  useEffect(() => {
+    if (loginedUsedData?.username) {
+      trigger(loginedUsedData.username)
+    }
+  }, [loginedUsedData, trigger])
 
-    useEffect(() => {
-        dispatch(fetchDataUser());
-        if (dataUser.success) {
-            dispatch(fetchDataUserName(dataUser.user.username))
-        }
-    }, [dataUser.user.username])
-    /* предварительно рабочий вариант */
-    return (
-        <Layout isSearch={true} rightbar={false}>
-            <>
-                {userNameDataFromAll.isLoaded === true ?
-                    <Loader />
-                    :
-                    <>
-                        {dataUser.isError !== null ?
-                            <h1 style={{ color: "red" }}>Ошибка авторизации, введите ваши данные снова</h1>
-                            :
-                            <div >
-                                <p>Вы успешно зарегистрировались !</p>
-                                <p>Имя пользователя: {userNameDataFromAll.user.username}</p>
-                            </div>}
-                    </>
-                }
-            </>
-        </Layout>
-    );
-};
+  const tabs: TabData[] = useMemo(
+    () =>
+      loginedUsedData?.username
+        ? [
+            {
+              label: `Рецепты`,
+              Content: (
+                <RecipeList
+                  dispatcher={getUseMyRecipies(loginedUsedData?.username)}
+                />
+              ),
+            },
+            {
+              label: `Мои подписки`,
+              Content: <Subscriptions />,
+            },
+            {
+              label: `Мои подписчики`,
+              Content: <Subscribers />,
+            },
+          ]
+        : [],
+    [loginedUsedData?.username],
+  )
 
+  return (
+    <Layout isSearch={true} rightbar={false}>
+      <div className={`${styles.container} scroll scroll--left scroll__thin`}>
+        {isLoadingPre || isLoading ? (
+          <Loader />
+        ) : (
+          <div className={styles.userContainer}>
+            <Image
+              src={data?.avatar ?? '/img/user-big.svg'}
+              width={120}
+              height={120}
+              alt="user image"
+            />
+            <div className={styles.userCard}>
+              <h2>{data?.display_name}</h2>
+              <div className={styles.userInfo}>
+                <p>город {data?.city}</p>
+                <p>{data?.bio}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <Tabs tabs={tabs} />
+      </div>
+    </Layout>
+  )
+}
