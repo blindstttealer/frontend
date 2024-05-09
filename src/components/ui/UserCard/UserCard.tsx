@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { FC, useEffect } from 'react'
 import styles from './UserCard.module.scss'
 import { useLazyGetUserDataQuery } from '@/store/features/user/user.actions'
