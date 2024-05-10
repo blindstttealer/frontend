@@ -5,6 +5,7 @@ import styles from './MyRecipies.module.scss'
 import RecipeList from '@/components/ui/RecipeList/RecipeList'
 import { getUseMyRecipies } from '@/hooks/useMyRecipies'
 import Button from '../Button/Button'
+import DatePicker from '../DatePicker/DatePicker'
 
 type MyRecipiesProps = {
   username?: string
@@ -26,6 +27,9 @@ const MyRecipies: FC<MyRecipiesProps> = ({ username }) => {
     console.log('handleDateChange', event.currentTarget.value)
     setDate(event.currentTarget.value)
   }
+  const handlerOnFocusDatePicker = (event: FormEvent<HTMLInputElement>) => {
+    event.currentTarget.type = 'date'
+  }
 
   return (
     <div className={styles.container}>
@@ -37,11 +41,8 @@ const MyRecipies: FC<MyRecipiesProps> = ({ username }) => {
           </Button>
         </div>
 
-        <input
-          type="date"
-          value={date}
-          onChange={handleDateChange}
-          title="calendar"
+        <DatePicker 
+        placeholder="Выберите нужную дату"
         />
       </div>
 
