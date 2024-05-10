@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, FormEvent, useState } from 'react'
+import { FC, useState } from 'react'
 import styles from './MyRecipies.module.scss'
 import RecipeList from '@/components/ui/RecipeList/RecipeList'
 import { getUseMyRecipies } from '@/hooks/useMyRecipies'
@@ -22,13 +22,9 @@ const MyRecipies: FC<MyRecipiesProps> = ({ username }) => {
     console.log('handleSelectSortByComponents')
   }
 
-  //todo: После утверждения дизайна переделать на DatePicker
-  const handleDateChange = (event: FormEvent<HTMLInputElement>) => {
-    console.log('handleDateChange', event.currentTarget.value)
-    setDate(event.currentTarget.value)
-  }
-  const handlerOnFocusDatePicker = (event: FormEvent<HTMLInputElement>) => {
-    event.currentTarget.type = 'date'
+  const handleDateChange = (newDate: string) => {
+    console.log('handleDateChange', newDate)
+    setDate(newDate)
   }
 
   return (
@@ -41,8 +37,10 @@ const MyRecipies: FC<MyRecipiesProps> = ({ username }) => {
           </Button>
         </div>
 
-        <DatePicker 
-        placeholder="Выберите нужную дату"
+        <DatePicker
+          placeholder="Выберите нужную дату"
+          value={date}
+          onChange={handleDateChange}
         />
       </div>
 
