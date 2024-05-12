@@ -1,5 +1,4 @@
 'use client'
-import Layout from '@/components/layout/layout'
 import styles from './favorites.module.scss'
 import { useFavorites } from '@/hooks/useFavorites'
 import ListViewChanger from '@/components/ui/listViewChanger/ListViewChanger'
@@ -10,13 +9,18 @@ export default function Favorites() {
   const { view } = useAppSelector((state) => state.recipesFeed)
 
   return (
-    <Layout isSearch={true} rightbar={false}>
-      <div className={`${styles.recipesContainer} scroll scroll--left scroll__thin`}>
-        <RecipeList dispatcher={useFavorites} view={view}/>
+    <>
+      <div
+        className={`${styles.recipesContainer} scroll scroll--left scroll__thin`}
+      >
+        {/* div нужен для предотвращения зеркалирования компонента (если есть скрол слева у parent) при ошибке загрузки с сервера */}
+        <div>
+          <RecipeList dispatcher={useFavorites} view={view} />
+        </div>
       </div>
       <div className={styles.rightbar}>
         <ListViewChanger />
       </div>
-    </Layout>
+    </>
   )
 }
