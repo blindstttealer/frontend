@@ -9,6 +9,8 @@ import userFormDataEdit from './user/user-data-form-edit.slice'
 import getFavoriteReducer from './favorites/favorites.slice'
 import getUserNameWithoutToken from './user/user-getData-username.slice'
 import { recipeReactionsApi } from './reactions/reactions.actions'
+import { userApi } from './user/user.actions'
+import { recipeApi } from './recipe/recipe.actions'
 
 export const store = configureStore({
   reducer: {
@@ -22,12 +24,17 @@ export const store = configureStore({
     favorites: getFavoriteReducer,
     userName: getUserNameWithoutToken,
     [recipeReactionsApi.reducerPath]: recipeReactionsApi.reducer,
+    [recipeApi.reducerPath]: recipeApi.reducer,
+    [userApi.reducerPath]: userApi.reducer,
   },
   devTools: process.env.NODE_ENV !== 'production',
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(recipeReactionsApi.middleware),
-  // todo: добавить контроль минимального времени между запросами - очередью, или встроенными средствами redux
-  // .concat(timerMiddleware)
+    getDefaultMiddleware()
+      // todo: добавить контроль минимального времени между запросами - очередью, или встроенными средствами redux
+      // .concat(timerMiddleware)
+      .concat(recipeReactionsApi.middleware)
+      .concat(userApi.middleware)
+      .concat(recipeApi.middleware),
 })
 
 export type RootState = ReturnType<typeof store.getState>

@@ -1,53 +1,47 @@
-"use client"
+'use client'
 
-import { useEffect } from 'react'
+import { useMemo } from 'react'
 import styles from './profile.module.scss'
-import { useRouter } from 'next/navigation'
-import { useAppDispatch, useAppSelector } from '@/store/features/hooks'
-import { fetchDataUser, fetchDataUserName } from '@/store/features/user/user.actions'
-import { useAuth } from '@/hooks/useAuth'
-import Layout from "@/components/layout/layout";
+import { useGetCurentUserDataQuery } from '@/store/features/user/user.actions'
 import { Loader } from '@/components/ui/Loader/Loader'
+import Tabs, { TabData } from '@/components/ui/Tabs/Tabs.module'
+import MyRecipies from '@/components/ui/MyRecipies/MyRecipies'
+import Subscriptions from '@/components/ui/Subscriptions/Subscriptions'
+import Subscribers from '@/components/ui/Subscribers/Subscribers'
+import UserCard from '@/components/ui/UserCard/UserCard'
 
 export default function Profile() {
-    const router = useRouter();
-    const dispatch = useAppDispatch();
-    const dataUser = useAppSelector(state => state.userDateMe);
-    // ниже данные с которыми необходимо работать
-    const userNameDataFromAll = useAppSelector(state => state.userName)
-    console.log("userNameDataFromAll", userNameDataFromAll);
+  const { data, isLoading, error } = useGetCurentUserDataQuery()
 
-    // @ts-ignore
-    // эту функцию надо тестить это ридерект, если токен протух на страницу авторизации
-    dataUser?.isError?.code && dataUser.isError.code === "token_not_valid" ? router.push('/activate-page') : null
+  const tabs: TabData[] = useMemo(
+    () =>
+      data?.username
+        ? [
+            {
+              label: `Рецепты`,
+              Content: <MyRecipies username={data?.username} />,
+            },
+            {
+              label: `Мои подписки`,
+              Content: <Subscriptions username={data?.username} />,
+            },
+            {
+              label: `Мои подписчики`,
+              Content: <Subscribers username={data?.username} />,
+            },
+          ]
+        : [],
+    [data?.username],
+  )
 
-    /* предварительно рабочий вариант */
+  if (error) return <div>{String(error)}</div>
 
-    useEffect(() => {
-        dispatch(fetchDataUser());
-        if (dataUser.success) {
-            dispatch(fetchDataUserName(dataUser.user.username))
-        }
-    }, [dataUser.user.username])
-    /* предварительно рабочий вариант */
-    return (
-        <Layout isSearch={true} rightbar={false}>
-            <>
-                {userNameDataFromAll.isLoaded === true ?
-                    <Loader />
-                    :
-                    <>
-                        {dataUser.isError !== null ?
-                            <h1 style={{ color: "red" }}>Ошибка авторизации, введите ваши данные снова</h1>
-                            :
-                            <div >
-                                <p>Вы успешно зарегистрировались !</p>
-                                <p>Имя пользователя: {userNameDataFromAll.user.username}</p>
-                            </div>}
-                    </>
-                }
-            </>
-        </Layout>
-    );
-};
+  if (isLoading) <Loader />
 
+  return (
+    <div className={`${styles.container} scroll scroll--left scroll__thin`}>
+      <UserCard username={data?.username} />
+      <Tabs tabs={tabs} />
+    </div>
+  )
+}

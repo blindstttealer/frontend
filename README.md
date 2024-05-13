@@ -38,7 +38,13 @@ yarn
 # or
 ```
 
-Fourth, run the development server:
+Fourth, create .env:
+
+```bash
+cp .env.example .env
+```
+
+Fifth, run the development server:
 
 ```bash
 npm run dev

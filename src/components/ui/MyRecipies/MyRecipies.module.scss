@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin-top: 40px;
+
+  .top {
+    width: 292px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      button {
+        border: none;
+        background: none;
+        font-size: 18px;
+      }
+    }
+  }
+}

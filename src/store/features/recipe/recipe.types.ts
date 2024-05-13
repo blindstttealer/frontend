@@ -1,43 +1,42 @@
-export interface IRecipeContainer {
-    count: number;
-    next: string;
-    previous: null;
-    results: IRecipe[];
-}
-
 export interface IRecipe {
-    id: number;
-    title: string;
-    slug: string;
-    category: any[];
-    short_text: string;
-    preview_image: null;
-    author: Author;
-    pub_date: string;
-    tag: any[];
-    cooking_time: number;
-    comments_count: number;
-    views_count: number;
-    reactions_count: number;
-    reactions: any[];
-    activity_count: number;
-    is_favorite: boolean
+  id: number
+  title: string
+  slug: string
+  category: any[]
+  short_text: string
+  preview_image: null
+  author: Author
+  pub_date: string
+  tag: any[]
+  cooking_time: number
+  comments_count: number
+  views_count: number
+  reactions_count: number
+  reactions: any[]
+  activity_count: number
+  is_favorite: boolean
 }
 
+export interface GetRecipesResponse {
+  count: number
+  next: string
+  previous: null
+  results: IRecipe[]
+}
 export interface Author {
-    id: number;
-    username: string;
-    avatar: string;
+  id: number
+  username: string
+  avatar: string
 }
 
 export interface IRecipeInitialState {
-    recipes: {
-        feed: IRecipe,
-        feedActivity: IRecipe,
-        feedSubscriptions: IRecipe
-    },
-    isError: any,
+  recipes: {
+    feed: IRecipe
+    feedActivity: IRecipe
+    feedSubscriptions: IRecipe
+  }
+  isError: any
 
-    isLoading: boolean,
-    flag: boolean,
+  isLoading: boolean
+  flag: boolean
 }

@@ -1,8 +1,19 @@
 // сделай типизацию
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { IDataFromForm, IDataFromResolve, IToken } from './user.types'
-import { BASE_URL, instanceAxios } from '@/services/auth/auth.service'
+import {
+  CurrentUserData,
+  IDataFromForm,
+  IDataFromResolve,
+  IToken,
+  UserData,
+} from './user.types'
+import {
+  axiosBaseQuery,
+  BASE_URL,
+  instanceAxios,
+} from '@/services/auth/auth.service'
 import axios from 'axios'
+import { createApi } from '@reduxjs/toolkit/query/react'
 
 // регистрация пользователя
 export const fetchRegistration = createAsyncThunk<
@@ -173,3 +184,23 @@ export const fetchDataUserName = createAsyncThunk<IResUserName, string>(
     }
   },
 )
+
+// RTK замена
+export const userApi = createApi({
+  reducerPath: 'userApi',
+  baseQuery: axiosBaseQuery(),
+  endpoints: (builder) => ({
+    getCurentUserData: builder.query<CurrentUserData, void>({
+      query: () => ({ url: 'auth/users/me' }),
+    }),
+    getUserData: builder.query<UserData, string>({
+      query: (username: string) => ({ url: `user/${username}` }),
+    }),
+  }),
+})
+
+export const {
+  useGetCurentUserDataQuery,
+  useLazyGetCurentUserDataQuery,
+  useLazyGetUserDataQuery,
+} = userApi

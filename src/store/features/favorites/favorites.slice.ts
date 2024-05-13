@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { fetchGetFavorites } from './favorite.actions'
 import { IRecipe } from '../recipes/recipes.types'
+import { QueryStatus } from '@reduxjs/toolkit/query'
 
 export interface IFetchListData {
   count: number
@@ -14,7 +15,7 @@ interface IInitialState {
   favorites: IRecipe[]
   error: null | string
   isLoading: boolean
-  status: 'idle' | 'pending' | 'success' | 'error'
+  status: QueryStatus
 }
 
 export const initialState: IInitialState = {
@@ -27,7 +28,7 @@ export const initialState: IInitialState = {
   favorites: [],
   error: null,
   isLoading: false,
-  status: 'idle',
+  status: QueryStatus.uninitialized,
 }
 
 const getFavorite = createSlice({
@@ -44,11 +45,11 @@ const getFavorite = createSlice({
     builder
       .addCase(fetchGetFavorites.pending, (state) => {
         state.isLoading = true
-        state.status = 'pending'
+        state.status = QueryStatus.pending
       })
       .addCase(fetchGetFavorites.fulfilled, (state, action) => {
         state.isLoading = false
-        state.status = 'success'
+        state.status = QueryStatus.fulfilled
         state.fetchData = action.payload
         const newItems = Array.isArray(action.payload.results)
           ? action.payload.results.map((recipe: IRecipe) => ({
@@ -61,7 +62,7 @@ const getFavorite = createSlice({
       })
       .addCase(fetchGetFavorites.rejected, (state, action) => {
         state.isLoading = false
-        state.status = 'error'
+        state.status = QueryStatus.rejected
         state.error = action.error.message ?? null
       })
   },

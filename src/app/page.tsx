@@ -12,6 +12,8 @@ import { Loader } from "@/components/ui/Loader/Loader";
 import { useAuth } from "@/hooks/useAuth";
 import EmptyRecipeList from "@/components/ui/RecipeList/EmptyRecipeList";
 
+//todo: криво работает подгрузка бесконечного списка - неправильно определяется элемент, на котором надо скролить. Без внутреннего скрола все ОК
+
 export default function Home() {
     const { isAuth } = useAuth()
     const recipe = useRecipes()
@@ -32,7 +34,7 @@ export default function Home() {
         setContainerStyles(newStyles)
       }, [view])
 
-    //todo: плохая реализация: трата ресурсов на обработку каждого скрола + утечка памяти из-за отсутствия отписок на событие   
+    //todo: плохая реализация: трата ресурсов на обработку каждого скрола   
     useEffect(() => {
         const handleScroll = () => {
             // Проверка на загрузку и достижение нижней части страницы. Добавил 10px для надежного распознавания конца страницы
@@ -70,7 +72,7 @@ export default function Home() {
 
     return (
         <Layout isSearch={true}>
-                <div className={styles.container}>
+                <div className={`${styles.container} scroll scroll--left scroll__thin`}>
                     <div className={containerStyles.join(' ')}>
                         {recipe?.length &&
                             recipe?.map((recipe: IRecipe) => (
