@@ -4,13 +4,12 @@ import userAuthorizationReducer from './user/user-authorization.slice'
 import userDateMeReducer from './user/user-data-me.slice'
 import userActivateAccountReducer from './user/user-activation.slice'
 import recipesFeedReducer from './recipes/recipes.slice'
-import recipeFeedReducer from './recipe/recipe.slice'
 import userFormDataEdit from './user/user-data-form-edit.slice'
 import getFavoriteReducer from './favorites/favorites.slice'
 import getUserNameWithoutToken from './user/user-getData-username.slice'
 import { recipeReactionsApi } from './reactions/reactions.actions'
 import { userApi } from './user/user.actions'
-import { recipeApi } from './recipe/recipe.actions'
+import { recipeApi } from './recipes/recipes.actions'
 
 export const store = configureStore({
   reducer: {
@@ -20,7 +19,6 @@ export const store = configureStore({
     userActivation: userActivateAccountReducer,
     userFormDataEdit: userFormDataEdit,
     recipesFeed: recipesFeedReducer,
-    recipeFeed: recipeFeedReducer,
     favorites: getFavoriteReducer,
     userName: getUserNameWithoutToken,
     [recipeReactionsApi.reducerPath]: recipeReactionsApi.reducer,
