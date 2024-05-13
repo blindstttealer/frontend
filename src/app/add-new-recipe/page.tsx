@@ -4,11 +4,15 @@ import { useState } from 'react';
 import styles from "./addRecipe.module.scss"
 import { useRouter } from "next/navigation";
 import Button from "@/components/ui/Button/Button";
-import Input from "@/components/ui/Input/Input"
-import { Controller, useForm } from "react-hook-form"
-import { Loader } from "@/components/ui/Loader/Loader"
-import Image from 'next/image'
-import Select from 'react-select'
+import Input from "@/components/ui/Input/Input";
+import { Controller, useForm } from "react-hook-form";
+import { Loader } from "@/components/ui/Loader/Loader";
+import Image from 'next/image';
+import Select from 'react-select';
+// import Creatable, { useCreatable } from 'react-select/creatable';
+import CreatableSelect from 'react-select/creatable';
+import { stylesFromCategory } from "./addNewRecipeCategorySelectStyles";
+import { stylesFromTag } from "./addNewRecipeTagSelectStyles";
 
 
 export default function AddNewRecipe() {
@@ -166,22 +170,34 @@ export default function AddNewRecipe() {
                                     <Image alt='add-image' src={'./img/add-new-recipe/add_video.svg'} width={24} height={24} />
                                 </div>
                             }
-
                         </div>
                     </div>
                     <div className={styles.category_container}>
                         <p className={styles.category}>Категории</p>
                         <div className={styles.category_input}>
-                            <Controller
+                            {/* <Controller
                                 control={control}
                                 name="category"
                                 render={({ field }) => (
                                     <Select {...field}
                                         options={options}
                                         placeholder="Выберите категорию"
-                                        // styles={customStyles}
+                                        styles={stylesFromCategory}
                                         inputId={Date.now().toString()}
                                     />
+                                )}
+                            /> */}
+                            <Controller
+                                control={control}
+                                name="category"
+                                render={({ field }) => (
+                                    <CreatableSelect
+                                        {...field}
+                                        styles={stylesFromCategory}
+                                        placeholder="Выберите категорию"
+                                        formatCreateLabel={(value) => <span>{`Создать "${value}"`}</span>}
+                                        isClearable
+                                        options={options} />
                                 )}
                             />
                         </div>
@@ -196,14 +212,15 @@ export default function AddNewRecipe() {
                                     <Select {...field}
                                         isMulti
                                         options={options}
-                                        placeholder="Выберите категорию"
-                                        // styles={customStyles}
+                                        placeholder={null}
+                                        styles={stylesFromTag}
                                         inputId={Date.now().toString()}
                                     />
                                 )}
                             />
                         </div>
                     </div>
+                    <p className={styles.required}>*обозначены обязательные для заполнения поля</p>
                     <Button className={styles.buttonOnsubmit} size={'medium'}
                         color={"primary"}>
                         Опубликовать

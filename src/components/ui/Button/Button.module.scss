@@ -1,62 +1,62 @@
 .button {
-	cursor: pointer;
-	border-radius: 12px;
-	font-size: 16px;
-	transition: background-color 0.1s ease-in-out;
-	padding: 4px;
-	&:active {
-		background-color: rgb(58, 25, 175);
-	}
+  cursor: pointer;
+  border-radius: 12px;
+  font-size: 16px;
+  transition: background-color 0.1s ease-in-out;
+  padding: 4px;
+  &:active {
+    background-color: rgb(58, 25, 175);
+  }
 }
 
 .primary {
-	background: var(--primary-color);
-	color: var(--base-color);
-	border: none;
+  background: var(--primary-color);
+  color: var(--base-color);
+  border: none;
 }
 .primary:hover {
-	background: var(--button-hover);
+  background: var(--button-hover);
 }
 .primary:active {
-	background: var(--button-press);
+  background: var(--button-press);
 }
 .secondary {
-	background: var(--base-color);
-	color: var(--base-color-dark);
-	border: 1px solid var(--primary-color-light);
+  background: var(--base-color);
+  color: var(--base-color-dark);
+  border: 1px solid var(--primary-color-light);
 }
 .secondary:hover {
-	background: var(--button-hover);
-	border-color: var(--button-hover);
-	color: var(--base-color);
+  background: var(--button-hover);
+  border-color: var(--button-hover);
+  color: var(--base-color);
 }
 .secondary:active {
-	background: var(--button-press);
-	border-color: var(--button-hover);
-	color: var(--base-color);
+  background: var(--button-press);
+  border-color: var(--button-hover);
+  color: var(--base-color);
 }
 
 .disabled {
-	color: var(--base-color);
-	background: var(--button-disabled);
-	border: none;
-	cursor: default;
+  color: var(--base-color);
+  background: var(--button-disabled);
+  border: none;
+  cursor: default;
 }
 .disabled:hover {
-	color: var(--base-color);
-	background: var(--button-disabled);
-	border: none;
-	cursor: default;
+  color: var(--base-color);
+  background: var(--button-disabled);
+  border: none;
+  cursor: default;
 }
 
 .small {
-	padding: 4px 20px;
+  padding: 4px 20px;
 }
 
 .medium {
-	 padding: 8px 0px;
+  padding: 8px 0px;
 }
 
 .big {
-	padding: 12px 60px;
+  padding: 12px 60px;
 }

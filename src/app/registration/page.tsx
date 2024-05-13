@@ -40,9 +40,10 @@ export default function Registration() {
         if (success === true) {
             router.push('/activate-instruction')
         }
-    }, [success, errors, router])
+    }, [success, errors, router, touchedFields])
 
     const password = watch('password')
+    const password2 = watch('password2')
     
     return (
         <Layout sidebar={false} rightbar={false} isSearch={false}>
@@ -122,7 +123,7 @@ export default function Registration() {
                                         validate: (value) =>
                                             value === password || 'Пароли не совпадают',
                                     }}
-                                    error={errors?.repeat_password?.message}
+                                    error={errors?.password2?.message}
                                 />
                             </div>
                         </label>

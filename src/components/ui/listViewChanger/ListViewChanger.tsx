@@ -2,6 +2,7 @@
 import styles from './ListViewChanger.module.scss'
 import { useAppDispatch, useAppSelector } from '@/store/features/hooks'
 import { setViewMode } from '@/store/features/recipes/recipes.slice'
+import Button from '../Button/Button'
 
 export default function ListViewChanger() {
   const dispatch = useAppDispatch()
@@ -11,18 +12,12 @@ export default function ListViewChanger() {
     <div className={styles.view}>
       <h3>Вид ленты</h3>
       <div>
-        <button
-          className={view === 'feed' ? styles.active : ''}
-          onClick={() => dispatch(setViewMode('feed'))}
-        >
+        <Button color='secondary' size='medium' className={view === 'feed' ? styles.active : ''} onClick={() => dispatch(setViewMode('feed'))}>
           Лента
-        </button>
-        <button
-          className={view === 'tile' ? styles.active : ''}
-          onClick={() => dispatch(setViewMode('tile'))}
-        >
+        </Button>
+        <Button color='secondary' size='medium' className={view === 'tile' ? styles.active : ''} onClick={() => dispatch(setViewMode('tile'))}>
           Плитка
-        </button>
+        </Button>
       </div>
     </div>
   )
