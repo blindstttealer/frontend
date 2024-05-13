@@ -5,33 +5,52 @@ import {useAppDispatch, useAppSelector} from "@/store/features/hooks";
 import {setSortMode} from "@/store/features/recipes/recipes.slice";
 import ListViewChanger from '../../ui/listViewChanger/ListViewChanger';
 import { useRouter } from 'next/navigation'
+import Button from '@/components/ui/Button/Button';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function Rightbar() {
     const dispatch = useAppDispatch()
     const router = useRouter()
     const recipeState = useAppSelector((state) => state.recipesFeed)
+    const { isAuth } = useAuth()
 
     return (
         <div className={styles.rightbar}>
             <div className={styles.publish}>
-                <button onClick={() => router.push("add-new-recipe")}>
-                    <span>Опубликовать</span>
+                <Button 
+                    color='secondary' 
+                    size='big'
+                    className={recipeState.sort === 'top' ? styles.active : ''}
+                    onClick={() => router.push("add-new-recipe")}>
+                    Опубликовать
                     <Image src='/img/rightbar/plus.png' alt='plus' width={22} height={22}/>
-                </button>
+                </Button>
             </div>
             <ListViewChanger/>
             <div className={styles.sort}>
                 <h3>Сортировка</h3>
                 <div>
-                    <button className={recipeState.sort === 'top' ? styles.active : ''}
-                            onClick={() => dispatch(setSortMode('top'))}>Популярное
-                    </button>
-                    <button className={recipeState.sort === 'default' ? styles.active : ''}
-                            onClick={() => dispatch(setSortMode('default'))}>По времени
-                    </button>
-                    <button className={recipeState.sort === 'subscribe' ? styles.active : ''}
-                            onClick={() => dispatch(setSortMode('subscribe'))}>По подпискам
-                    </button>
+                    <Button 
+                        color='secondary' 
+                        size='medium'
+                        className={recipeState.sort === 'top' ? styles.active : ''}
+                        onClick={() => dispatch(setSortMode('top'))}>
+                        Популярное
+                    </Button>
+                    <Button 
+                        color='secondary' 
+                        size='medium'
+                        className={recipeState.sort === 'default' ? styles.active : ''}
+                        onClick={() => dispatch(setSortMode('default'))}>
+                        По времени
+                    </Button>
+                    {isAuth && <Button 
+                        color='secondary' 
+                        size='medium'
+                        className={recipeState.sort === 'subscribe' ? styles.active : ''}
+                        onClick={() => dispatch(setSortMode('subscribe'))}>
+                        По подпискам
+                    </Button>}
                 </div>
             </div>
             <div className={styles.topRecipe}>

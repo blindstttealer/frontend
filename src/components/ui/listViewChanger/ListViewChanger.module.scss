@@ -11,15 +11,11 @@
     row-gap: 16px;
     column-gap: 12px;
 
-    button {
-      cursor: pointer;
+      // может перенести эти стили в src/components/ui/Button/Button.module.scss ?
+      button {
       padding: 8px 16px;
-      background: transparent;
-      border: 1px solid #000;
+      border: 2px solid #000;
       border-radius: 14px;
-      font-size: 14px;
-      font-weight: 400;
-      transition: all 0.1s ease-in-out;
 
       &.active {
         border-color: var(--primary-color-light);

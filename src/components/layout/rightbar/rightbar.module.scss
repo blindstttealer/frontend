@@ -7,13 +7,12 @@
     align-items: center;
     margin-bottom: 36px;
 
+    // может перенести эти стили в src/components/ui/Button/Button.module.scss ?
     button {
-      cursor: pointer;
-      background: #45624E;
-      border-radius: 22px;
+      background: #45624e;
+      border-radius: 18px;
       border: none;
       color: #fff;
-      font-size: 16px;
       padding: 16px 24px;
       font-weight: 400;
       display: flex;
@@ -38,15 +37,15 @@
       row-gap: 16px;
       column-gap: 12px;
 
+      // может перенести и в src/components/ui/Button/Button.module.scss ?
       button {
-        cursor: pointer;
         padding: 8px 16px;
-        background: transparent;
-        border: 1px solid #000;
+        border: 2px solid #000;
         border-radius: 14px;
-        font-size: 14px;
-        font-weight: 400;
-        transition: all .1s ease-in-out;
+
+        &.active {
+          border-color: var(--primary-color-light);
+        }
       }
     }
   }
@@ -105,8 +104,4 @@
       }
     }
   }
-}
-
-.active {
-  border: 1px solid #4BC185 !important;
 }
