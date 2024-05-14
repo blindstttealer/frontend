@@ -93,59 +93,66 @@ const RecipeCard: FC<RecipeCardProps> = ({
         </button>
         <p className={styles.previewTime}>{recipe.cooking_time} мин.</p>
       </div>
-      <div className={styles.name}>
-        <p>{recipe.title}</p>
-        <p>{recipe.short_text}</p>
-      </div>
-      <div className={styles.footer}>
-        <div className={styles.footerLeft}>
-          <Popup
-            Content={() => (
-              <button className={styles.like}>
-                <Image
-                  src="/img/recipe-card/like.svg"
-                  alt="like button"
-                  width={24}
-                  height={24}
-                  draggable={false}
-                />
-                {recipe.reactions_count}
-              </button>
-            )}
-            Tooltip={() => <Reactions slug={recipe.slug} />}
-          />
-          <button>
-            <Image
-              src="/img/recipe-card/comment.svg"
-              alt="comment button"
-              width={24}
-              height={24}
-              draggable={false}
-            />
-            {recipe.comments_count}
-          </button>
-          <button>
-            <Image
-              src="/img/recipe-card/share.svg"
-              alt="share button"
-              width={24}
-              height={24}
-              draggable={false}
-            />
-            0{/*тут должно быть количество репостов*/}
-          </button>
+
+      <div className={styles.bottom}>
+        <div className={styles.nameAndHash}>
+          <div className={styles.name}>
+            <p>{recipe.title}</p>
+            <p>{recipe.short_text}</p>
+          </div>
+          <div className={styles.hash}>#hash #hash #hash #hash</div>
         </div>
-        <div className={styles.footerRight}>
-          <button>
-            <Image
-              src="/img/recipe-card/views.svg"
-              alt="views"
-              width={24}
-              height={24}
-              draggable={false}
+        
+        <div className={styles.footer}>
+          <div className={styles.footerLeft}>
+            <Popup
+              Content={() => (
+                <button className={styles.like}>
+                  <Image
+                    src="/img/recipe-card/like.svg"
+                    alt="like button"
+                    width={24}
+                    height={24}
+                    draggable={false}
+                  />
+                  {recipe.reactions_count}
+                </button>
+              )}
+              Tooltip={() => <Reactions slug={recipe.slug} />}
             />
-            {recipe.views_count}
-          </button>
+            <button>
+              <Image
+                src="/img/recipe-card/comment.svg"
+                alt="comment button"
+                width={24}
+                height={24}
+                draggable={false}
+              />
+              {recipe.comments_count}
+            </button>
+            <button>
+              <Image
+                src="/img/recipe-card/share.svg"
+                alt="share button"
+                width={24}
+                height={24}
+                draggable={false}
+              />
+              0{/*тут должно быть количество репостов*/}
+            </button>
+          </div>
+          <div className={styles.footerRight}>
+            <button>
+              <Image
+                src="/img/recipe-card/views.svg"
+                alt="views"
+                width={24}
+                height={24}
+                draggable={false}
+              />
+              {recipe.views_count}
+            </button>
+          </div>
         </div>
       </div>
     </div>

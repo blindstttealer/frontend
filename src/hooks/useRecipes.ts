@@ -1,28 +1,64 @@
-import {useAppDispatch, useAppSelector} from "@/store/features/hooks";
-import {fetchFeed, fetchFeedActivityCount, fetchFeedSubscriptions} from "@/store/features/recipes/recipes.actions";
-import {useEffect} from "react";
-import {useAuth} from "@/hooks/useAuth";
+import { MutableRefObject, useEffect, useRef } from 'react'
+import {
+  useGetListQuery,
+  useLazyGetListQuery,
+} from '@/store/features/recipes/recipes.actions'
+import { getParamObjectFromURL } from '@/helpers/url'
+import { QueryStatus } from '@reduxjs/toolkit/query'
+import { IFetchListData, IRecipe } from '@/store/features/recipes/recipes.types'
 
-export const useRecipes = () => {
-    const {isAuth} = useAuth()
-    const dispatch = useAppDispatch();
-    const recipes = useAppSelector(state => state.recipesFeed);
+export type RecipeListVariant = 'default' | 'top' | 'subscribe'
+
+export const urlByVariant: Record<RecipeListVariant, string> = {
+  default: 'feed/',
+  top: 'feed/',
+  subscribe: 'feed/',
+}
+
+export type RecipeListDispatcher = () => {
+  isLoading: boolean
+  isFetching?: boolean
+  status?: QueryStatus
+  error: any
+  fetchData?: IFetchListData
+  recipies?: IRecipe[]
+  loadNextPageRef: MutableRefObject<() => void>
+}
+
+export const getUseRecipes = (
+  pathname: string,
+  params: Record<string, string> = {},
+) => {
+  const useMyRecipies: RecipeListDispatcher = () => {
+    const { data, isFetching, isLoading, error, status } = useGetListQuery({
+      pathname,
+      params,
+    })
+    const [trigger] = useLazyGetListQuery()
+
+    const loadNextPageRef = useRef(() => {})
 
     useEffect(() => {
-        if (recipes.sort === 'default' && recipes.recipes.feed.result === null) {
-            dispatch(fetchFeed());
-        } else if (recipes.sort === 'top' && recipes.recipes.feedActivity.result === null) {
-            dispatch(fetchFeedActivityCount());
-        } else if (recipes.sort === 'subscribe' && recipes.recipes.feedSubscriptions.result === null && isAuth) {
-            dispatch(fetchFeedSubscriptions());
+      loadNextPageRef.current = () => {
+        if (data?.next) {
+          trigger({
+            pathname,
+            params: getParamObjectFromURL(data?.next),
+          })
         }
-    }, [dispatch, isAuth, recipes]);
+      }
+    }, [data?.next, trigger])
 
-    if (recipes.sort === 'default') {
-        return recipes.recipes.feed.result;
-    } else if (recipes.sort === 'top') {
-        return recipes.recipes.feedActivity.result;
-    } else if (recipes.sort === 'subscribe') {
-        return recipes.recipes.feedSubscriptions.result;
+    return {
+      isLoading,
+      isFetching,
+      status,
+      error,
+      fetchData: data,
+      recipies: data?.results,
+      loadNextPageRef,
     }
-};
+  }
+
+  return useMyRecipies
+}

@@ -3,7 +3,7 @@
 import { FC, useState } from 'react'
 import styles from './MyRecipies.module.scss'
 import RecipeList from '@/components/ui/RecipeList/RecipeList'
-import { getUseMyRecipies } from '@/hooks/useMyRecipies'
+import { getUseRecipes } from '@/hooks/useRecipes'
 import Button from '../Button/Button'
 import DatePicker from '../DatePicker/DatePicker'
 
@@ -45,7 +45,10 @@ const MyRecipies: FC<MyRecipiesProps> = ({ username }) => {
       </div>
 
       {username && (
-        <RecipeList dispatcher={getUseMyRecipies(username)} view="feed" />
+        <RecipeList
+          dispatcher={getUseRecipes('feed', { username })}
+          view="feed"
+        />
       )}
     </div>
   )

@@ -1,78 +1,47 @@
-import {createAsyncThunk} from "@reduxjs/toolkit"
-import {BASE_URL, instanceAxios} from "@/services/auth/auth.service";
-import axios from "axios";
+import {
+  axiosBaseQuery,
+} from '@/services/auth/auth.service'
+import { createApi } from '@reduxjs/toolkit/query/react'
+import { convertObjectToQueryParams } from '@/helpers/url'
+import { IFetchListData } from './recipes.types'
 
-export const fetchFeed = createAsyncThunk(
-    "recipes/feed",
-    async (_, {rejectWithValue}) => {
-        try {
-            const res = await instanceAxios({
-                method: "GET",
-                url: "feed/",
-            });
-            return res.data;
-        } catch (err) {
-            // @ts-ignore
-            return rejectWithValue(err?.response?.data);
+export const recipeApi = createApi({
+  reducerPath: 'recipeApi',
+  baseQuery: axiosBaseQuery(),
+  endpoints: (builder) => ({
+    // Единый запрос для разных списков рецептовы
+    getList: builder.query<
+      IFetchListData,
+      {
+        pathname: string
+        params: Record<string, string>
+      }
+    >({
+      query: ({ pathname, params }) => {
+        return {
+          url: `${pathname}/?${convertObjectToQueryParams(params)}`,
+          method: 'GET',
         }
-    }
-);
-
-export const fetchFeedActivityCount = createAsyncThunk(
-    "recipes/feed=activity_count",
-    async (_, {rejectWithValue}) => {
-        try {
-            const res = await instanceAxios({
-                method: "GET",
-                url: "feed/?ordering=-activity_count",
-            });
-            return res.data;
-        } catch (err) {
-            // @ts-ignore
-            return rejectWithValue(err?.response?.data);
+      },
+      serializeQueryArgs: ({ queryArgs }) => {
+        const newQueryArgs = { ...queryArgs.params }
+        if (newQueryArgs.page) {
+          delete newQueryArgs.page
         }
-    }
-);
-
-export const fetchFeedSubscriptions = createAsyncThunk(
-    "recipes/feed=subscriptions",
-    async (_, {rejectWithValue}) => {
-        try {
-            const res = await instanceAxios({
-                method: "GET",
-                url: "feed/?filter=subscriptions",
-            });
-            return res.data;
-        } catch (err) {
-            // @ts-ignore
-            return rejectWithValue(err?.response?.data);
+        return newQueryArgs
+      },
+      merge: (currentCache, newItems) => {
+        if (currentCache.results) {
+          return {
+            ...currentCache,
+            ...newItems,
+            results: [...currentCache.results, ...newItems.results],
+          }
         }
-    }
-);
+        return newItems
+      },
+    }),
+  }),
+})
 
-
-export const fetchFeedPagesDynamic = createAsyncThunk(
-    "recipes/feedDynamic",
-    async ({sort, url}: { sort: string, url: string }, {rejectWithValue}) => {
-        let urlObj = new URL(url);
-        const path = urlObj?.pathname.substring(urlObj?.pathname.indexOf('feed')) + urlObj.search;
-        try {
-            if (sort === "default" || sort === "top") {
-                const res = await axios({
-                    method: "GET",
-                    url: BASE_URL + path,
-                });
-                return {sort, data: res.data};
-            } else if (sort === "subscribe") {
-                const res = await instanceAxios({
-                    method: "GET",
-                    url: path,
-                });
-                return {sort, data: res.data};
-            }
-        } catch (err) {
-            // @ts-ignore
-            return rejectWithValue(err?.response?.data);
-        }
-    }
-);
+export const { useGetListQuery, useLazyGetListQuery } = recipeApi
