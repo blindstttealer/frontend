@@ -1,9 +1,22 @@
 "use client";
 
+import { useRef } from "react";
 import { Provider } from "react-redux";
-import { store } from ".";
+import { AppStore, makeStore } from ".";
+import UserSettingsInitializer from "./userSettingsInitializer";
 
+// переделано по рекомендации из https://redux-toolkit.js.org/usage/nextjs#introduction
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  return <Provider store={store}>{children}</Provider>;
-};
+  const storeRef = useRef<AppStore>()
+
+  if (!storeRef.current) {
+    storeRef.current = makeStore()
+  }
+  
+  return (
+    <Provider store={storeRef.current}>
+      <UserSettingsInitializer>{children}</UserSettingsInitializer>
+    </Provider>
+  )
+}

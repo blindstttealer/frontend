@@ -22,7 +22,7 @@
         font-size: 18px;
         padding: 0;
 
-        &.active {
+        &.active, &:hover {
           color: var(--primary-color-light);
         }
       }
