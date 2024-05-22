@@ -8,6 +8,6 @@
 	flex-direction: row;
 	width: 100%;
 	display: grid;
-	grid-template-columns: 200px 800px 200px;
+	grid-template-columns: 124px 800px 256px; // 256 = 1200 - 124 - 800 - 2*10
 	gap: 10px;
 }

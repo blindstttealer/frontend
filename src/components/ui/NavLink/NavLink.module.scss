@@ -1,0 +1,24 @@
+.link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: transparent;
+  transition: all 0.2s ease-in-out;
+
+  p {
+    color: black;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  &.active {
+    p {
+      color: var(--primary-color-light);
+    }
+
+    img {
+      filter: invert(59%) sepia(75%) saturate(314%) hue-rotate(97deg)
+        brightness(97%) contrast(89%); // for color var(--primary-color-light)
+    }
+  }
+}
