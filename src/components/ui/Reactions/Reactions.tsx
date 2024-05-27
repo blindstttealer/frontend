@@ -23,6 +23,9 @@ const Reactions: FC<ReactionsProps> = ({ slug }) => {
     console.log('dislike')
   }
 
+  const onAngryFaceClick = () => {
+    console.log('angry_face')
+  }
   const onFireClick = () => {
     console.log('fire')
   }
@@ -64,7 +67,18 @@ const Reactions: FC<ReactionsProps> = ({ slug }) => {
       </button>
       <button>
         <Image
-          src="/img/reactions/evil.svg"
+          src="/img/reactions/angry-face.svg"
+          alt="views"
+          width={24}
+          height={24}
+          draggable={false}
+          onClick={onAngryFaceClick}
+        />
+        {reactions?.Angry_Face ?? 0}
+      </button>
+      <button>
+        <Image
+          src="/img/reactions/fire.svg"
           alt="views"
           width={24}
           height={24}

@@ -11,7 +11,7 @@ import { useAuth } from '@/hooks/useAuth'
 export default function Rightbar() {
   const dispatch = useAppDispatch()
   const router = useRouter()
-  const recipeState = useAppSelector((state) => state.recipesFeed)
+  const { sort } = useAppSelector((state) => state.recipesFeed)
   const { isAuth } = useAuth()
 
   const handleSortBySubscribe = () => {
@@ -28,7 +28,7 @@ export default function Rightbar() {
         <Button
           color="secondary"
           size="big"
-          className={recipeState.sort === 'top' ? styles.active : ''}
+          className={sort === 'top' ? styles.active : ''}
           onClick={() => router.push('add-new-recipe')}
         >
           Опубликовать
@@ -47,7 +47,7 @@ export default function Rightbar() {
           <Button
             color="secondary"
             size="medium"
-            className={recipeState.sort === 'top' ? styles.active : ''}
+            className={sort === 'top' ? styles.active : ''}
             onClick={() => dispatch(setSortMode('top'))}
           >
             Популярное
@@ -55,7 +55,7 @@ export default function Rightbar() {
           <Button
             color="secondary"
             size="medium"
-            className={recipeState.sort === 'default' ? styles.active : ''}
+            className={sort === 'default' ? styles.active : ''}
             onClick={() => dispatch(setSortMode('default'))}
           >
             По времени
@@ -63,7 +63,7 @@ export default function Rightbar() {
           <Button
             color="secondary"
             size="medium"
-            className={recipeState.sort === 'subscribe' ? styles.active : ''}
+            className={sort === 'subscribe' ? styles.active : ''}
             onClick={handleSortBySubscribe}
           >
             По подпискам

@@ -1,9 +1,9 @@
 .tab {
   cursor: pointer;
-  padding: 10px;
+  padding: 10px 0;
   font-size: 23px;
 }
 
 .tab.active {
-  color: #5023eb;
+  color: var(--primary-color-light);
 }

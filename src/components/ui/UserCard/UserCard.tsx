@@ -38,7 +38,7 @@ const UserCard: FC<Props> = ({ username }) => {
       <div className={styles.userCard}>
         <h2>{data?.display_name}</h2>
         <div className={styles.userInfo}>
-          <p>город {data?.city}</p>
+          <p>город {data?.city}, {data?.country}</p>
           <p>{data?.bio}</p>
         </div>
       </div>

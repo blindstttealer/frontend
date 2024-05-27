@@ -11,7 +11,7 @@ import { recipeReactionsApi } from './reactions/reactions.actions'
 import { userApi } from './user/user.actions'
 import { recipeApi } from './recipes/recipes.actions'
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
     userRegistration: userRegistrationReducer,
     userAuthorization: userAuthorizationReducer,
@@ -34,6 +34,9 @@ export const store = configureStore({
       .concat(userApi.middleware)
       .concat(recipeApi.middleware),
 })
+
+export const makeStore = () => store
+export type AppStore = ReturnType<typeof makeStore>
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch

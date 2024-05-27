@@ -1,15 +1,18 @@
 .datePicker {
   display: flex;
   flex-direction: column;
-  gap: 24px;
 
   input {
     width: 222px;
-    height: 50px;
+    height: 40px;
     border-radius: 12px;
     border: 1px solid #010b00;
     padding: 12px 16px;
-  }
+    background-color: white;
+    background-image: url('/img/calendar.svg');
+    background-position: 192px;
+    background-repeat: no-repeat;
+    }
 
   i {
     padding: 10px;
