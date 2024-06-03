@@ -3,14 +3,12 @@ import { IRecipe } from '@/store/features/recipes/recipes.types'
 import Image from 'next/image'
 import styles from './RecipeCard.module.scss'
 import { useData } from '@/hooks/useData'
-import { useAppDispatch } from '@/store/features/hooks'
-import {
-  fetchAddToFavorites,
-  fetchRemoveFromFavorites,
-} from '@/store/features/recipe/recipe.actions'
-import { removeFromList } from '@/store/features/favorites/favorites.slice'
 import Reactions from '@/components/ui/Reactions/Reactions'
 import Popup from '@/components/ui/Popup/Popup'
+import {
+  useAddToFavoritesMutation,
+  useRemoveFromFavoritesMutation,
+} from '@/store/features/recipes/recipes.actions'
 
 interface RecipeCardProps {
   recipe: IRecipe
@@ -22,14 +20,14 @@ const RecipeCard: FC<RecipeCardProps> = ({
   refreshListOnRemoveFromFavorites: refreshListOnDelete,
 }) => {
   const { timeAgo, formattedDate } = useData(recipe.pub_date)
-  const dispatch = useAppDispatch()
+  const [addToFavorites] = useAddToFavoritesMutation()
+  const [removeFromFavorites] = useRemoveFromFavoritesMutation()
 
   const changeIsFavoriteHandler = () => {
     if (recipe.is_favorite) {
-      dispatch(fetchRemoveFromFavorites(recipe.slug))
-      refreshListOnDelete && dispatch(removeFromList({ slug: recipe.slug }))
+     removeFromFavorites(recipe.slug)
     } else {
-      dispatch(fetchAddToFavorites(recipe.slug))
+      addToFavorites(recipe.slug)
     }
   }
 
@@ -102,7 +100,7 @@ const RecipeCard: FC<RecipeCardProps> = ({
           </div>
           <div className={styles.hash}>#hash #hash #hash #hash</div>
         </div>
-        
+
         <div className={styles.footer}>
           <div className={styles.footerLeft}>
             <Popup
