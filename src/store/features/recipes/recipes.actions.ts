@@ -14,6 +14,7 @@ const getListParamsVariants: ListParams[] = [
   { pathname: 'feed', params: { ordering: '-activity_count' } },
   { pathname: 'feed', params: {} },
   { pathname: 'feed', params: { filter: 'subscriptions' } },
+  { pathname: 'feed', params: { username: 'Vasya' } }, //todo - тут надо как то динамически пробрасывать параметры ;-(
 ]
 
 export const recipeApi = createApi({
