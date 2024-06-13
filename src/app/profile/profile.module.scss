@@ -1,41 +1,59 @@
 .container {
   padding: 0 20px 0 10px;
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: flex-end;
   gap: 10px;
 
-  .userContainer {
+  .wrapper {
+    padding: 0 20px 0 10px;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 10px;
 
-    .userFooter {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-
-      button {
-        align-self: flex-start;
-        border: none;
-        background: none;
-      }
-    }
-
-    .userCard {
+    .userContainer {
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 16px;
 
-      h2 {
-        font-size: 18px;
+      .userFooter {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        button {
+          align-self: flex-start;
+          border: none;
+          background: none;
+        }
       }
-    }
 
-    .userInfo {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      font-size: 14px;
+      .userCard {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+
+        h2 {
+          font-size: 18px;
+        }
+      }
+
+      .userInfo {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        font-size: 14px;
+      }
     }
   }
+
+  .rightbar {
+    flex: 1 0 216px;
+  }
+}
+
+.loader {
+  width: 100%;
 }

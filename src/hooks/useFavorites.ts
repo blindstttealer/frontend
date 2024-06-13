@@ -1,9 +1,20 @@
-import { useAppDispatch, useAppSelector } from '@/store/features/hooks'
+import { useAppDispatch } from '@/store/features/hooks'
 import { MutableRefObject, useEffect, useRef } from 'react'
-import { fetchGetFavorites } from '@/store/features/favorites/favorite.actions'
-import { IFetchListData } from '@/store/features/favorites/favorites.slice'
-import { IRecipe } from '@/store/features/recipe/recipe.types'
+import { IRecipe } from '@/store/features/recipes/recipes.types'
 import { QueryStatus } from '@reduxjs/toolkit/query'
+import { getParamObjectFromURL } from '@/helpers/url'
+import {
+  useGetFavoritesQuery,
+  useLazyGetFavoritesQuery,
+} from '@/store/features/recipes/recipes.actions'
+
+export interface IFetchListData {
+  count: number
+  next: string
+  previous: string
+  results: IRecipe[]
+  detail?: string
+}
 
 export type RecipeListDispatcher = () => {
   isLoading: boolean
@@ -17,28 +28,32 @@ export type RecipeListDispatcher = () => {
 
 export const useFavorites: RecipeListDispatcher = () => {
   const dispatch = useAppDispatch()
-  const {
-    isLoading,
-    status,
-    error,
-    fetchData,
-    favorites: recipies,
-  } = useAppSelector((state) => state.favorites)
+  const { data, isFetching, isLoading, error, status } = useGetFavoritesQuery({
+    pathname: 'recipe/favorites',
+    params: {},
+  })
+  const [trigger] = useLazyGetFavoritesQuery()
   const loadNextPageRef = useRef(() => {})
 
   useEffect(() => {
     loadNextPageRef.current = () => {
-      if (fetchData.next !== null)
-        dispatch(fetchGetFavorites(fetchData.next || 'recipe/favorites'))
+      loadNextPageRef.current = () => {
+        if (data?.next) {
+          trigger({
+            pathname: 'recipe/favorites',
+            params: getParamObjectFromURL(data?.next),
+          })
+        }
+      }
     }
-  }, [dispatch, fetchData.next])
+  }, [data?.next, trigger])
 
   return {
     isLoading,
     status,
     error,
-    fetchData,
-    recipies,
+    fetchData: data,
+    recipies: data?.results?.map((e) => ({ ...e, is_favorite: true })) || [],
     loadNextPageRef,
   }
 }

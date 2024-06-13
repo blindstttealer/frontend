@@ -1,7 +1,7 @@
 import { MutableRefObject, useEffect, useRef } from 'react'
 import {
-  useGetListQuery,
-  useLazyGetListQuery,
+  useGetRecipesQuery,
+  useLazyGetRecipesQuery,
 } from '@/store/features/recipes/recipes.actions'
 import { getParamObjectFromURL } from '@/helpers/url'
 import { QueryStatus } from '@reduxjs/toolkit/query'
@@ -30,11 +30,11 @@ export const getUseRecipes = (
   params: Record<string, string> = {},
 ) => {
   const useMyRecipies: RecipeListDispatcher = () => {
-    const { data, isFetching, isLoading, error, status } = useGetListQuery({
+    const { data, isFetching, isLoading, error, status } = useGetRecipesQuery({
       pathname,
       params,
     })
-    const [trigger] = useLazyGetListQuery()
+    const [trigger] = useLazyGetRecipesQuery()
 
     const loadNextPageRef = useRef(() => {})
 

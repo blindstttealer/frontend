@@ -46,7 +46,7 @@ export default function AddNewRecipe() {
     /* */
 
     return (
-        <Layout isSearch={true} rightbar={false} sidebar={false}>
+        <Layout isSearch={true} sidebar={false}>
             <span className={styles.back} onClick={() => router.push('/')}>{`<--`} Назад</span>
             <div></div>
             <div>

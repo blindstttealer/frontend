@@ -1,11 +1,12 @@
 .rightbar {
-  width: 200px;
+  flex: 1 0 216px;
 
   .publish {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     margin-bottom: 36px;
+    width: 191px;
 
     // может перенести эти стили в src/components/ui/Button/Button.module.scss ?
     button {

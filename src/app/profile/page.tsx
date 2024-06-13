@@ -3,7 +3,6 @@
 import { useMemo } from 'react'
 import styles from './profile.module.scss'
 import { useGetCurentUserDataQuery } from '@/store/features/user/user.actions'
-import { Loader } from '@/components/ui/Loader/Loader'
 import Tabs, { TabData } from '@/components/ui/Tabs/Tabs.module'
 import MyRecipies from '@/components/ui/MyRecipies/MyRecipies'
 import Subscriptions from '@/components/ui/Subscriptions/Subscriptions'
@@ -36,12 +35,20 @@ export default function Profile() {
 
   if (error) return <div>{String(error)}</div>
 
-  if (isLoading) <Loader />
+  if (isLoading)
+    return (
+      <div className={styles.loader}>
+        Loading...
+      </div>
+    )
 
   return (
-    <div className={`${styles.container} scroll scroll--left scroll__thin`}>
-      <UserCard username={data?.username} />
-      <Tabs tabs={tabs} />
+    <div className={styles.container}>
+      <div className={`${styles.wrapper} scroll scroll--left scroll__thin`}>
+        <UserCard username={data?.username} />
+        <Tabs tabs={tabs} />
+      </div>
+      <div className={styles.rightbar} />
     </div>
   )
 }

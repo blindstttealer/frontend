@@ -10,6 +10,7 @@ import {
   RecipeListVariant,
 } from '@/hooks/useRecipes'
 import RecipeList from '@/components/ui/RecipeList/RecipeList'
+import Rightbar from '@/components/layout/rightbar/rightbar'
 
 export default function Home() {
   const { view, sort } = useAppSelector((state) => state.recipesFeed)
@@ -26,16 +27,19 @@ export default function Home() {
 
   return (
     <Layout isSearch={true}>
-      <div
-        className={`${styles.container} scroll scroll--left scroll__thin`}
-        id="wrapper"
-      >
-        {/* div нужен для предотвращения зеркалирования компонента (если есть скрол слева у parent) при ошибке загрузки с сервера */}
-        <div>
-          {dispatcherByVariant[sort] && (
-            <RecipeList dispatcher={dispatcherByVariant[sort]} view={view} />
-          )}
+      <div className={styles.container}>
+        <div
+          className={`${styles.recipes} scroll scroll--left scroll__thin`}
+          id="wrapper"
+        >
+          {/* div нужен для предотвращения зеркалирования компонента (если есть скрол слева у parent) при ошибке загрузки с сервера */}
+          <div>
+            {dispatcherByVariant[sort] && (
+              <RecipeList dispatcher={dispatcherByVariant[sort]} view={view} />
+            )}
+          </div>
         </div>
+        <Rightbar />
       </div>
     </Layout>
   )

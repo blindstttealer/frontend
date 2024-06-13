@@ -46,7 +46,7 @@ export default function Registration() {
     const password2 = watch('password2')
     
     return (
-        <Layout sidebar={false} rightbar={false} isSearch={false}>
+        <Layout sidebar={false} isSearch={false}>
             <span className={styles.back} onClick={() => router.push('/')}>{`<--`} Назад</span>
             <div></div>
             <div className={styles.container}>

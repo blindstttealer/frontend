@@ -1,7 +1,7 @@
 .scroll {
   /* высота экрана за вычетом шапки (~140px) */
   height: calc(100vh - 140px);
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 
 .scroll__thin {

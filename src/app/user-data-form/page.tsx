@@ -101,7 +101,7 @@ export default function Registration() {
     };
 
     return (
-        <Layout sidebar={false} rightbar={false} isSearch={false}>
+        <Layout sidebar={false} isSearch={false}>
             <div></div>
             {/* в данном случае моунт использую, для фикса ошибки конфликта сервера и клиента с айдишниками*/}
             {mount === true ?

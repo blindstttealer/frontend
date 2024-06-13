@@ -3,8 +3,9 @@ import { useAuth } from '@/hooks/useAuth'
 import styles from './sidebar.module.scss'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
-import cn from 'clsx'
 import NavLink from '@/components/ui/NavLink/NavLink'
+import { useEffect, useState } from 'react'
+import { NavLinkSkeleton } from '@/components/ui/Skeletons/skeletons'
 
 type MenuItem = {
   text: string
@@ -51,6 +52,18 @@ export default function Sidebar() {
   const router = useRouter()
   const pathname = usePathname()
 
+  // требуется задержка на получения isAuth, чтобы оно успело обновиться из хранилища после загрузки.
+  // и пока таймаут не прошел - рисуем скелетон меню
+  const [auth, setAuth] = useState<boolean | undefined>()
+
+  const jsxSkeleton = (
+    <div className={styles.auth}>
+      <NavLinkSkeleton />
+      <NavLinkSkeleton />
+      <NavLinkSkeleton />
+    </div>
+  )
+
   const jsxIsAuth = (
     <div className={styles.auth}>
       {menu.map(({ text, img, alt, path }, key) => (
@@ -83,9 +96,17 @@ export default function Sidebar() {
     </div>
   )
 
+  useEffect(() => {
+    setTimeout(() => {
+      setAuth(isAuth)
+    }, 300)
+  }, [isAuth])
+
   return (
     <div className={styles.sidebar}>
-      {isAuth ? jsxIsAuth : jsxIsNotAuth}
+      {auth === undefined && jsxSkeleton}
+      {auth && jsxIsAuth}
+      {auth === false && jsxIsNotAuth}
 
       <div className={styles.more}>
         <p>FAQ</p>
