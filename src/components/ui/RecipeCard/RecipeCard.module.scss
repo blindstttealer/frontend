@@ -105,6 +105,7 @@
     background: #fff;
     padding: 12px 24px;
     border-radius: 12px;
+    border: none;
   }
 }
 
@@ -188,4 +189,30 @@
       }
     }
   }
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+
+  &.tooltipTop {
+    bottom: 115%;
+    left: 50%;
+    margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+    padding: 10px 130px 10px 10px;
+  }
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }

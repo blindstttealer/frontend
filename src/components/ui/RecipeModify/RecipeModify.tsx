@@ -3,35 +3,41 @@ import { IRecipe } from '@/store/features/recipes/recipes.types'
 import Image from 'next/image'
 import styles from './RecipeModify.module.scss'
 import { useData } from '@/hooks/useData'
-import { useAppDispatch } from '@/store/features/hooks'
-import {
-  fetchAddToFavorites,
-  fetchRemoveFromFavorites,
-} from '@/store/features/recipe/recipe.actions'
-import { removeFromList } from '@/store/features/favorites/favorites.slice'
+// import {
+//   useAddToFavoritesMutation,
+//   useRemoveFromFavoritesMutation,
+// } from '@/store/features/recipes/recipes.actions'
 import Reactions from '@/components/ui/Reactions/Reactions'
 import Popup from '@/components/ui/Popup/Popup'
 
 interface RecipeCardProps {
   recipe: IRecipe
-  refreshListOnRemoveFromFavorites?: boolean
+  readonly?: boolean
+  onClose?: () => void
 }
+
+
+/*
+  todo: onClose перенести в меню
+*/
 
 const RecipeCard: FC<RecipeCardProps> = ({
   recipe,
-  refreshListOnRemoveFromFavorites: refreshListOnDelete,
+  readonly,
+  onClose
 }) => {
   const [showMediaIcons, setShowMediaIcons] = useState<boolean>(false)
   const { timeAgo, formattedDate } = useData(recipe.pub_date)
-  const dispatch = useAppDispatch()
+  // const [addToFavorites] = useAddToFavoritesMutation()
+  // const [removeFromFavorites] = useRemoveFromFavoritesMutation()
 
   const changeIsFavoriteHandler = () => {
-    if (recipe.is_favorite) {
-      dispatch(fetchRemoveFromFavorites(recipe.slug))
-      refreshListOnDelete && dispatch(removeFromList({ slug: recipe.slug }))
-    } else {
-      dispatch(fetchAddToFavorites(recipe.slug))
-    }
+    // todo - надо ли для нового рецепта далать добавление его в избранное?
+    // if (recipe.is_favorite) {
+    //   removeFromFavorites(recipe.slug)
+    //  } else {
+    //    addToFavorites(recipe.slug)
+    //  }
   }
   const recipe2 = {
     ingredients: [
@@ -129,7 +135,7 @@ const RecipeCard: FC<RecipeCardProps> = ({
         </div>
       </div>
 
-      <div className={styles.preview}>
+      <div className={styles.preview} onClick={onClose && onClose}>
         <button className={styles.previewPrinter}>
           <Image
             src="/img/recipe-card/link.png"

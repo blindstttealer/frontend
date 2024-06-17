@@ -10,6 +10,7 @@ import ListLoader from '../ListLoader/ListLoader'
 import { ListLoadingError } from '../ListLoadingError/ListLoadingError'
 import { RecipeView } from '@/store/features/recipes/recipes.slice'
 import { id } from 'date-fns/locale/id'
+import { IRecipe } from '@/store/features/recipes/recipes.types'
 
 const RecipeList: FC<{
   dispatcher: RecipeListDispatcher
@@ -56,8 +57,8 @@ const RecipeList: FC<{
 
   if (error) return <ListLoadingError error={error} />
 
-  const toggleIngredients = (index: number, id: number) => {
-    console.log(index, id)
+  const toggleIngredients = (id: number | null) => {
+    console.log(id)
     setActiveIndex(id)
     // const updatedMenuData = menuData.map((item, i) => {
     //   if (i === index) {
@@ -69,28 +70,25 @@ const RecipeList: FC<{
 
   const handleToggle = (index: number) => {}
 
-  return (
+  const onlyOneRecipe = (recipe: IRecipe) => (
+    <div className={styles.container}>
+      <RecipeModify
+        recipe={recipe}
+        onClose={() => toggleIngredients(null)}
+      />
+    </div>
+  )
+
+  const listRecipes = () => (
     <div className={styles.container}>
       <div className={containerStyles.join(' ')}>
         {recipies?.length ? (
-          recipies?.map((recipe, index) => (
+          recipies?.map((recipe) => (
             <div key={recipe.id}>
-              {activeIndex === recipe.id && (
-                <div className={styles.container_popup}>
-                  <RecipeModify
-                    key={recipe.id}
-                    recipe={recipe}
-                    refreshListOnRemoveFromFavorites={true}
-                  />
-                </div>
-              )}
-              <button onClick={() => toggleIngredients(index, recipe.id)}>
-                +
-              </button>
               <RecipeCard
                 key={recipe.id}
                 recipe={recipe}
-                refreshListOnRemoveFromFavorites={true}
+                onPreview={toggleIngredients}
               />
             </div>
           ))
@@ -105,6 +103,12 @@ const RecipeList: FC<{
       <div ref={loaderRef}>&nbsp;</div>
     </div>
   )
+
+  const selectedRecipe = recipies?.find((e) => e.id === activeIndex)
+
+  return activeIndex && selectedRecipe
+    ? onlyOneRecipe(selectedRecipe)
+    : listRecipes()
 }
 
 export default RecipeList
