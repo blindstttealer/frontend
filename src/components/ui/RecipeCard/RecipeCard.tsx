@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { IRecipe } from '@/store/features/recipes/recipes.types'
 import Image from 'next/image'
 import styles from './RecipeCard.module.scss'
+import cn from 'clsx'
 import { useData } from '@/hooks/useData'
 import Reactions from '@/components/ui/Reactions/Reactions'
 import Popup from '@/components/ui/Popup/Popup'
@@ -12,23 +13,24 @@ import {
 
 interface RecipeCardProps {
   recipe: IRecipe
-  refreshListOnRemoveFromFavorites?: boolean
+  onPreview?: (id: number) => void
 }
 
-const RecipeCard: FC<RecipeCardProps> = ({
-  recipe,
-  refreshListOnRemoveFromFavorites: refreshListOnDelete,
-}) => {
+const RecipeCard: FC<RecipeCardProps> = ({ recipe, onPreview }) => {
   const { timeAgo, formattedDate } = useData(recipe.pub_date)
   const [addToFavorites] = useAddToFavoritesMutation()
   const [removeFromFavorites] = useRemoveFromFavoritesMutation()
 
   const changeIsFavoriteHandler = () => {
     if (recipe.is_favorite) {
-     removeFromFavorites(recipe.slug)
+      removeFromFavorites(recipe.slug)
     } else {
       addToFavorites(recipe.slug)
     }
+  }
+
+  const handlerOnTap = () => {
+    onPreview && onPreview(recipe.id)
   }
 
   return (
@@ -89,7 +91,31 @@ const RecipeCard: FC<RecipeCardProps> = ({
             draggable={false}
           />
         </button>
-        <p className={styles.previewTime}>{recipe.cooking_time} мин.</p>
+        <button
+          className={cn(styles.previewTime, {
+            [styles.tooltip]: true,
+          })}
+          onClick={handlerOnTap}
+        >
+          {recipe.cooking_time} мин.
+          <span
+            className={cn(styles.tooltiptext, {
+              [styles.tooltipTop]: true,
+            })}
+          >
+            нажмите для предварительного просмотра
+          </span>
+        </button>
+        {/* <Popup
+          Content={() => (
+            <button className={cn(styles.previewTime, 
+              'tooltip': true
+            )} onClick={handlerOnTap}>
+              {`${recipe.cooking_time} мин.`}
+            </button>
+          )}
+          Tooltip={() => <div>нажмите для предварительного просмотра</div>}
+        /> */}
       </div>
 
       <div className={styles.bottom}>
