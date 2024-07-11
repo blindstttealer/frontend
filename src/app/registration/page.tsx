@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from "@/store/features/hooks"
 import { fetchRegistration } from "@/store/features/user/user.actions"
 import Layout from "@/components/layout/layout";
 import cn from "clsx";
+import ButtonBack from '@/components/ui/ButtonBack/ButtonBack'
 
 
 export default function Registration() {
@@ -47,8 +48,8 @@ export default function Registration() {
     
     return (
         <Layout sidebar={false} isSearch={false}>
-            <span className={styles.back} onClick={() => router.push('/')}>{`<--`} Назад</span>
-            <div></div>
+            <ButtonBack />
+            {/* <div></div> */}
             <div className={styles.container}>
                 <p className={styles.paragraph}>Добро пожаловать в мир су-вид!</p>
                 <div className={styles.innerForm}>

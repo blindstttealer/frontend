@@ -11,6 +11,7 @@ import Layout from '../../components/layout/layout'
 import cn from 'clsx'
 import { IDataFromForm } from '../registration/registration.types'
 import Link from 'next/link'
+import ButtonBack from '@/components/ui/ButtonBack/ButtonBack'
 
 export default function Authentication() {
   const { error: isError, isLoading } = useAppSelector(
@@ -40,9 +41,7 @@ export default function Authentication() {
 
   return (
     <Layout sidebar={false} isSearch={false}>
-      <span className={styles.back} onClick={() => router.push('/')}>
-        {`<--`} Назад
-      </span>
+      <ButtonBack />
       {/* этот пустой див для гридов */}
       <div></div>
       <div className={styles.container}>
