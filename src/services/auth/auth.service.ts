@@ -72,7 +72,7 @@ instanceAxios.interceptors.response.use(
           return instanceAxios.request(originalRequest)
         } catch (error) {
           // case 2.2: error on refreshing access token -> refresh token in invalid -> relogin need
-          window.location.href = `/activate-page?url="${window.location.href}"`
+          window.location.href = `/login?url="${window.location.href}"`
           return
         }
       }

@@ -6,11 +6,14 @@ import cn from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
 
-type Props = {
+export type LinkItem = {
   text: string
-  url: string
-  img: string
+  img?: string
   alt: string
+}
+
+type Props = LinkItem & {
+  url: string
   active?: boolean
   width?: number
   height?: number
@@ -34,7 +37,7 @@ const NavLink: FC<Props> = ({
         href={url}
       >
         <p>{text}</p>
-        <Image src={img} alt={alt} width={width} height={height} />
+        {img && <Image src={img} alt={alt} width={width} height={height} />}
       </Link>
     </>
   )

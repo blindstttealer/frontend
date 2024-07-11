@@ -153,7 +153,7 @@ export default function Registration() {
                         ) : null}
                     </form>
                     <p className={styles.alreadyHaveAccount}>У вас уже есть аккаунт ? <span className={styles.login}
-                        onClick={() => router.push('/activate-page')}>Войти в аккаунт</span>
+                        onClick={() => router.push('/login')}>Войти в аккаунт</span>
                     </p>
                     <div className={styles.innerLine}>
                         <hr className={styles.line} style={{ marginRight: '5px' }} />

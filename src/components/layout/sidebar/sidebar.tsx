@@ -3,14 +3,11 @@ import { useAuth } from '@/hooks/useAuth'
 import styles from './sidebar.module.scss'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
-import NavLink from '@/components/ui/NavLink/NavLink'
+import NavLink, { LinkItem } from '@/components/ui/NavLink/NavLink'
 import { useEffect, useState } from 'react'
 import { NavLinkSkeleton } from '@/components/ui/Skeletons/skeletons'
 
-type MenuItem = {
-  text: string
-  img: string
-  alt: string
+type MenuItem = LinkItem & {
   path: string
 }
 
@@ -44,6 +41,11 @@ const menu: MenuItem[] = [
     img: '/img/sidebar/settings.svg',
     alt: 'setting',
     path: '/setting',
+  },
+  {
+    text: 'logout',
+    alt: 'logout',
+    path: '/logout',
   },
 ]
 
@@ -81,10 +83,7 @@ export default function Sidebar() {
 
   const jsxIsNotAuth = (
     <div className={styles.notAuth}>
-      <button
-        className={styles.button}
-        onClick={() => router.push('login')}
-      >
+      <button className={styles.button} onClick={() => router.push('login')}>
         Войти
       </button>
       <button
