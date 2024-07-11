@@ -7,17 +7,21 @@ import styles from './layout.module.scss'
 type Props = {
   children: ReactNode
   sidebar?: boolean
-  isSearch?: boolean | undefined
+  isSearch?: boolean
 }
 
-const Layout: FC<Props> = ({ children, sidebar = true, isSearch }) => (
+const Layout: FC<Props> = ({ children, sidebar = true, isSearch = false }) => (
   <div className={styles.layout}>
     <div className="container" style={{ flexDirection: 'column' }}>
       <Header isSearch={isSearch} />
-      <div className={styles.layoutTwo}>
-        {sidebar && <Sidebar />}
-        {children}
-      </div>
+      {sidebar ? (
+        <div className={styles.layoutTwo}>
+          <Sidebar />
+          {children}
+        </div>
+      ) : (
+        <div className={styles.layoutOne}>{children}</div>
+      )}
     </div>
   </div>
 )
