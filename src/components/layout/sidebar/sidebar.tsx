@@ -83,7 +83,7 @@ export default function Sidebar() {
     <div className={styles.notAuth}>
       <button
         className={styles.button}
-        onClick={() => router.push('activate-page')}
+        onClick={() => router.push('login')}
       >
         Войти
       </button>
