@@ -31,7 +31,7 @@ const LoginForm: FC = () => {
     handleSubmit,
     formState: { errors, touchedFields, isDirty, isValid },
   } = useForm<FieldValues>({
-    mode: 'onChange',
+    mode: 'onBlur',
     defaultValues: {
       email,
       password,

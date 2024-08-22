@@ -2,6 +2,7 @@
 import Button from '@/components/ui/Button/Button'
 import styles from './activate-profile.module.scss'
 import {useRouter} from 'next/navigation'
+import Link from 'next/link'
 
 export default function ActivateProfile() {
     const router = useRouter()
@@ -19,7 +20,7 @@ export default function ActivateProfile() {
                     </div>
                 </div>
                 <div style={{textAlign: 'center'}}>
-                    <Button onClick={() => router.push('/activate')}>
+                    <Button onClick={() => router.push('/login')}>
                         Авторизуйтесь!
                     </Button>
                 </div>
