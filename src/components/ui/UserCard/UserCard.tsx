@@ -1,11 +1,12 @@
 'use client'
 
 import { FC, useEffect } from 'react'
+
 import styles from './UserCard.module.scss'
 import { useLazyGetUserDataQuery } from '@/store/features/user/user.actions'
 import { Loader } from '@/components/ui/Loader/Loader'
 import Button from '@/components/ui/Button/Button'
-import ProfileAvatar from '../ProfileAvatar/ProfileAvatar'
+import ProfileAvatar from '@/components/ui/ProfileAvatar/ProfileAvatar'
 
 type Props = {
   username?: string

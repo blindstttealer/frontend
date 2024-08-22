@@ -1,10 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import styles from './header.module.scss'
-import Input from '../../ui/Input/Input'
-import { useForm } from 'react-hook-form'
 import Image from 'next/image'
+import { useForm } from 'react-hook-form'
+
+import styles from './header.module.scss'
+import Input from '@/components/ui/Input/Input'
 
 export default function Header({ isSearch }: { isSearch: boolean | undefined }) {
     const { register } = useForm()

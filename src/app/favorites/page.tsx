@@ -1,7 +1,7 @@
 'use client'
 import styles from './favorites.module.scss'
 import { useFavorites } from '@/hooks/useFavorites'
-import ListViewChanger from '@/components/ui/listViewChanger/ListViewChanger'
+import ListViewChanger from '@/components/ui/ListViewChanger/ListViewChanger'
 import RecipeList from '@/components/ui/RecipeList/RecipeList'
 import { useAppSelector } from '@/store/features/hooks'
 

@@ -1,12 +1,13 @@
 'use client'
-import styles from './rightbar.module.scss'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+
+import styles from './rightbar.module.scss'
 import { useAppDispatch, useAppSelector } from '@/store/features/hooks'
 import { setSortMode } from '@/store/features/recipes/recipes.slice'
-import ListViewChanger from '../../ui/listViewChanger/ListViewChanger'
-import { useRouter } from 'next/navigation'
-import Button from '@/components/ui/Button/Button'
 import { useAuth } from '@/hooks/useAuth'
+import Button from '@/components/ui/Button/Button'
+import ListViewChanger from '@/components/ui/ListViewChanger/ListViewChanger'
 
 export default function Rightbar() {
   const dispatch = useAppDispatch()

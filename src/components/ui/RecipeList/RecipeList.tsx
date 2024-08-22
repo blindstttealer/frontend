@@ -1,15 +1,15 @@
 'use client'
 
 import { FC, useEffect, useRef, useState } from 'react'
+
 import styles from './RecipeList.module.scss'
 import RecipeCard from '@/components/ui/RecipeCard/RecipeCard'
 import RecipeModify from '@/components/ui/RecipeModify/RecipeModify'
 import { RecipeListDispatcher } from '@/hooks/useFavorites'
 import EmptyRecipeList from './EmptyRecipeList'
-import ListLoader from '../ListLoader/ListLoader'
-import { ListLoadingError } from '../ListLoadingError/ListLoadingError'
+import ListLoader from '@/components/ui/ListLoader/ListLoader'
+import { ListLoadingError } from '@/components/ui/ListLoadingError/ListLoadingError'
 import { RecipeView } from '@/store/features/recipes/recipes.slice'
-import { id } from 'date-fns/locale/id'
 import { IRecipe } from '@/store/features/recipes/recipes.types'
 
 const RecipeList: FC<{

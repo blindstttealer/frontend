@@ -1,8 +1,9 @@
-import styles from './Input.module.scss'
+import Image from 'next/image';
 import { FC, useState } from 'react'
 import { FieldValues, RegisterOptions, UseFormRegister } from 'react-hook-form'
 import cn from 'clsx'
-import EyeIcon from '../../../../public/img/eye.svg'
+
+import styles from './Input.module.scss'
 
 interface InputProps {
 	placeholder?: string
@@ -67,7 +68,7 @@ const Input: FC<InputProps> = ({
 								onMouseDown={handleMouseDown}
 								onMouseUp={handleMouseUp}
 							>
-								<EyeIcon />
+								<Image alt='eye' src={'/img/eye.svg'} width={24} height={24} draggable={false}/>
 							</button>
 						) : null}
 					</div>
