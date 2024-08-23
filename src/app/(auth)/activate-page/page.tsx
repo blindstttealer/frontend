@@ -10,6 +10,7 @@ export default function Authentication() {
       <ButtonBack />
       <div className={styles.container}>
         <p className={styles.paragraph}>С возвращением в мир су-вид!</p>
+        
         <LoginForm />
       </div>
     </Layout>
