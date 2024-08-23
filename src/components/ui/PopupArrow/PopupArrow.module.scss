@@ -1,0 +1,78 @@
+$border-color: rgba(0, 0, 0, 1);
+
+.wrapper {
+  display: inline-block;
+  position: relative;
+
+  color: black;
+  text-align: center;
+
+  .tooltip {
+    position: absolute;
+    z-index: 998;
+
+    border: 1px solid $border-color;
+    border-radius: 16px;
+    box-sizing: border-box;
+
+    padding: 16px;
+    color: #ffffff;
+    background-color: #fff;
+
+    visibility: hidden;
+    opacity: 0;
+    transition: all ease-out .3s;
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #fff;
+      border-color: $border-color;
+    }
+  }
+
+  &:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .top {
+    top: -50%;
+    left: 50%;
+    transform: translate(-30%, -100%);
+
+    &::after {
+      top: 100%;
+      left: 50%;
+      transform: translateY(-50%) rotate(-45deg);
+      border: 1px solid transparent;
+      border-left-color: rgb(0, 0, 0);
+      border-bottom-color: rgb(0, 0, 0);
+      z-index: 999;
+    }
+  }
+
+  .bottom {
+    top: 120%;
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    &::after {
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(135deg);
+      border: 1px solid transparent;
+      border-left-color: rgb(0, 0, 0);
+      border-bottom-color: rgb(0, 0, 0);
+    }
+  }
+
+  // .left .right добавить при необходимости, пример https://www.menucool.com/tooltip/css-tooltip
+
+  // дополнительные стили
+  .arrowLeft::after {
+    left: 13.5% !important;
+  }
+}
