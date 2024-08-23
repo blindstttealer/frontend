@@ -50,7 +50,7 @@ const RecipeList: FC<{
   useEffect(() => {
     const newStyles = [styles.wrapper]
     if (view === 'tile') {
-      newStyles.push(styles.tile)
+      newStyles.push('tile')
     }
     setContainerStyles(newStyles)
   }, [view])
