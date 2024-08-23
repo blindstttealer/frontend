@@ -42,11 +42,6 @@ const menu: MenuItem[] = [
     alt: 'setting',
     path: '/setting',
   },
-  {
-    text: 'logout',
-    alt: 'logout',
-    path: '/logout',
-  },
 ]
 
 export default function Sidebar() {
