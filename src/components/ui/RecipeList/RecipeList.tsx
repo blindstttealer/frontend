@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, Fragment, useEffect, useRef, useState } from 'react'
 
 import styles from './RecipeList.module.scss'
 import RecipeCard from '@/components/ui/RecipeCard/RecipeCard'
@@ -72,10 +72,7 @@ const RecipeList: FC<{
 
   const onlyOneRecipe = (recipe: IRecipe) => (
     <div className={styles.container}>
-      <RecipeModify
-        recipe={recipe}
-        onClose={() => toggleIngredients(null)}
-      />
+      <RecipeModify recipe={recipe} onClose={() => toggleIngredients(null)} />
     </div>
   )
 
@@ -84,13 +81,13 @@ const RecipeList: FC<{
       <div className={containerStyles.join(' ')}>
         {recipies?.length ? (
           recipies?.map((recipe) => (
-            <div key={recipe.id}>
+            <Fragment key={recipe.id}>
               <RecipeCard
                 key={recipe.id}
                 recipe={recipe}
                 onPreview={toggleIngredients}
               />
-            </div>
+            </Fragment>
           ))
         ) : (
           <EmptyRecipeList />
