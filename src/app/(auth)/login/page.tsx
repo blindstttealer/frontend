@@ -9,7 +9,7 @@ export default function Login() {
     <Layout sidebar={false} isSearch={false}>
       <ButtonBack />
       <div className={styles.container}>
-        <p className={styles.paragraph}>Добро пожаловать в мир су-вид.</p>
+        <h1>Добро пожаловать в мир су-вид.</h1>
         <LoginForm />
       </div>
     </Layout>

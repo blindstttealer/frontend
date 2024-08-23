@@ -1,20 +1,20 @@
 'use client'
-import Button from '@/components/ui/Button/Button'
-import Input from '@/components/ui/Input/Input'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { FC } from 'react'
 import { FieldValues, useForm } from 'react-hook-form'
+
 import styles from './loginForm.module.scss'
 import { useAppSelector, useAppDispatch } from '@/store/features/hooks'
-import { useRouter } from 'next/navigation'
 import { fetchAuthorization } from '@/store/features/user/user.actions'
-import cn from 'clsx'
-import { FC } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
+import Button from '@/components/ui/Button/Button'
+import Input from '@/components/ui/Input/Input'
+import SocialForm from './SocialForm'
 
 export interface IDataFromForm {
   email: string
   password: string
-  repeat_password?: string
+  isAlien?: boolean
 }
 
 const LoginForm: FC = () => {
@@ -31,122 +31,104 @@ const LoginForm: FC = () => {
     handleSubmit,
     formState: { errors, touchedFields, isDirty, isValid },
   } = useForm<FieldValues>({
-    mode: 'onBlur',
+    mode: 'all',
     defaultValues: {
-      email,
-      password,
+      email: '',
+      password: '',
+      isAlien: false
     },
   })
 
-  const onSubmit = ({ email, password }: FieldValues) => {
-    const payload: IDataFromForm = { email, password }
-    dispatch(fetchAuthorization(payload))
+  const onSubmit = (dataFromInput: FieldValues) => {
+    // const payload: IDataFromForm = { email, password, isAlien }
+    dispatch(fetchAuthorization(dataFromInput))
   }
 
   return (
-    <div className={styles.innerForm}>
+    <div className={styles.container}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>
           Email
-          <div style={{ marginTop: '12px', marginBottom: '12px' }}>
-            <Input
-              register={register}
-              name="email"
-              // этот класснейм проверяет ошибку из бека, для ошибок валидации на фронте, свои проверки от библиотеки, в компоненте инпут
-              className={cn({
-                [styles.errorInput]: isError?.email,
-              })}
-              type="text"
-              placeholder="ivanov@gmail.com"
-              touchedFields={touchedFields}
-              options={{
-                required: 'Обязательное поле',
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i,
-                  message: 'Введите корректный ящик',
-                },
-              }}
-              error={errors?.email?.message}
-            />
-          </div>
+          <Input
+            register={register}
+            name="email"
+            type="text"
+            placeholder="ivanov@gmail.com"
+            touchedFields={touchedFields}
+            options={{
+              required: 'Обязательное поле',
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i,
+                message: 'Введите корректный ящик',
+              },
+            }}
+            error={errors?.email?.message}
+          />
         </label>
+
         <label>
-          <div className={styles.faggotPassword}>
+          <div className={styles.forgotPassword}>
             <span>Пароль</span>
-            <span className={styles.faggotPassword_inner}>Забыли пароль?</span>
+            {/* todo: not implemented */}
+            <Link href="/resetpassword">Забыли пароль?</Link>
           </div>
-          <div style={{ marginTop: '12px', marginBottom: '24px' }}>
-            <Input
-              register={register}
-              name="password"
-              type="password"
-              placeholder="*********"
-              touchedFields={touchedFields}
-              options={{
-                required: 'Обязательное поле',
-                minLength: {
-                  message: 'Минимальная длина 8 символов!',
-                  value: 8,
-                },
-                validate: {
-                  number: (value) =>
-                    /\d/.test(value) ||
-                    'Пароль должен содержать хотя бы одну цифру!',
-                  noRussianChars: (value) =>
-                    !/[А-Яа-яЁё]/.test(value) ||
-                    'Пароль не должен содержать русских символов!',
-                  letter: (value) =>
-                    /[A-Za-z]/.test(value) ||
-                    'Пароль должен содержать хотя бы одну букву!',
-                },
-              }}
-              error={errors?.password?.message}
-            />
-          </div>
-          {isError && (
-            <p style={{ color: 'var(--input-invalid)', textAlign: 'center' }}>
-              Неверные ящик или пароль
-            </p>
-          )}
+          <Input
+            register={register}
+            name="password"
+            type="password"
+            placeholder="*********"
+            touchedFields={touchedFields}
+            options={{
+              required: 'Обязательное поле',
+              minLength: {
+                message: 'Минимальная длина 8 символов!',
+                value: 8,
+              },
+              validate: {
+                number: (value) =>
+                  /\d/.test(value) ||
+                  'Пароль должен содержать хотя бы одну цифру!',
+                noRussianChars: (value) =>
+                  !/[А-Яа-яЁё]/.test(value) ||
+                  'Пароль не должен содержать русских символов!',
+                letter: (value) =>
+                  /[A-Za-z]/.test(value) ||
+                  'Пароль должен содержать хотя бы одну букву!',
+              },
+            }}
+            error={errors?.password?.message}
+          />
+          {isError && <p className={styles.error}>Неверные ящик или пароль</p>}
         </label>
+
+        <label className={styles.left}>
+          <Input
+            register={register}
+            name="isAlien"
+            type="checkbox"
+          />
+          Чужой компьютер
+        </label>
+
         <Button
           disabled={!isDirty || !isValid}
           type="submit"
           color="primary"
           size="big"
-          style={{ width: '100%', marginBottom: '24px' }}
+          loading={isLoading}
         >
           Войти
         </Button>
-        {/* ниже мой произвол */}
-        {isLoading && (
-          <p style={{ textAlign: 'center', color: 'aquamarine' }}>
-            Ждем ответа сервера...
-          </p>
-        )}
-        {/*  */}
       </form>
-      <p className={styles.alreadyHaveAccount}>
-        Впервые на нашем сайте?{' '}
-        <Link className={styles.login} href="/registration">
+
+      <p className={styles.center}>
+        Впервые на нашем сайте?
+        <Link href="/registration">
           Создайте аккаунт
         </Link>
       </p>
-      <div className={styles.innerLine}>
-        <hr className={styles.line} style={{ marginRight: '5px' }} />
-        <span>или</span>
-        <hr className={styles.line} style={{ marginLeft: '5px' }} />
-      </div>
-      <div className={styles.innerImg}>
-        <Image
-          style={{ marginRight: '12px' }}
-          src="/img/vk.svg"
-          width={38}
-          height={38}
-          alt="vk"
-        />
-        <Image src="/img/ya.svg" width={38} height={38} alt="yandex" />
-      </div>
+
+      <SocialForm />
     </div>
   )
 }
