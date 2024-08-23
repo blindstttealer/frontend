@@ -35,13 +35,13 @@ const LoginForm: FC = () => {
     defaultValues: {
       email: '',
       password: '',
-      isAlien: false
+      isAlien: false,
     },
   })
 
-  const onSubmit = (dataFromInput: FieldValues) => {
-    // const payload: IDataFromForm = { email, password, isAlien }
-    dispatch(fetchAuthorization(dataFromInput))
+  const onSubmit = ({ email, password }: FieldValues) => {
+    const payload: IDataFromForm = { email, password }
+    dispatch(fetchAuthorization(payload))
   }
 
   return (
@@ -102,11 +102,7 @@ const LoginForm: FC = () => {
         </label>
 
         <label className={styles.left}>
-          <Input
-            register={register}
-            name="isAlien"
-            type="checkbox"
-          />
+          <Input register={register} name="isAlien" type="checkbox" />
           Чужой компьютер
         </label>
 
@@ -123,9 +119,7 @@ const LoginForm: FC = () => {
 
       <p className={styles.center}>
         Впервые на нашем сайте?
-        <Link href="/registration">
-          Создайте аккаунт
-        </Link>
+        <Link href="/registration">Создайте аккаунт</Link>
       </p>
 
       <SocialForm />
