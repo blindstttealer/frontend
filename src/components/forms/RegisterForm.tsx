@@ -16,8 +16,6 @@ import SocialForm from './SocialForm'
 export interface IDataFromForm {
   email: string
   password: string
-  password2: string
-  agree: boolean
 }
 
 const RegisterForm: FC = () => {
@@ -25,7 +23,7 @@ const RegisterForm: FC = () => {
   const router = useRouter()
   const { isError, success } = useAppSelector((state) => state.userRegistration)
   const {
-    profileFromActivation: { email, password, password2 },
+    profileFromActivation: { email, password, repeat_password },
   } = useAppSelector((state) => state.userRegistration)
 
   const {
@@ -37,9 +35,10 @@ const RegisterForm: FC = () => {
     mode: 'all',
   })
 
-  const onSubmit = (dataFromInput: FieldValues) => {
-    dispatch(getDataFromActivation(dataFromInput))
-    dispatch(fetchRegistration(dataFromInput))
+  const onSubmit = ({ email, password }: FieldValues) => {
+    const payload: IDataFromForm = { email, password }
+    dispatch(getDataFromActivation(payload))
+    dispatch(fetchRegistration(payload))
   }
 
   useEffect(() => {
@@ -86,7 +85,7 @@ const RegisterForm: FC = () => {
             <Input
               register={register}
               name="password"
-              type="password"
+              type="new-password"
               placeholder="*********"
               options={{
                 required: 'Обязательное поле',
@@ -121,8 +120,8 @@ const RegisterForm: FC = () => {
           <div>
             <Input
               register={register}
-              name="password2"
-              type="password"
+              name="repeat_password"
+              type="new-password"
               placeholder="*********"
               options={{
                 required: 'Обязательное поле',

@@ -75,7 +75,7 @@ const LoginForm: FC = () => {
           <Input
             register={register}
             name="password"
-            type="password"
+            type="current-password"
             placeholder="*********"
             touchedFields={touchedFields}
             options={{
