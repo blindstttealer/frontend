@@ -10,7 +10,7 @@ interface IButton
     HTMLButtonElement
   > {
   children: ReactNode
-  color?: 'purple' | 'white' | 'gray' | 'primary' | 'secondary'
+  color?: 'purple' | 'white' | 'gray' | 'primary' | 'secondary' | 'clear'
   size?: 'big' | 'medium' | 'small'
   disabled?: boolean
   loading?: boolean
@@ -25,18 +25,19 @@ const Button: FC<IButton> = ({
   loading,
   ...props
 }) => {
+  const buttonClasses = cn(styles.button, className, {
+    [styles.disabled]: disabled === true,
+    [styles.primary]: color === 'primary',
+    [styles.secondary]: color === 'secondary',
+    [styles.clear]: color === 'clear',
+    [styles.big]: size === 'big',
+    [styles.medium]: size === 'medium',
+    [styles.small]: size === 'small',
+  })
+
   return (
     <button
-      className={cn(styles.button, className, {
-        [styles.disabled]: disabled === true,
-        // новое
-        [styles.primary]: color === 'primary',
-        [styles.secondary]: color === 'secondary',
-        // было
-        [styles.big]: size === 'big',
-        [styles.medium]: size === 'medium',
-        [styles.small]: size === 'small',
-      })}
+      className={buttonClasses}
       disabled={disabled || !!loading}
       {...props}
     >
