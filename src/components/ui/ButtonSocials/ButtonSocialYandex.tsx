@@ -43,7 +43,6 @@ const ButtonSocialYandex: FC = () => {
       {/* <Button color="clear" onClick={onClick}>
         <Image src="/img/ya.svg" width={38} height={38} alt="yandex" />
       </Button> */}
-      <hr />
       <Link href={url}>
         <Image src="/img/ya.svg" width={38} height={38} alt="yandex" />
       </Link>
