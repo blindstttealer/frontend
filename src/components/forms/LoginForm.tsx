@@ -4,12 +4,12 @@ import Link from 'next/link'
 import { FC } from 'react'
 import { FieldValues, useForm } from 'react-hook-form'
 
-import styles from './loginForm.module.scss'
+import styles from './forms.module.scss'
 import { useAppSelector, useAppDispatch } from '@/store/features/hooks'
 import { fetchAuthorization } from '@/store/features/user/user.actions'
 import Button from '@/components/ui/Button/Button'
 import Input from '@/components/ui/Input/Input'
-import SocialForm from './SocialForm'
+import SocialForm from '@/components/ui/Socials/SocialForm'
 
 export interface IDataFromForm {
   email: string
@@ -31,7 +31,7 @@ const LoginForm: FC = () => {
     handleSubmit,
     formState: { errors, touchedFields, isDirty, isValid },
   } = useForm<FieldValues>({
-    mode: 'all',
+    mode: 'onBlur',
     defaultValues: {
       email: '',
       password: '',

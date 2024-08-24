@@ -2,8 +2,8 @@
 import { FC } from 'react'
 
 import styles from './socialForm.module.scss'
-import ButtonSocialYandex from '../ui/ButtonSocials/ButtonSocialYandex'
-import ButtonSocialVK from '../ui/ButtonSocials/ButtonSocialVK'
+import ButtonSocialYandex from './ButtonSocialYandex'
+import ButtonSocialVK from './ButtonSocialVK'
 
 const SocialForm: FC = () => {
   return (

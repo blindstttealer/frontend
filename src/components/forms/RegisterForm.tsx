@@ -5,13 +5,13 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import cn from 'clsx'
 
-import styles from './loginForm.module.scss'
+import styles from './forms.module.scss'
 import { fetchRegistration } from '@/store/features/user/user.actions'
 import { getDataFromActivation } from '@/store/features/user/user-registration.slice'
 import { useAppDispatch, useAppSelector } from '@/store/features/hooks'
 import Button from '@/components/ui/Button/Button'
 import Input from '@/components/ui/Input/Input'
-import SocialForm from './SocialForm'
+import SocialForm from '@/components/ui/Socials/SocialForm'
 
 export interface IDataFromForm {
   email: string
@@ -32,7 +32,7 @@ const RegisterForm: FC = () => {
     watch,
     formState: { errors, touchedFields, isDirty, isValid, isLoading },
   } = useForm<FieldValues>({
-    mode: 'all',
+    mode: 'onBlur',
   })
 
   const onSubmit = ({ email, password }: FieldValues) => {
