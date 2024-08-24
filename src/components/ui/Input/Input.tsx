@@ -18,6 +18,7 @@ interface InputProps {
 	>
 	options?: RegisterOptions<FieldValues>
 	register: UseFormRegister<FieldValues>
+	autocomplete?: string
 }
 
 const Input: FC<InputProps> = ({
@@ -29,6 +30,7 @@ const Input: FC<InputProps> = ({
 	touchedFields,
 	register,
 	options,
+	autocomplete,
 	...rest
 }) => {
 	// console.log("error", error, "touchedFields", touchedFields)
@@ -55,6 +57,7 @@ const Input: FC<InputProps> = ({
 					type={isPassword ? typeInput : type}
 					{...optionsForm}
 					{...rest}
+					autoComplete={autocomplete}
 					className={cn(styles.input, {
 						[styles.borderError]: error !== undefined,
 					})}

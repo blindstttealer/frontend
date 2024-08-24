@@ -53,6 +53,7 @@ const LoginForm: FC = () => {
             register={register}
             name="email"
             type="text"
+            autocomplete='email'
             placeholder="ivanov@gmail.com"
             touchedFields={touchedFields}
             options={{
@@ -75,7 +76,8 @@ const LoginForm: FC = () => {
           <Input
             register={register}
             name="password"
-            type="current-password"
+            type="password"
+            autocomplete='current-password'
             placeholder="*********"
             touchedFields={touchedFields}
             options={{

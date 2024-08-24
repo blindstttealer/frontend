@@ -62,6 +62,7 @@ const RegisterForm: FC = () => {
               touchedFields={touchedFields}
               name="email"
               type="text"
+              autocomplete='email'
               placeholder="ivanov@gmail.com"
               options={{
                 required: 'Обязательное поле',
@@ -85,7 +86,8 @@ const RegisterForm: FC = () => {
             <Input
               register={register}
               name="password"
-              type="new-password"
+              type="password"
+              autocomplete='new-password'
               placeholder="*********"
               options={{
                 required: 'Обязательное поле',
@@ -121,7 +123,8 @@ const RegisterForm: FC = () => {
             <Input
               register={register}
               name="repeat_password"
-              type="new-password"
+              type="password"
+              autocomplete='new-password'
               placeholder="*********"
               options={{
                 required: 'Обязательное поле',
