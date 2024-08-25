@@ -58,6 +58,7 @@ export interface IRecipe {
   short_text: string
   preview_image: null
   author: Author
+  // ingredients: any[]
   pub_date: string
   tag: any[]
   cooking_time: number
