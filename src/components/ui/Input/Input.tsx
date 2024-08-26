@@ -1,8 +1,9 @@
-import styles from './Input.module.scss'
+import Image from 'next/image';
 import { FC, useState } from 'react'
 import { FieldValues, RegisterOptions, UseFormRegister } from 'react-hook-form'
 import cn from 'clsx'
-import EyeIcon from '../../../../public/img/eye.svg'
+
+import styles from './Input.module.scss'
 
 interface InputProps {
 	placeholder?: string
@@ -17,6 +18,7 @@ interface InputProps {
 	>
 	options?: RegisterOptions<FieldValues>
 	register: UseFormRegister<FieldValues>
+	autocomplete?: string
 }
 
 const Input: FC<InputProps> = ({
@@ -28,6 +30,7 @@ const Input: FC<InputProps> = ({
 	touchedFields,
 	register,
 	options,
+	autocomplete,
 	...rest
 }) => {
 	// console.log("error", error, "touchedFields", touchedFields)
@@ -54,6 +57,7 @@ const Input: FC<InputProps> = ({
 					type={isPassword ? typeInput : type}
 					{...optionsForm}
 					{...rest}
+					autoComplete={autocomplete}
 					className={cn(styles.input, {
 						[styles.borderError]: error !== undefined,
 					})}
@@ -67,7 +71,7 @@ const Input: FC<InputProps> = ({
 								onMouseDown={handleMouseDown}
 								onMouseUp={handleMouseUp}
 							>
-								<EyeIcon />
+								<Image alt='eye' src={'/img/eye.svg'} width={24} height={24} draggable={false}/>
 							</button>
 						) : null}
 					</div>

@@ -1,11 +1,12 @@
 'use client'
 
 import { FC } from 'react'
+import { getUseRecipes } from '@/hooks/useRecipes'
+
 import styles from './MyRecipies.module.scss'
 import RecipeList from '@/components/ui/RecipeList/RecipeList'
-import { getUseRecipes } from '@/hooks/useRecipes'
-import Button from '../Button/Button'
-import DatePicker from '../DatePicker/DatePicker'
+import Button from '@/components/ui/Button/Button'
+import DatePicker from '@/components/ui/DatePicker/DatePicker'
 import { useAppDispatch, useAppSelector } from '@/store/features/hooks'
 import {
   setDateSortMyRecipes,

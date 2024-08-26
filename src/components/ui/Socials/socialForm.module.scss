@@ -1,0 +1,22 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.innerLine {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  hr {
+    height: 1px;
+    width: 152px;
+    margin-right: 5px;
+  }
+}
+
+.innerImg {
+  display: flex;
+  justify-content: center;
+}

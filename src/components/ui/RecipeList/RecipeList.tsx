@@ -1,15 +1,15 @@
 'use client'
 
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, Fragment, useEffect, useRef, useState } from 'react'
+
 import styles from './RecipeList.module.scss'
 import RecipeCard from '@/components/ui/RecipeCard/RecipeCard'
 import RecipeModify from '@/components/ui/RecipeModify/RecipeModify'
 import { RecipeListDispatcher } from '@/hooks/useFavorites'
 import EmptyRecipeList from './EmptyRecipeList'
-import ListLoader from '../ListLoader/ListLoader'
-import { ListLoadingError } from '../ListLoadingError/ListLoadingError'
+import ListLoader from '@/components/ui/ListLoader/ListLoader'
+import { ListLoadingError } from '@/components/ui/ListLoadingError/ListLoadingError'
 import { RecipeView } from '@/store/features/recipes/recipes.slice'
-import { id } from 'date-fns/locale/id'
 import { IRecipe } from '@/store/features/recipes/recipes.types'
 
 const RecipeList: FC<{
@@ -50,7 +50,7 @@ const RecipeList: FC<{
   useEffect(() => {
     const newStyles = [styles.wrapper]
     if (view === 'tile') {
-      newStyles.push(styles.tile)
+      newStyles.push('tile')
     }
     setContainerStyles(newStyles)
   }, [view])
@@ -72,10 +72,7 @@ const RecipeList: FC<{
 
   const onlyOneRecipe = (recipe: IRecipe) => (
     <div className={styles.container}>
-      <RecipeModify
-        recipe={recipe}
-        onClose={() => toggleIngredients(null)}
-      />
+      <RecipeModify recipe={recipe} onClose={() => toggleIngredients(null)} />
     </div>
   )
 
@@ -84,13 +81,13 @@ const RecipeList: FC<{
       <div className={containerStyles.join(' ')}>
         {recipies?.length ? (
           recipies?.map((recipe) => (
-            <div key={recipe.id}>
+            <Fragment key={recipe.id}>
               <RecipeCard
                 key={recipe.id}
                 recipe={recipe}
                 onPreview={toggleIngredients}
               />
-            </div>
+            </Fragment>
           ))
         ) : (
           <EmptyRecipeList />

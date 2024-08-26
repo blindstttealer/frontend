@@ -1,0 +1,66 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 450px;
+  margin: 0 auto;
+  margin-top: 80px;
+  padding: 36px;
+  border: 1px solid var(--primary-color);
+  border-radius: 12px;
+  font-size: 14px;
+
+  h2 {
+    font-size: 22px;
+    color: var(--primary-color);
+  }
+
+  a {
+    color: var(--primary-color-light);
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+  }
+
+  .forgotPassword {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .error {
+    color: var(--input-invalid);
+    text-align: center;
+  }
+
+  button[type='submit'] {
+    width: 100%;
+  }
+
+  .center {
+    text-align: center;
+    a {
+      margin-left: 0.5rem;
+    }
+    &Small {
+      font-size: 12px;
+    }
+  }
+
+  .left {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    &Small {
+      font-size: 12px;
+    }
+  }
+}

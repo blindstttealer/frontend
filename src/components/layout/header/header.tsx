@@ -1,10 +1,12 @@
 'use client'
 
 import Link from 'next/link'
-import styles from './header.module.scss'
-import Input from '../../ui/Input/Input'
-import { useForm } from 'react-hook-form'
 import Image from 'next/image'
+import { useForm } from 'react-hook-form'
+
+import styles from './header.module.scss'
+import Input from '@/components/ui/Input/Input'
+import Avatar from './avatar/avatar'
 
 export default function Header({ isSearch }: { isSearch: boolean | undefined }) {
     const { register } = useForm()
@@ -35,7 +37,7 @@ export default function Header({ isSearch }: { isSearch: boolean | undefined }) 
                             />
                         </div>
                         <button className={styles.profile}>
-                            <Image src="/img/profile.png" width={30} height={30} alt="profile" draggable={false} />
+                            <Avatar/>
                         </button>
                     </>
                 }

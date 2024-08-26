@@ -2,7 +2,7 @@
 import styles from './ListViewChanger.module.scss'
 import { useAppDispatch, useAppSelector } from '@/store/features/hooks'
 import { setViewMode } from '@/store/features/recipes/recipes.slice'
-import Button from '../Button/Button'
+import Button from '@/components/ui/Button/Button'
 
 export default function ListViewChanger() {
   const dispatch = useAppDispatch()

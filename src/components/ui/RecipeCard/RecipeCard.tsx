@@ -1,15 +1,16 @@
 import { FC } from 'react'
-import { IRecipe } from '@/store/features/recipes/recipes.types'
 import Image from 'next/image'
-import styles from './RecipeCard.module.scss'
 import cn from 'clsx'
-import { useData } from '@/hooks/useData'
-import Reactions from '@/components/ui/Reactions/Reactions'
-import Popup from '@/components/ui/Popup/Popup'
+
+import styles from './RecipeCard.module.scss'
+import { IRecipe } from '@/store/features/recipes/recipes.types'
 import {
   useAddToFavoritesMutation,
   useRemoveFromFavoritesMutation,
 } from '@/store/features/recipes/recipes.actions'
+import { useData } from '@/hooks/useData'
+import Reactions from '@/components/ui/Reactions/Reactions'
+import Popup from '@/components/ui/Popup/Popup'
 
 interface RecipeCardProps {
   recipe: IRecipe
@@ -45,7 +46,7 @@ const RecipeCard: FC<RecipeCardProps> = ({ recipe, onPreview }) => {
             {/*           draggable={false}/>}*/}
             <Image
               src="/img/recipe-card/profile.svg"
-              alt="avatar"
+              alt={`avatar ${recipe.id}`}
               width={30}
               height={30}
               draggable={false}
@@ -62,30 +63,29 @@ const RecipeCard: FC<RecipeCardProps> = ({ recipe, onPreview }) => {
         <button className={styles.previewPrinter}>
           <Image
             src="/img/recipe-card/printer.png"
-            alt="printer"
+            alt={`print ${recipe.id}`}
             width={28}
             height={28}
             draggable={false}
           />
         </button>
-        {recipe.preview_image ? (
-          <Image
-            src={recipe.preview_image}
-            height={300}
-            alt="recipe image"
-            draggable={false}
-            className={styles.notPreview}
-          />
-        ) : (
-          <div className={styles.notPreview}></div>
-        )}
+        <Image
+          src={recipe.preview_image || '/img/recipe-card/empty-recipe.svg'}
+          height={300}
+          width={768}
+          alt={`recipe image ${recipe.id}`}
+          draggable={false}
+          className={cn(styles.notPreview, {
+            recipePreviewImg: true,
+          })}
+        />
         <button
           className={styles.previewSave}
           onClick={changeIsFavoriteHandler}
         >
           <Image
             src={`/img/recipe-card/${recipe.is_favorite ? 'save-filled.svg' : 'save.svg'}`}
-            alt="save"
+            alt={`save ${recipe.id}`}
             width={26}
             height={26}
             draggable={false}
@@ -130,11 +130,14 @@ const RecipeCard: FC<RecipeCardProps> = ({ recipe, onPreview }) => {
         <div className={styles.footer}>
           <div className={styles.footerLeft}>
             <Popup
+              tooltipStyles={{
+                maxWidth: '290px',
+              }}
               Content={() => (
                 <button className={styles.like}>
                   <Image
                     src="/img/recipe-card/like.svg"
-                    alt="like button"
+                    alt={`like button ${recipe.id}`}
                     width={24}
                     height={24}
                     draggable={false}
@@ -147,7 +150,7 @@ const RecipeCard: FC<RecipeCardProps> = ({ recipe, onPreview }) => {
             <button>
               <Image
                 src="/img/recipe-card/comment.svg"
-                alt="comment button"
+                alt={`comment button ${recipe.id}`}
                 width={24}
                 height={24}
                 draggable={false}
@@ -157,7 +160,7 @@ const RecipeCard: FC<RecipeCardProps> = ({ recipe, onPreview }) => {
             <button>
               <Image
                 src="/img/recipe-card/share.svg"
-                alt="share button"
+                alt={`share button ${recipe.id}`}
                 width={24}
                 height={24}
                 draggable={false}
@@ -169,7 +172,7 @@ const RecipeCard: FC<RecipeCardProps> = ({ recipe, onPreview }) => {
             <button>
               <Image
                 src="/img/recipe-card/views.svg"
-                alt="views"
+                alt={`views ${recipe.id}`}
                 width={24}
                 height={24}
                 draggable={false}
