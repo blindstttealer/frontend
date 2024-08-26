@@ -1,7 +1,7 @@
 import { axiosBaseQuery } from '@/services/auth/auth.service'
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { convertObjectToQueryParams } from '@/helpers/url'
-import { IFetchListData } from './recipes.types'
+import { IFetchListData, IRecipeWithIngredients } from './recipes.types'
 import { current } from '@reduxjs/toolkit'
 
 export type ListParams = {
@@ -186,6 +186,17 @@ export const recipeApi = createApi({
         })
       },
     }),
+
+    getRecipe: builder.query<IRecipeWithIngredients, string>({
+      query: (slug) => {
+        console.log('getRecipe', slug)
+
+        return {
+          url: `recipe/${slug}/`,
+          method: 'GET',
+        }
+      },
+    }),
   }),
 })
 
@@ -196,4 +207,5 @@ export const {
   useLazyGetFavoritesQuery,
   useAddToFavoritesMutation,
   useRemoveFromFavoritesMutation,
+  useGetRecipeQuery,
 } = recipeApi

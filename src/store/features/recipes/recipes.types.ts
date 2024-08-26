@@ -70,6 +70,11 @@ export interface IRecipe {
   is_favorite: boolean
 }
 
+export interface IRecipeWithIngredients extends IRecipe {
+  ingredients: any[]
+  full_text: string
+}
+
 export interface GetRecipesResponse {
   count: number
   next: string
