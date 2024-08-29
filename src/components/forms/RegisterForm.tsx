@@ -1,164 +1,107 @@
 'use client'
 import { FC, useEffect } from 'react'
-import { FieldValues, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import cn from 'clsx'
 
 import styles from './forms.module.scss'
-import { fetchRegistration } from '@/store/features/user/user.actions'
-import { getDataFromActivation } from '@/store/features/user/user-registration.slice'
-import { useAppDispatch, useAppSelector } from '@/store/features/hooks'
+import { useRegisterMutation } from '@/store/features/user/user.actions'
+import { Field, FieldSet, InputEmail, InputPassword } from './items'
 import Button from '@/components/ui/Button/Button'
 import Input from '@/components/ui/Input/Input'
 import SocialForm from '@/components/ui/Socials/SocialForm'
 
-export interface IDataFromForm {
+type FormValues = {
   email: string
   password: string
+  password2: string
+  agree: boolean
 }
 
 const RegisterForm: FC = () => {
-  const dispatch = useAppDispatch()
   const router = useRouter()
-  const { isError, success } = useAppSelector((state) => state.userRegistration)
-  const {
-    profileFromActivation: { email, password, repeat_password },
-  } = useAppSelector((state) => state.userRegistration)
+  const [doRegister, { status }] = useRegisterMutation()
 
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors, touchedFields, isDirty, isValid, isLoading },
-  } = useForm<FieldValues>({
+    formState: { errors, isDirty, isValid, isLoading },
+  } = useForm<FormValues>({
     mode: 'onBlur',
   })
 
-  const onSubmit = ({ email, password }: FieldValues) => {
-    const payload: IDataFromForm = { email, password }
-    dispatch(getDataFromActivation(payload))
-    dispatch(fetchRegistration(payload))
+  const onSubmit = (formValues: FormValues) => {
+    doRegister(formValues)
   }
 
   useEffect(() => {
-    if (success === true) {
+    if (status === 'fulfilled') {
       router.push('/activate-instruction')
     }
-  }, [success, errors, router, touchedFields])
+  }, [router, status])
 
   const pswd = watch('password')
 
   return (
     <div className={styles.container}>
-      <h2>Регистрация</h2>
-
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label>
-          Email
-          <div>
-            <Input
-              register={register}
-              touchedFields={touchedFields}
-              name="email"
-              type="text"
-              autocomplete='email'
-              placeholder="ivanov@gmail.com"
-              options={{
-                required: 'Обязательное поле',
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i,
-                  message: 'Введите корректный ящик',
-                },
-              }}
-              error={errors?.email?.message}
-            />
-          </div>
-          {/* @ts-ignore */}
-          {isError?.email && (
-            <p className={styles.error}>Пользователь с таким email уже есть</p>
-          )}
-        </label>
+        <FieldSet label="Регистрация">
+          <Field label="Email" error={errors.email?.message}>
+            <InputEmail register={register} id="email" />
+          </Field>
 
-        <label>
-          Пароль
-          <div>
+          <Field label="Пароль" error={errors.password?.message}>
+            <InputPassword
+              register={register}
+              id="password"
+              autocomplete="new-password"
+            />
+          </Field>
+
+          <Field
+            label="Введите пароль еще раз"
+            error={errors.password2?.message}
+          >
             <Input
               register={register}
-              name="password"
+              name="password2"
               type="password"
-              autocomplete='new-password'
+              autocomplete="new-password"
               placeholder="*********"
               options={{
                 required: 'Обязательное поле',
-                minLength: {
-                  message: 'Минимальная длина 8 символов',
-                  value: 8,
-                },
-                validate: {
-                  number: (value) =>
-                    /\d/.test(value) ||
-                    'Пароль должен содержать хотя бы одну цифру!',
-                  noRussianChars: (value) =>
-                    !/[А-Яа-яЁё]/.test(value) || 'Используйте только латиницу!',
-                  letter: (value) =>
-                    /[A-Za-z]/.test(value) ||
-                    'Пароль должен содержать хотя бы одну букву!',
-                  upperLetter: (value) =>
-                    /[A-Z]/.test(value) ||
-                    'Пароль должен содержать одну заглавную букву!',
-                  symbol: (value) =>
-                    /[\W_]/.test(value) ||
-                    'Пароль должен содержать хотя бы один специальный символ (!@#$%^&*).',
-                },
+                validate: (value) => value === pswd || 'Пароли не совпадают',
               }}
-              error={errors?.password?.message}
             />
-          </div>
-        </label>
+          </Field>
 
-        <label>
-          Введите пароль еще раз
-          <div>
-            <Input
-              register={register}
-              name="repeat_password"
-              type="password"
-              autocomplete='new-password'
-              placeholder="*********"
-              options={{
-                required: 'Обязательное поле',
-                validate: (value) => {
-                  return value === pswd || 'Пароли не совпадают'
-                },
-              }}
-              error={errors?.password2?.message}
-            />
-          </div>
-        </label>
-
-        <label
-          className={cn(styles.left, {
-            [styles.leftSmall]: true,
-          })}
-        >
-          <Input
-            register={register}
-            name="agree"
-            type="checkbox"
-            options={{
-              required: 'Обязательное поле',
-              validate: (value) => {
-                return value === true || 'Соглашение необходимо'
-              },
-            }}
-          />
-          Я соглашаюсь
-          <Link href="/todo">с обработкой персональных данных</Link>
-        </label>
+          <Field error={errors.agree?.message}>
+            <div
+              className={cn(styles.left, {
+                [styles.leftSmall]: true,
+              })}
+            >
+              <input
+                {...register('agree', {
+                  required: 'Обязательное поле',
+                  validate: (value) => {
+                    return value === true || 'Соглашение необходимо'
+                  },
+                })}
+                id="agree"
+                type="checkbox"
+              />
+              Я соглашаюсь&nbsp;
+              <Link href="/todo">с обработкой персональных данных</Link>
+            </div>
+          </Field>
+        </FieldSet>
 
         <Button
           disabled={!isDirty || !isValid}
+          type="submit"
           color={'primary'}
           size={'big'}
           loading={isLoading}

@@ -5,8 +5,24 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 import PopupArrow from '@/components/ui/PopupArrow/PopupArrow'
+import { useAuth } from '@/hooks/useAuth'
 
 const Avatar: FC = () => {
+  const { isAuth } = useAuth()
+
+  const AuthMenu = <Link href="/logout">Выйти</Link>
+
+  const NoAuthMenu = (
+    <ul>
+      <li>
+        <Link href="/registration">Зарегистрироваться</Link>
+      </li>
+      <li>
+        <Link href="/login">Войти</Link>
+      </li>
+    </ul>
+  )
+
   return (
     <div>
       <PopupArrow
@@ -25,7 +41,7 @@ const Avatar: FC = () => {
             draggable={false}
           />
         )}
-        Tooltip={() => <Link href="/logout">Выйти</Link>}
+        Tooltip={() => (isAuth ? AuthMenu : NoAuthMenu)}
       />
     </div>
   )
