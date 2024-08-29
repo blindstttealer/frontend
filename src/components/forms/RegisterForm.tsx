@@ -21,13 +21,13 @@ type FormValues = {
 
 const RegisterForm: FC = () => {
   const router = useRouter()
-  const [doRegister, { status }] = useRegisterMutation()
+  const [doRegister, { status, isLoading }] = useRegisterMutation()
 
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors, isDirty, isValid, isLoading },
+    formState: { errors, isDirty, isValid },
   } = useForm<FormValues>({
     mode: 'onBlur',
   })

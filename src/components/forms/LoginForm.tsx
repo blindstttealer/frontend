@@ -20,11 +20,11 @@ type FormValues = {
 
 const LoginForm: FC = () => {
   const dispatch = useAppDispatch()
-  const [doLogin, { data, status }] = useLoginMutation()
+  const [doLogin, { data, status, isLoading }] = useLoginMutation()
   const {
     register,
     handleSubmit,
-    formState: { errors, isDirty, isValid, isLoading },
+    formState: { errors, isDirty, isValid },
   } = useForm<FormValues>({
     mode: 'onBlur',
   })
