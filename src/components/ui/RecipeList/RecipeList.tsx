@@ -93,11 +93,8 @@ const RecipeList: FC<{
           <EmptyRecipeList />
         )}
 
-        {isLoading && <ListLoader />}
+        <div ref={loaderRef}>{isLoading && <ListLoader />}</div>
       </div>
-
-      {/* div обязателен в таком виде для догрузки элементов при достижении этого div в конце списка видимой части окна браузера */}
-      <div ref={loaderRef}>&nbsp;</div>
     </div>
   )
 

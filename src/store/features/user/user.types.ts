@@ -47,3 +47,25 @@ export interface UserData {
   is_staff: boolean
   is_admin: boolean
 }
+
+export interface RegisterUserForm {
+  email: string
+  password: string
+  password2: string
+}
+
+export interface RegisterUserResponse {
+  id: number
+  email: string
+  username: string
+}
+
+export interface LoginUserForm {
+  email: string
+  password: string
+}
+
+export interface LoginUserResponse {
+  access: string
+  refresh: string
+}

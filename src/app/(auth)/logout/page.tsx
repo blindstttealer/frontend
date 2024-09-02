@@ -1,13 +1,16 @@
 'use client'
-import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+
+import { useAppDispatch } from '@/store/features/hooks'
+import { logoutUser } from '@/store/features/user/user.slice'
 
 export default function Logout() {
   const router = useRouter()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    localStorage.removeItem('access_token_svd')
-    localStorage.removeItem('refresh_token_svd')
+    dispatch(logoutUser({}))
     router.push('/')
-  }, [router])
+  }, [dispatch, router])
 }

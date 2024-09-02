@@ -10,11 +10,6 @@
   border-radius: 12px;
   font-size: 14px;
 
-  h2 {
-    font-size: 22px;
-    color: var(--primary-color);
-  }
-
   a {
     color: var(--primary-color-light);
   }
@@ -23,22 +18,11 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
-
-    label {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
   }
 
   .forgotPassword {
     display: flex;
     justify-content: space-between;
-  }
-
-  .error {
-    color: var(--input-invalid);
-    text-align: center;
   }
 
   button[type='submit'] {
@@ -62,5 +46,41 @@
     &Small {
       font-size: 12px;
     }
+  }
+}
+
+.fieldset {
+  border: none;
+  font-size: 14px;
+
+  legend {
+    font-weight: bold;
+    font-size: 22px;
+    color: var(--primary-color);
+    margin-bottom: 24px;
+  }
+
+  .fields {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+}
+
+.field {
+  .label{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  label {
+    display: flex;
+    margin-bottom: 12px;
+}
+
+  .error {
+    color: var(--input-invalid);
+    text-align: left;
   }
 }

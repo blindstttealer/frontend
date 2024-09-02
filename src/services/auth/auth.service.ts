@@ -16,11 +16,7 @@ if (typeof window !== 'undefined') {
   }
 }
 
-const urlsSkipAuth = [
-  'auth/users/',
-  'auth/jwt/create/',
-  'feed/',
-]
+const urlsSkipAuth = ['auth/users/', 'auth/jwt/create/', 'feed/']
 
 instanceAxios.interceptors.request.use(
   (config) => {
@@ -28,13 +24,13 @@ instanceAxios.interceptors.request.use(
       // console.log("сработал перехватчик на запрос");
       return config
     }
-    
+
     const authToken = localStorage.getItem('access_token_svd')
     if (authToken) {
       config.headers.Authorization = `Bearer ${authToken}`
       // console.log("сработал перехватчик на POST устанавливает токен");
     }
-    
+
     return config
   },
   (error) => {
@@ -72,6 +68,8 @@ instanceAxios.interceptors.response.use(
           return instanceAxios.request(originalRequest)
         } catch (error) {
           // case 2.2: error on refreshing access token -> refresh token in invalid -> relogin need
+          localStorage.removeItem('access_token_svd')
+          localStorage.removeItem('refresh_token_svd')
           window.location.href = `/login?url="${window.location.href}"`
           return
         }

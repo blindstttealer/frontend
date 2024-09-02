@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userRegistrationReducer from './user/user-registration.slice'
-import userAuthorizationReducer from './user/user-authorization.slice'
 import userDateMeReducer from './user/user-data-me.slice'
 import userActivateAccountReducer from './user/user-activation.slice'
 import recipesFeedReducer from './recipes/recipes.slice'
+import userSettingsReducer from './user/user.slice'
 import userFormDataEdit from './user/user-data-form-edit.slice'
 import getUserNameWithoutToken from './user/user-getData-username.slice'
 import { recipeReactionsApi } from './reactions/reactions.actions'
@@ -13,11 +13,11 @@ import { recipeApi } from './recipes/recipes.actions'
 const store = configureStore({
   reducer: {
     userRegistration: userRegistrationReducer,
-    userAuthorization: userAuthorizationReducer,
     userDateMe: userDateMeReducer,
     userActivation: userActivateAccountReducer,
     userFormDataEdit: userFormDataEdit,
     recipesFeed: recipesFeedReducer,
+    userSettings: userSettingsReducer,
     userName: getUserNameWithoutToken,
     [recipeReactionsApi.reducerPath]: recipeReactionsApi.reducer,
     [recipeApi.reducerPath]: recipeApi.reducer,

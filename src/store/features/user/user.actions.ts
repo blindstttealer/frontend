@@ -5,6 +5,10 @@ import {
   IDataFromForm,
   IDataFromResolve,
   IToken,
+  LoginUserForm,
+  LoginUserResponse,
+  RegisterUserForm,
+  RegisterUserResponse,
   UserData,
 } from './user.types'
 import {
@@ -38,40 +42,40 @@ export const fetchRegistration = createAsyncThunk<
 
 //todo: протестировать АКТИВАЦИЮ пользователя
 // активация пользователя, получение токенов
-export const fetchActivation = createAsyncThunk<IToken, IDataFromForm>(
-  'userActivation/fetchActivation',
-  async (dataFromForm, { rejectWithValue }) => {
-    try {
-      const res = await instanceAxios({
-        method: 'POST',
-        url: 'auth/jwt/create/',
-        data: dataFromForm,
-      })
-      return res.data
-    } catch (err) {
-      // @ts-ignore
-      return rejectWithValue(err?.response?.data)
-    }
-  },
-)
+// export const fetchActivation = createAsyncThunk<IToken, IDataFromForm>(
+//   'userActivation/fetchActivation',
+//   async (dataFromForm, { rejectWithValue }) => {
+//     try {
+//       const res = await instanceAxios({
+//         method: 'POST',
+//         url: 'auth/jwt/create/',
+//         data: dataFromForm,
+//       })
+//       return res.data
+//     } catch (err) {
+//       // @ts-ignore
+//       return rejectWithValue(err?.response?.data)
+//     }
+//   },
+// )
 
 // авторизация пользователя, получение токенов
-export const fetchAuthorization = createAsyncThunk<IToken, IDataFromForm>(
-  'userActivation/fetchAuthorization',
-  async (dataFromForm, { rejectWithValue }) => {
-    try {
-      const res = await instanceAxios({
-        method: 'POST',
-        url: 'auth/jwt/create/',
-        data: dataFromForm,
-      })
-      return res.data
-    } catch (err) {
-      // @ts-ignore
-      return rejectWithValue(err?.response?.data)
-    }
-  },
-)
+// export const fetchAuthorization = createAsyncThunk<IToken, IDataFromForm>(
+//   'userActivation/fetchAuthorization',
+//   async (dataFromForm, { rejectWithValue }) => {
+//     try {
+//       const res = await instanceAxios({
+//         method: 'POST',
+//         url: 'auth/jwt/create/',
+//         data: dataFromForm,
+//       })
+//       return res.data
+//     } catch (err) {
+//       // @ts-ignore
+//       return rejectWithValue(err?.response?.data)
+//     }
+//   },
+// )
 
 // данные пользователя
 export const fetchDataUser = createAsyncThunk(
@@ -196,6 +200,24 @@ export const userApi = createApi({
     getUserData: builder.query<UserData, string>({
       query: (username: string) => ({ url: `user/${username}` }),
     }),
+    register: builder.mutation<RegisterUserResponse, RegisterUserForm>({
+      query: (data) => {
+        return {
+          url: 'auth/users/',
+          method: 'POST',
+          data,
+        }
+      },
+    }),
+    login: builder.mutation<LoginUserResponse, LoginUserForm>({
+      query: (data) => {
+        return {
+          url: 'auth/jwt/create/',
+          method: 'POST',
+          data,
+        }
+      },
+    }),
   }),
 })
 
@@ -203,4 +225,6 @@ export const {
   useGetCurentUserDataQuery,
   useLazyGetCurentUserDataQuery,
   useLazyGetUserDataQuery,
+  useRegisterMutation,
+  useLoginMutation
 } = userApi

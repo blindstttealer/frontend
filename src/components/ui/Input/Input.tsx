@@ -1,85 +1,89 @@
-import Image from 'next/image';
-import { FC, useState } from 'react'
-import { FieldValues, RegisterOptions, UseFormRegister } from 'react-hook-form'
+import Image from 'next/image'
+import { FC, HTMLInputTypeAttribute, useState } from 'react'
+import { RegisterOptions, UseFormRegister } from 'react-hook-form'
 import cn from 'clsx'
 
 import styles from './Input.module.scss'
 
 interface InputProps {
-	placeholder?: string
-	type?: string
-	name: string
-	className?: string
-	error?: any
-	touchedFields?: Partial<
-		Readonly<{
-			[x: string]: any
-		}>
-	>
-	options?: RegisterOptions<FieldValues>
-	register: UseFormRegister<FieldValues>
-	autocomplete?: string
+  placeholder?: string
+  type?: HTMLInputTypeAttribute
+  name: string
+  className?: string
+  error?: any
+  touchedFields?: Partial<
+    Readonly<{
+      [x: string]: any
+    }>
+  >
+  options?: RegisterOptions<any>
+  register: UseFormRegister<any>
+  autocomplete?: string
 }
 
 const Input: FC<InputProps> = ({
-	placeholder,
-	error,
-	type = 'text',
-	name,
-	className,
-	touchedFields,
-	register,
-	options,
-	autocomplete,
-	...rest
+  placeholder,
+  error,
+  type = 'text',
+  name,
+  className,
+  touchedFields,
+  register,
+  options,
+  autocomplete,
+  ...rest
 }) => {
-	// console.log("error", error, "touchedFields", touchedFields)
-	const optionsForm = options
-		? { ...register(name, options) }
-		: { ...register(name) }
+  // console.log("error", error, "touchedFields", touchedFields)
+  const optionsForm = options
+    ? { ...register(name, options) }
+    : { ...register(name) }
 
-	const isPassword = type === 'password'
+  const isPassword = type === 'password'
 
-	const [typeInput, setTypeInput] = useState(type)
-	const handleMouseDown = () => {
-		setTypeInput('text')
-	}
+  const [typeInput, setTypeInput] = useState(type)
+  const handleMouseDown = () => {
+    setTypeInput('text')
+  }
 
-	const handleMouseUp = () => {
-		setTypeInput(type)
-	}
+  const handleMouseUp = () => {
+    setTypeInput(type)
+  }
 
-	return (
-		<div className={className}>
-			<div className={styles.input__wrapper}>
-				<input
-					placeholder={placeholder}
-					type={isPassword ? typeInput : type}
-					{...optionsForm}
-					{...rest}
-					autoComplete={autocomplete}
-					className={cn(styles.input, {
-						[styles.borderError]: error !== undefined,
-					})}
-				/>
-				{error || isPassword ? (
-					<div className={styles.input__icons}>
-						{isPassword ? (
-							<button
-								className={styles.input__eye}
-								type="button"
-								onMouseDown={handleMouseDown}
-								onMouseUp={handleMouseUp}
-							>
-								<Image alt='eye' src={'/img/eye.svg'} width={24} height={24} draggable={false}/>
-							</button>
-						) : null}
-					</div>
-				) : null}
-			</div>
-			{error && <span className={styles.error}>{error}</span>}
-		</div>
-	)
+  return (
+    <div className={className}>
+      <div className={styles.input__wrapper}>
+        <input
+          placeholder={placeholder}
+          type={isPassword ? typeInput : type}
+          {...optionsForm}
+          {...rest}
+          autoComplete={autocomplete}
+          className={cn(styles.input, {
+            [styles.borderError]: error !== undefined,
+          })}
+        />
+        {isPassword && (
+          <div className={styles.input__icons}>
+            <button
+              className={styles.input__eye}
+              type="button"
+              onMouseDown={handleMouseDown}
+              onMouseUp={handleMouseUp}
+            >
+              <Image
+                alt="eye"
+                src={'/img/eye.svg'}
+                width={24}
+                height={24}
+                draggable={false}
+              />
+            </button>
+          </div>
+        )}
+      </div>
+      {error && <span className={styles.error}>{error}</span>}
+    </div>
+  )
 }
 
 export default Input
