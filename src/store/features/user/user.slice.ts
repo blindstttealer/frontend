@@ -14,7 +14,7 @@ const userSettings = createSlice({
   name: 'userSettings',
   initialState: defaultState,
   reducers: {
-    checkLoginStatus:  (state, _action) => {
+    checkLoginStatus: (state, _action) => {
       const token = localStorage.getItem('access_token_svd')
       state.isAuth = !!token
     },
@@ -43,6 +43,10 @@ const userSettings = createSlice({
       localStorage.setItem('refresh_token_svd', refresh)
       state.isAuth = true
     },
+    clearTokens: (state, action) => {
+      localStorage.removeItem('access_token_svd')
+      localStorage.removeItem('refresh_token_svd')
+    },
   },
 })
 
@@ -52,6 +56,7 @@ export const {
   logoutUser,
   setAccessTokens,
   setTokens,
+  clearTokens,
 } = userSettings.actions
 
 export default userSettings.reducer
