@@ -1,12 +1,12 @@
-import Layout from "@/components/layout/layout";
+'use client'
 
+import Layout from '@/components/layout/layout'
+import NotFound from '@/components/ui/NotFound/NotFound'
 
-export default function NotFound() {
-    return (
-        <Layout>
-            <div style={{display: 'flex', width: '100%', justifyContent: 'center', fontSize: '24px', color: "red"}}>
-                Not found
-            </div>
-        </Layout>
-    )
+export default function NotFoundPage() {
+  return (
+    <Layout>
+        <NotFound/>
+    </Layout>
+  )
 }
