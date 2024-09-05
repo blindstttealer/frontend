@@ -16,7 +16,16 @@ if (typeof window !== 'undefined') {
   }
 }
 
+const clearTokensAndGoToLogin = () => {
+  localStorage.removeItem('access_token_svd')
+  localStorage.removeItem('refresh_token_svd')
+}
+
 const urlsSkipAuth = ['auth/users/', 'auth/jwt/create/', 'feed/']
+const clitical401Errors = [
+  'Не найдено активной учетной записи с указанными данными',
+  'Пользователь не найден',
+]
 
 instanceAxios.interceptors.request.use(
   (config) => {
@@ -49,30 +58,27 @@ instanceAxios.interceptors.response.use(
 
     if (error.response.status == 401) {
       // case 1: error in login process -> incorrect login/password -> show error
-      if (
-        error.response.data.detail ===
-        'Не найдено активной учетной записи с указанными данными'
-      ) {
+      if (clitical401Errors.includes(error.response.data.detail)) {
+        clearTokensAndGoToLogin()
         return Promise.reject(error)
       }
-      // case 2: authorization error on any other request -> incorrect access token -> try to refresh it with hepling refresh token
-      else {
-        try {
-          const response = await axios.post(
-            `${BASE_URL}auth/jwt/refresh/`,
-            refresh,
-          )
-          // case 2.1: refreshing success -> set access token and refetch original query
-          localStorage.setItem('access_token_svd', response.data.access)
 
-          return instanceAxios.request(originalRequest)
-        } catch (error) {
-          // case 2.2: error on refreshing access token -> refresh token in invalid -> relogin need
-          localStorage.removeItem('access_token_svd')
-          localStorage.removeItem('refresh_token_svd')
-          window.location.href = `/login?url="${window.location.href}"`
-          return
-        }
+      // normal operations
+      // case 2: authorization error on any other request -> incorrect access token -> try to refresh it with hepling refresh token
+      try {
+        const response = await axios.post(
+          `${BASE_URL}auth/jwt/refresh/`,
+          refresh,
+        )
+        // case 2.1: refreshing success -> set access token and refetch original query
+        localStorage.setItem('access_token_svd', response.data.access)
+
+        return instanceAxios.request(originalRequest)
+      } catch (error) {
+        // case 2.2: error on refreshing access token -> refresh token in invalid -> relogin need
+        clearTokensAndGoToLogin()
+        window.location.href = `/login?url="${window.location.href}"`
+        return
       }
     }
 
