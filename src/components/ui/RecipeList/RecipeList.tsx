@@ -4,13 +4,12 @@ import { FC, Fragment, useEffect, useRef, useState } from 'react'
 
 import styles from './RecipeList.module.scss'
 import RecipeCard from '@/components/ui/RecipeCard/RecipeCard'
-import RecipeModify from '@/components/ui/RecipeModify/RecipeModify'
 import { RecipeListDispatcher } from '@/hooks/useFavorites'
 import EmptyRecipeList from './EmptyRecipeList'
 import ListLoader from '@/components/ui/ListLoader/ListLoader'
 import { ListLoadingError } from '@/components/ui/ListLoadingError/ListLoadingError'
 import { RecipeView } from '@/store/features/recipes/recipes.slice'
-import { IRecipe } from '@/store/features/recipes/recipes.types'
+import { useRouter } from 'next/navigation'
 
 const RecipeList: FC<{
   dispatcher: RecipeListDispatcher
@@ -20,9 +19,12 @@ const RecipeList: FC<{
   const [containerStyles, setContainerStyles] = useState<string[]>([
     styles.wrapper,
   ])
-  const [activeIndex, setActiveIndex] = useState<number | null>(null)
+  const router = useRouter()
+  const { recipies, loadNextPageRef, isFetching, error } = dispatcher()
 
-  const { recipies, loadNextPageRef, isLoading, error } = dispatcher()
+  const toggleIngredients = (slug: string) => {
+    router.push(`/recipe/${slug}`)
+  }
 
   // отслеживаем скроллинг и догружаем элементы списка
   useEffect(() => {
@@ -57,52 +59,25 @@ const RecipeList: FC<{
 
   if (error) return <ListLoadingError error={error} />
 
-  const toggleIngredients = (id: number | null) => {
-    console.log(id)
-    setActiveIndex(id)
-    // const updatedMenuData = menuData.map((item, i) => {
-    //   if (i === index) {
-    //     return { ...item, showIngredients: !item.showIngredients };
-    //   }
-    //   return item;
-    // });
-  }
-
-  const handleToggle = (index: number) => {}
-
-  const onlyOneRecipe = (recipe: IRecipe) => (
-    <div className={styles.container}>
-      <RecipeModify recipe={recipe} onClose={() => toggleIngredients(null)} />
-    </div>
-  )
-
-  const listRecipes = () => (
+  return (
     <div className={styles.container}>
       <div className={containerStyles.join(' ')}>
-        {recipies?.length ? (
-          recipies?.map((recipe) => (
-            <Fragment key={recipe.id}>
-              <RecipeCard
-                key={recipe.id}
-                recipe={recipe}
-                onPreview={toggleIngredients}
-              />
-            </Fragment>
-          ))
-        ) : (
-          <EmptyRecipeList />
-        )}
+        {recipies?.length
+          ? recipies?.map((recipe) => (
+              <Fragment key={recipe.id}>
+                <RecipeCard
+                  key={recipe.id}
+                  recipe={recipe}
+                  onPreview={toggleIngredients}
+                />
+              </Fragment>
+            ))
+          : !isFetching && <EmptyRecipeList />}
 
-        <div ref={loaderRef}>{isLoading && <ListLoader />}</div>
+        <div ref={loaderRef}>{isFetching && <ListLoader />}&nbsp;</div>
       </div>
     </div>
   )
-
-  const selectedRecipe = recipies?.find((e) => e.id === activeIndex)
-
-  return activeIndex && selectedRecipe
-    ? onlyOneRecipe(selectedRecipe)
-    : listRecipes()
 }
 
 export default RecipeList

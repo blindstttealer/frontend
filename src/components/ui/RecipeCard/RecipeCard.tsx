@@ -14,7 +14,7 @@ import Popup from '@/components/ui/Popup/Popup'
 
 interface RecipeCardProps {
   recipe: IRecipe
-  onPreview?: (id: number) => void
+  onPreview?: (slug: string) => void
 }
 
 const RecipeCard: FC<RecipeCardProps> = ({ recipe, onPreview }) => {
@@ -31,7 +31,7 @@ const RecipeCard: FC<RecipeCardProps> = ({ recipe, onPreview }) => {
   }
 
   const handlerOnTap = () => {
-    onPreview && onPreview(recipe.id)
+    onPreview && onPreview(recipe.slug)
   }
 
   return (
