@@ -189,8 +189,6 @@ export const recipeApi = createApi({
 
     getRecipe: builder.query<IRecipeWithIngredients, string>({
       query: (slug) => {
-        console.log('getRecipe', slug)
-
         return {
           url: `recipe/${slug}/`,
           method: 'GET',

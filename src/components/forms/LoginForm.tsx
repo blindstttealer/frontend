@@ -20,7 +20,8 @@ type FormValues = {
 
 const LoginForm: FC = () => {
   const dispatch = useAppDispatch()
-  const [doLogin, { data, status, isLoading }] = useLoginMutation()
+  const [doLogin, { data, status, isLoading, error }] = useLoginMutation()
+  const errorText: string = error?.data.detail || ''
   const {
     register,
     handleSubmit,
@@ -78,6 +79,11 @@ const LoginForm: FC = () => {
         >
           Войти
         </Button>
+        {errorText && (
+          <span role="alert" className={styles.error}>
+            {errorText}
+          </span>
+        )}
       </form>
 
       <p className={styles.center}>

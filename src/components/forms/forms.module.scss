@@ -47,6 +47,11 @@
       font-size: 12px;
     }
   }
+
+  .error {
+    color: var(--input-invalid);
+    text-align: left;
+  }
 }
 
 .fieldset {
