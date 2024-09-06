@@ -21,7 +21,7 @@ type FormValues = {
 const LoginForm: FC = () => {
   const dispatch = useAppDispatch()
   const [doLogin, { data, status, isLoading, error }] = useLoginMutation()
-  const errorText: string = error?.data.detail || ''
+  const errorText = error?.message
   const {
     register,
     handleSubmit,
@@ -97,6 +97,3 @@ const LoginForm: FC = () => {
 }
 
 export default LoginForm
-function dispatch(arg0: { payload: any; type: 'userSettings/loginUser' }) {
-  throw new Error('Function not implemented.')
-}
