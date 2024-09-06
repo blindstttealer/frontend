@@ -4,6 +4,7 @@ import React, { FC } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
+import styles from './avatar.module.scss'
 import PopupArrow from '@/components/ui/PopupArrow/PopupArrow'
 import { useAuth } from '@/hooks/useAuth'
 
@@ -13,7 +14,7 @@ const Avatar: FC = () => {
   const AuthMenu = <Link href="/logout">Выйти</Link>
 
   const NoAuthMenu = (
-    <ul>
+    <ul className={styles.menuList}>
       <li>
         <Link href="/registration">Зарегистрироваться</Link>
       </li>
