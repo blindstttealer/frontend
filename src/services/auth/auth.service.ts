@@ -1,3 +1,4 @@
+import { SerializedError } from '@reduxjs/toolkit'
 import { BaseQueryFn } from '@reduxjs/toolkit/query'
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 
@@ -100,7 +101,7 @@ export const axiosBaseQuery =
       headers?: AxiosRequestConfig['headers']
     },
     unknown,
-    unknown
+    SerializedError
   > =>
   async ({ url, method, data, params, headers }) => {
     try {
@@ -113,12 +114,19 @@ export const axiosBaseQuery =
       })
       return { data: result.data }
     } catch (axiosError) {
-      const err = axiosError as AxiosError
+      const err = axiosError as AxiosError<
+        {
+          detail: string
+        },
+        unknown
+      >
+      console.log('axiosBaseQuery error', err)
+
       return {
         error: {
-          status: err.response?.status,
-          data: err.response?.data || err.message,
+          code: err.response?.status,
+          message: err.response?.data.detail,
         },
-      }
+      } as SerializedError
     }
   }
