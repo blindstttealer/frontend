@@ -2,9 +2,8 @@
 
 import { useEffect } from 'react'
 
-import styles from '../../recipe.module.scss'
+import styles from '../../mutationRecipe.module.scss'
 import { useGetRecipeQuery } from '@/store/features/recipes/recipes.actions'
-import ButtonBack from '@/components/ui/ButtonBack/ButtonBack'
 
 export default function EditRecipe({ params }: { params: { slug: string } }) {
   const { data, isFetching, isLoading, error, status } = useGetRecipeQuery(
@@ -19,17 +18,16 @@ export default function EditRecipe({ params }: { params: { slug: string } }) {
     return (
       <div className={styles.wrongSlug}>
         Рецепт не найден
-        <ButtonBack />
       </div>
     )
 
   //todo поместить сюда форму изменения рецепта
   return (
-    <>
+    <div className={styles.wrapper}>
       Редактирование рецепта
-      <pre style={{ display: 'block', fontSize: '10pt' }}>
+      <pre>
         {JSON.stringify(data, null, 2)}
       </pre>
-    </>
+    </div>
   )
 }

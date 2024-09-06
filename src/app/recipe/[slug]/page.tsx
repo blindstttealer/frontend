@@ -2,9 +2,10 @@
 
 import { useEffect } from 'react'
 
-import styles from '../recipe.module.scss'
+import styles from './recipe.module.scss'
 import { useGetRecipeQuery } from '@/store/features/recipes/recipes.actions'
 import ButtonBack from '@/components/ui/ButtonBack/ButtonBack'
+import Link from 'next/link'
 
 export default function Recipe({ params }: { params: { slug: string } }) {
   const { data, isFetching, isLoading, error, status } = useGetRecipeQuery(
@@ -27,6 +28,9 @@ export default function Recipe({ params }: { params: { slug: string } }) {
   return (
     <>
       Просмотр рецепта
+
+      <Link href={`/recipe/edit/${params.slug}`}>Изменить</Link>
+
       <pre style={{ display: 'block', fontSize: '10pt' }}>
         {JSON.stringify(data, null, 2)}
       </pre>
