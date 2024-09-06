@@ -23,6 +23,7 @@ const RecipeList: FC<{
   const { recipies, loadNextPageRef, isFetching, error } = dispatcher()
 
   const toggleIngredients = (slug: string) => {
+    console.log(`/recipe/${slug}`)
     router.push(`/recipe/${slug}`)
   }
 
