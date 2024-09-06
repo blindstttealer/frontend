@@ -3,6 +3,7 @@ import { FC, ReactNode } from 'react'
 import Header from '@/components/layout/header/header'
 import Sidebar from '@/components/layout/sidebar/sidebar'
 import styles from './layout.module.scss'
+import ButtonBack from '../ui/ButtonBack/ButtonBack'
 
 type Props = {
   children: ReactNode
@@ -20,7 +21,12 @@ const Layout: FC<Props> = ({ children, sidebar = true, isSearch = false }) => (
           {children}
         </div>
       ) : (
-        <div className={styles.layoutOne}>{children}</div>
+        <div className={styles.layoutOne}>
+          <div className={styles.left}>
+            <ButtonBack />
+          </div>
+          <div className={styles.center}>{children}</div>
+        </div>
       )}
     </div>
   </div>

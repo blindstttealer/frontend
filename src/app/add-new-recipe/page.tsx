@@ -13,7 +13,6 @@ import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import { stylesFromCategory } from "./addNewRecipeCategorySelectStyles";
 import { stylesFromTag } from "./addNewRecipeTagSelectStyles";
-import ButtonBack from "@/components/ui/ButtonBack/ButtonBack";
 
 
 export default function AddNewRecipe() {
@@ -48,7 +47,6 @@ export default function AddNewRecipe() {
 
     return (
         <Layout isSearch={true} sidebar={false}>
-            <ButtonBack />
             <div></div>
             <div>
                 <form onSubmit={handleSubmit(onSubmit)}>
