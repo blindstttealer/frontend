@@ -1,7 +1,11 @@
 import { axiosBaseQuery } from '@/services/auth/auth.service'
-import { createApi } from '@reduxjs/toolkit/query/react'
+import { BaseQueryFn, createApi, FetchArgs } from '@reduxjs/toolkit/query/react'
 import { convertObjectToQueryParams } from '@/helpers/url'
-import { IFetchListData, IRecipeWithIngredients } from './recipes.types'
+import {
+  IFetchListData,
+  IPatchRecipeParams,
+  IRecipeWithIngredients,
+} from './recipes.types'
 import { current } from '@reduxjs/toolkit'
 
 export type ListParams = {
@@ -195,6 +199,26 @@ export const recipeApi = createApi({
         }
       },
     }),
+
+    saveRecipe: builder.mutation<any, IPatchRecipeParams>({
+      query: ({ slug, data }) => {
+        return {
+          url: `recipe/${slug}/`,
+          method: 'PATCH',
+          data,
+        }
+      },
+    }),
+
+    createRecipe: builder.mutation<any, IPatchRecipeParams>({
+      query: ({ slug, data }) => {
+        return {
+          url: `recipe/${slug}/`,
+          method: 'POST',
+          data,
+        }
+      },
+    }),
   }),
 })
 
@@ -206,4 +230,6 @@ export const {
   useAddToFavoritesMutation,
   useRemoveFromFavoritesMutation,
   useGetRecipeQuery,
+  useSaveRecipeMutation,
+  useCreateRecipeMutation
 } = recipeApi
