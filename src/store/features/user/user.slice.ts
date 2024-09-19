@@ -1,62 +1,51 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { RecipeListFilter, RecipeListOrdering as RecipeListSort } from '@/hooks/dispatcher.types'
+
+export type RecipeListView = 'feed' | 'tile'
+export type MyRecipeSort = 'date' | 'ingredients'
 
 export interface IInitialState {
-  isAuth: boolean
-  access_token?: string
-  refresh_token?: string
+  view: RecipeListView
+  filter?: RecipeListFilter
+  sort: RecipeListSort
+  myRecipesSort: MyRecipeSort
+  myRecipesFromDate?: string // date with format 'yyyy-mm-dd'
 }
 
 const defaultState: IInitialState = {
-  isAuth: false,
+  view: 'feed',
+  sort: 'default',
+  myRecipesSort: 'date',
 }
 
-const userSettings = createSlice({
+const userSettingsSlice = createSlice({
   name: 'userSettings',
   initialState: defaultState,
   reducers: {
-    checkLoginStatus: (state, _action) => {
-      const token = localStorage.getItem('access_token_svd')
-      state.isAuth = !!token
+    setViewMode: (state, action) => {
+      state.view = action.payload
     },
-    loginUser: (state, action) => {
-      const { access, refresh } = action.payload
-      state.access_token = access
-      localStorage.setItem('access_token_svd', access)
-      state.refresh_token = refresh
-      localStorage.setItem('refresh_token_svd', refresh)
-      state.isAuth = true
+    setFilterMode: (state, action) => {
+      state.filter = action.payload
     },
-    logoutUser: (state, _action) => {
-      localStorage.removeItem('access_token_svd')
-      localStorage.removeItem('refresh_token_svd')
-      state.isAuth = false
+    setSortMode: (state, action) => {
+      state.sort = action.payload
     },
-    setAccessTokens: (state, action) => {
-      localStorage.setItem('access_token_svd', action.payload)
-      state.isAuth = true
+    setSortMyRecipesMode: (state, action) => {
+      state.myRecipesSort = action.payload
     },
-    setTokens: (state, action) => {
-      const { access, refresh } = action.payload
-      state.access_token = access
-      localStorage.setItem('access_token_svd', access)
-      state.refresh_token = refresh
-      localStorage.setItem('refresh_token_svd', refresh)
-      state.isAuth = true
-    },
-    clearTokens: (state, action) => {
-      localStorage.removeItem('access_token_svd')
-      localStorage.removeItem('refresh_token_svd')
+    setDateSortMyRecipes: (state, action) => {
+      state.myRecipesFromDate = action.payload
     },
   },
 })
 
 export const {
-  checkLoginStatus,
-  loginUser,
-  logoutUser,
-  setAccessTokens,
-  setTokens,
-  clearTokens,
-} = userSettings.actions
+  setViewMode,
+  setFilterMode,
+  setSortMode,
+  setSortMyRecipesMode,
+  setDateSortMyRecipes,
+} = userSettingsSlice.actions
 
-export default userSettings.reducer
+export default userSettingsSlice.reducer

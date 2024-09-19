@@ -1,59 +1,53 @@
-import { useAppDispatch } from '@/store/features/hooks'
-import { MutableRefObject, useEffect, useRef } from 'react'
-import { IRecipe } from '@/store/features/recipes/recipes.types'
-import { QueryStatus } from '@reduxjs/toolkit/query'
-import { getParamObjectFromURL } from '@/helpers/url'
+import { useEffect, useRef } from 'react'
+
 import {
+  getRecipesParams,
   useGetFavoritesQuery,
   useLazyGetFavoritesQuery,
 } from '@/store/features/recipes/recipes.actions'
+import { RecipeListResult } from './dispatcher.types'
+import { IRecipe } from '@/store/features/recipes/recipes.types'
 
-export interface IFetchListData {
-  count: number
-  next: string
-  previous: string
-  results: IRecipe[]
-  detail?: string
-}
-
-export type RecipeListDispatcher = () => {
-  isLoading: boolean
-  isFetching?: boolean
-  status?: QueryStatus
-  error: any
-  fetchData?: IFetchListData
-  recipies?: IRecipe[]
-  loadNextPageRef: MutableRefObject<() => void>
-}
-
-export const useFavorites: RecipeListDispatcher = () => {
-  const dispatch = useAppDispatch()
-  const { data, isFetching, isLoading, error, status } = useGetFavoritesQuery({
-    pathname: 'recipe/favorites',
-    params: {},
-  })
+export const useFavorites = (
+  pathname: string,
+  params: getRecipesParams,
+  options?: {
+    refetchOnMountOrArgChange?: boolean | number
+  },
+): RecipeListResult => {
+  const { data, isFetching, isLoading, error, status } = useGetFavoritesQuery(
+    {
+      pathname,
+      params: params ?? {},
+    },
+    options,
+  )
   const [trigger] = useLazyGetFavoritesQuery()
   const loadNextPageRef = useRef(() => {})
 
   useEffect(() => {
     loadNextPageRef.current = () => {
-      loadNextPageRef.current = () => {
-        if (data?.next) {
-          trigger({
-            pathname: 'recipe/favorites',
-            params: getParamObjectFromURL(data?.next),
-          })
-        }
+      if (data?.next) {
+        let url = new URL(data?.next ?? '')
+        const page = url ? String(url.searchParams.get('page')) : '0'
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        params = { ...params, page }
+
+        trigger({
+          pathname,
+          params,
+        })
       }
     }
-  }, [data?.next, trigger])
+  }, [data, data?.next, trigger])
 
   return {
     isLoading,
+    isFetching,
     status,
     error,
     fetchData: data,
-    recipies: data?.results?.map((e) => ({ ...e, is_favorite: true })) || [],
+    recipies: data?.results.map((e: IRecipe) => ({ ...e, is_favorite: true })),
     loadNextPageRef,
   }
 }

@@ -1,12 +1,13 @@
 'use client'
+
 import Link from 'next/link'
 import { FC, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
 import styles from './forms.module.scss'
-import { loginUser } from '@/store/features/user/user.slice'
+import { loginUser } from '@/store/features/auth/auth.slice'
 import { useAppDispatch } from '@/store/features/hooks'
-import { useLoginMutation } from '@/store/features/user/user.actions'
+import { useLoginMutation } from '@/store/features/auth/auth.actions'
 import { Field, FieldSet, InputEmail, InputPassword } from './items'
 import Button from '@/components/ui/Button/Button'
 import Input from '@/components/ui/Input/Input'
@@ -21,6 +22,8 @@ type FormValues = {
 const LoginForm: FC = () => {
   const dispatch = useAppDispatch()
   const [doLogin, { data, status, isLoading, error }] = useLoginMutation()
+  
+  // @ts-ignore
   const errorText = error?.message
   const {
     register,

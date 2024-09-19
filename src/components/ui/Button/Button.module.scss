@@ -1,22 +1,30 @@
 .button {
   cursor: pointer;
-  border-radius: 12px;
-  font-size: 16px;
   transition: background-color 0.1s ease-in-out;
-  padding: 4px;
-  &:active {
-    background-color: rgb(58, 25, 175);
-  }
 }
 
 .primary {
-  background: var(--primary-color);
+  background: var(--primary-color-dark);
   color: var(--base-color);
   border: none;
-  :hover {
+
+  border: none;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .loader {
+    img {
+      filter: invert(59%) sepia(75%) saturate(314%) hue-rotate(97deg)
+        brightness(97%) contrast(89%); // for color var(--primary-color-light)
+    }
+  }
+
+  &:hover {
     background: var(--button-hover);
   }
-  :active {
+  &:active {
     background: var(--button-press);
   }
 }
@@ -24,46 +32,50 @@
 .secondary {
   background: var(--base-color);
   color: var(--base-color-dark);
-  border: 1px solid var(--primary-color-light);
-  :hover {
+  border: 2px solid var(--primary-color-light);
+  &:hover {
     background: var(--button-hover);
-    border-color: var(--button-hover);
     color: var(--base-color);
   }
-  :active {
-    background: var(--button-press);
-    border-color: var(--button-hover);
+  &:active {
+    background: var(--primary-color-darker);
     color: var(--base-color);
+  }
+  &.pressed {
+    border-color: #000;
   }
 }
 
 .clear {
-  padding: 0;
+  padding: 0 !important;
   background: transparent;
   border: none;
 }
 
-.disabled {
+.disabled,
+.disabled:hover {
   color: var(--base-color);
   background: var(--button-disabled);
   border: none;
   cursor: default;
-  :hover {
-    color: var(--base-color);
-    background: var(--button-disabled);
-    border: none;
-    cursor: default;
-  }
 }
 
 .small {
-  padding: 4px 20px;
+  padding: 4px 14px;
+  border-radius: 12px;
+  font-size: 12px;
 }
 
 .medium {
   padding: 8px 16px;
+  border-radius: 14px;
+  font-size: 14px;
 }
 
 .big {
-  padding: 12px 60px;
+  padding: 16px 24px;
+  border-radius: 18px;
+  font-weight: 400;
+  font-size: 16px;
+  gap: 8px;
 }

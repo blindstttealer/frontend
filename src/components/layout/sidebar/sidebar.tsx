@@ -1,53 +1,71 @@
 'use client'
-import { useAuth } from '@/hooks/useAuth'
-import styles from './sidebar.module.scss'
+
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
-import NavLink, { LinkItem } from '@/components/ui/NavLink/NavLink'
-import { useEffect, useState } from 'react'
+
+import styles from './sidebar.module.scss'
+import { useAppSelector } from '@/store/features/hooks'
+import { useAuth } from '@/hooks/useAuth'
+import { LinkItem } from '@/components/ui/NavLink/NavLink'
 import { NavLinkSkeleton } from '@/components/ui/Skeletons/skeletons'
+import LinkLikeButton from '@/components/ui/LinkLikeButton/LinkLikeButton'
 
 type MenuItem = LinkItem & {
   path: string
+  url: string
 }
-
-const menu: MenuItem[] = [
-  {
-    text: 'Домой',
-    img: '/img/sidebar/home.svg',
-    alt: 'home',
-    path: '/',
-  },
-  {
-    text: 'Уведомления',
-    img: '/img/sidebar/notifications.svg',
-    alt: 'notifications',
-    path: '/notifications',
-  },
-  {
-    text: 'Закладки',
-    img: '/img/sidebar/favorites.svg',
-    alt: 'favorites',
-    path: '/favorites',
-  },
-  {
-    text: 'Профиль',
-    img: '/img/sidebar/user.svg',
-    alt: 'profile',
-    path: '/profile',
-  },
-  {
-    text: 'Настройки',
-    img: '/img/sidebar/settings.svg',
-    alt: 'setting',
-    path: '/setting',
-  },
-]
 
 export default function Sidebar() {
   const { isAuth } = useAuth()
   const router = useRouter()
   const pathname = usePathname()
+
+  const { sort: sort, filter } = useAppSelector((state) => state.userSettings)
+
+  const homeParams = new URLSearchParams()
+  homeParams.set('sort', sort)
+  if (filter && homeParams.get('filter') !== filter) {
+    homeParams.set('filter', filter)
+  }
+
+  const menu: MenuItem[] = [
+    {
+      text: 'Домой',
+      img: '/img/sidebar/home.svg',
+      alt: 'home',
+      path: '/',
+      url: `/?${homeParams.toString()}`,
+    },
+    {
+      text: 'Уведомления',
+      img: '/img/sidebar/notifications.svg',
+      alt: 'notifications',
+      path: '/notifications',
+      url: '/notifications',
+    },
+    {
+      text: 'Закладки',
+      img: '/img/sidebar/favorites.svg',
+      alt: 'favorites',
+      path: '/favorites',
+      url: '/favorites',
+    },
+    {
+      text: 'Профиль',
+      img: '/img/sidebar/user.svg',
+      alt: 'profile',
+      path: '/profile',
+      url: '/profile',
+    },
+    {
+      text: 'Настройки',
+      img: '/img/sidebar/settings.svg',
+      alt: 'setting',
+      path: '/setting',
+      url: '/setting',
+    },
+  ]
 
   // требуется задержка на получения isAuth, чтобы оно успело обновиться из хранилища после загрузки.
   // и пока таймаут не прошел - рисуем скелетон меню
@@ -64,29 +82,28 @@ export default function Sidebar() {
   const jsxIsAuth = (
     <div className={styles.auth}>
       {menu.map(({ text, img, alt, path }, key) => (
-        <NavLink
+        <LinkLikeButton
           key={key}
-          text={text}
-          img={img}
-          alt={alt}
-          url={path}
-          active={pathname === path}
-        />
+          color="clear"
+          size="medium"
+          href={path}
+          pressed={pathname === path}
+        >
+          {text}
+          {img && <Image src={img} alt={alt} width={22} height={22} />}
+        </LinkLikeButton>
       ))}
     </div>
   )
 
   const jsxIsNotAuth = (
     <div className={styles.notAuth}>
-      <button className={styles.button} onClick={() => router.push('login')}>
+      <LinkLikeButton color="primary" size="medium" href="login">
         Войти
-      </button>
-      <button
-        className={styles.button}
-        onClick={() => router.push('registration')}
-      >
+      </LinkLikeButton>
+      <LinkLikeButton color="secondary" size="medium" href="registration">
         Регистрация
-      </button>
+      </LinkLikeButton>
     </div>
   )
 

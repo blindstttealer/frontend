@@ -1,6 +1,17 @@
+// заменено на baseQuery и authBaseQuery. Это оставлено для истории.
+// Еще есть использование в старых заготовках компонентов - там надо заменить на authBaseQuery
+
 import { SerializedError } from '@reduxjs/toolkit'
-import { BaseQueryFn } from '@reduxjs/toolkit/query'
+import { retry } from '@reduxjs/toolkit/query'
+import type { BaseQueryFn } from '@reduxjs/toolkit/query'
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
+
+// заглушки, чтоб не было ошибок
+const getAcessToken = () => ''
+const getRefreshToken = () => ''
+const setAcessToken = (token: string) => {}
+const delAcessToken = () => {}
+const delRefreshToken = () => {}
 
 export const BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://127.0.0.1:8000/api/v1/'
@@ -13,17 +24,17 @@ let refresh = {}
 
 if (typeof window !== 'undefined') {
   refresh = {
-    refresh: localStorage.getItem('refresh_token_svd'),
+    refresh: getRefreshToken(),
   }
 }
 
-const clearTokensAndGoToLogin = () => {
-  localStorage.removeItem('access_token_svd')
-  localStorage.removeItem('refresh_token_svd')
+export const clearTokensAndGoToLogin = () => {
+  delAcessToken()
+  delRefreshToken()
 }
 
 const urlsSkipAuth = ['auth/users/', 'auth/jwt/create/', 'feed/']
-const clitical401Errors = [
+export const clitical401Errors = [
   'Не найдено активной учетной записи с указанными данными',
   'Пользователь не найден',
 ]
@@ -35,7 +46,7 @@ instanceAxios.interceptors.request.use(
       return config
     }
 
-    const authToken = localStorage.getItem('access_token_svd')
+    const authToken = getAcessToken()
     if (authToken) {
       config.headers.Authorization = `Bearer ${authToken}`
       // console.log("сработал перехватчик на POST устанавливает токен");
@@ -55,6 +66,7 @@ instanceAxios.interceptors.response.use(
     return response
   },
   async (error) => {
+    console.log('instanceAxios.interceptors', error)
     const originalRequest = error.config
 
     if (error.response.status == 401) {
@@ -72,7 +84,7 @@ instanceAxios.interceptors.response.use(
           refresh,
         )
         // case 2.1: refreshing success -> set access token and refetch original query
-        localStorage.setItem('access_token_svd', response.data.access)
+        setAcessToken(response.data.access)
 
         return instanceAxios.request(originalRequest)
       } catch (error) {
@@ -88,45 +100,35 @@ instanceAxios.interceptors.response.use(
   },
 )
 
-//todo: проверить отработку ошибок
-
 // для использования в RTK
-export const axiosBaseQuery =
-  (): BaseQueryFn<
-    {
-      url: string
-      method?: AxiosRequestConfig['method']
-      data?: AxiosRequestConfig['data']
-      params?: AxiosRequestConfig['params']
-      headers?: AxiosRequestConfig['headers']
-    },
-    unknown,
-    SerializedError
-  > =>
-  async ({ url, method, data, params, headers }) => {
-    try {
-      const result = await instanceAxios({
-        url: BASE_URL + url,
-        method,
-        data,
-        params,
-        headers,
-      })
-      return { data: result.data }
-    } catch (axiosError) {
-      const err = axiosError as AxiosError<
-        {
-          detail: string
-        },
-        unknown
-      >
-      console.log('axiosBaseQuery error', err)
+// @ts-ignore
+export const axiosBaseQuery: BaseQueryFn<
+  AxiosRequestConfig,
+  unknown,
+  SerializedError
+> = async (args, _api, _extraOptions) => {
+  if (!args) return
 
-      return {
-        error: {
-          code: err.response?.status,
-          message: err.response?.data.detail,
-        },
-      } as SerializedError
+  try {
+    const result = await instanceAxios(args)
+    return { data: result.data }
+  } catch (axiosError) {
+    const err = axiosError as AxiosError<
+      {
+        detail: string
+      },
+      unknown
+    >
+
+    if (err.response?.status !== 429) {
+      retry.fail(err.response?.data.detail)
+    }
+
+    return {
+      error: {
+        code: err.response?.status,
+        message: err.response?.data.detail,
+      },
     }
   }
+}
