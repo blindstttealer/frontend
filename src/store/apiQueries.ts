@@ -3,30 +3,36 @@ import {
   fetchBaseQuery,
   type BaseQueryFn,
   FetchBaseQueryError,
+  retry,
 } from '@reduxjs/toolkit/query'
 import { Mutex } from 'async-mutex'
 
 import { clearTokens, setAccessToken } from '@/store/features/auth/auth.slice'
-import { makeStore } from '@/store/features'
 
 export const BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://127.0.0.1:8000/api/v1/'
 
 // при 401 ошибках только с таким текстом будет обновляться access_token
-export const clitical401Errors = [
+export const ignore401ErrorMessages = [
   'Не найдено активной учетной записи с указанными данными',
   'Пользователь не найден',
 ]
+export const ignore401ErrorPages = ['/login', '/resetpassword']
 
-const injectAuth = (args: FetchArgs, authToken?: string | null): FetchArgs => {
-  if (authToken) {
+export const injectAuth = (
+  args: FetchArgs | string,
+  authToken?: string | null,
+): FetchArgs | string => {
+  if (typeof args !== 'string' && authToken) {
     args.headers = { ...args.headers, Authorization: `Bearer ${authToken}` }
+    // const requestHeaders = new Headers(args.headers)
+    // requestHeaders.set('Authorization', `Bearer ${authToken}`)
   }
 
   return args
 }
 
-const mutex = new Mutex()
+export const mutex = new Mutex()
 
 export const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
@@ -34,22 +40,38 @@ export const baseQuery = fetchBaseQuery({
 
 // @ts-ignore
 export const authBaseQuery: BaseQueryFn<
-  FetchArgs,
+  FetchArgs | string,
   unknown,
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   // wait until the mutex is available without locking it
   await mutex.waitForUnlock()
 
-  const store = makeStore()
-  const { access_token: authToken, refresh_token: refreshToken } =
-    store.getState().auth
+  let refreshToken = null
+  try {
+    //todo: это вызывает циклический импорт и 500 ошибку. Пока токены получаются напрямую из хранилища
+    // const store = makeStore()
+    // const { access_token: authToken, refresh_token: refreshToken } =
+    //   store.getState().auth
+    const auth: { accessToken: string; refreshToken: string } = JSON.parse(
+      localStorage.getItem('persist:auth') ?? '{}',
+    )
+    refreshToken = JSON.parse(auth.refreshToken)
+    args = injectAuth(args, JSON.parse(auth.accessToken))
+  } catch (error) {}
 
-  args = injectAuth(args, authToken)
-  let result = await baseQuery(args, api, extraOptions)
+  const result = await baseQuery(args, api, extraOptions)
+
+  if (result === undefined) return Promise.reject('wrong answer')
+
+  const url = new URL(window.location.href)
+  const pathname = url.pathname
+
+  if (result.meta?.response?.status === 204 && pathname === '/resetpassword')
+    return Promise.reject('wrong email')
 
   // получен ответ
-  if (result.error?.status !== 401) return result
+  if (!result.error || result.meta?.response?.status !== 401) return result
 
   // checking whether the mutex is locked
   if (!mutex.isLocked()) {
@@ -58,9 +80,13 @@ export const authBaseQuery: BaseQueryFn<
     try {
       // ошибка авторизации - разбираемся с ней
       const { detail } = result.error.data as { detail: string }
+      const url = new URL(window.location.href)
 
       // case 1: error in login process -> incorrect login/password -> show error
-      if (clitical401Errors.includes(detail)) {
+      if (
+        ignore401ErrorMessages.includes(detail) ||
+        ignore401ErrorPages.includes(url.pathname)
+      ) {
         api.dispatch(clearTokens({}))
 
         return Promise.reject(detail)
@@ -92,6 +118,9 @@ export const authBaseQuery: BaseQueryFn<
       api.dispatch(clearTokens({}))
       if (window.location.href !== '/login')
         window.location.href = `/login?url="${window.location.href}"`
+    } catch (error) {
+      debugger
+      return Promise.reject(error)
     } finally {
       // release must be called once the mutex should be released again.
       release()
@@ -99,6 +128,25 @@ export const authBaseQuery: BaseQueryFn<
   } else {
     // wait until the mutex is available without locking it
     await mutex.waitForUnlock()
-    result = await baseQuery(args, api, extraOptions)
+    return await baseQuery(args, api, extraOptions)
   }
 }
+
+export const staggeredAuthBaseQuery = retry(
+  async (args: FetchArgs | string, api, extraOptions) => {
+    try {
+      const result = await authBaseQuery(args, api, extraOptions)
+
+      if (result.error?.status === 401) {
+        retry.fail(result.error)
+      }
+
+      return result
+    } catch (error) {
+      retry.fail(error)
+    }
+  },
+  {
+    maxRetries: 1,
+  },
+)

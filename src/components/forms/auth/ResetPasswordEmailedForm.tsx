@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 import styles from './authForms.module.scss'
 
-export default function ActivateInstructionForm() {
+export default function ResetPasswordEmailedForm() {
   return (
     <>
       <div className={styles.wrapper}>
@@ -19,7 +19,7 @@ export default function ActivateInstructionForm() {
         <div className={styles.inner_text}>
           <h2>Вам отправлено письмо!</h2>
           <p>
-            Для завершения регистрации перейдите по ссылке, которую мы отправили
+            Для успешной смены пароля перейдите по ссылке, которую мы отправили
             вам в письме на электронную почту.
           </p>
         </div>

@@ -1,3 +1,5 @@
+// https://redux.js.org/usage/nextjs
+
 import { configureStore } from '@reduxjs/toolkit'
 import {
   FLUSH,
@@ -9,16 +11,14 @@ import {
   REGISTER,
   REHYDRATE,
 } from 'redux-persist'
-import createWebStorage from 'redux-persist/lib/storage/createWebStorage'
 import { createWrapper } from 'next-redux-wrapper'
+import createWebStorage from 'redux-persist/es/storage/createWebStorage'
 
-import userActivateAccountReducer from './user/user-activation.slice'
-import authReducer from './auth/auth.slice'
-import userSettingsReducer from './user/user.slice'
-import { recipeReactionsApi } from './reactions/reactions.actions'
-import { userApi } from './user/user.actions'
-import { recipeApi } from './recipes/recipes.actions'
+import { mainApi } from '@/store/api'
+import authReducer from './features/auth/auth.slice'
+import userSettingsReducer from './features/user/user.slice'
 
+// todo: это решение из инернета для решения ошибки в консоли "redux-persist failed to create sync storage. falling back to noop storage."
 const createNoopStorage = () => {
   return {
     getItem(_key: any) {
@@ -38,7 +38,6 @@ const storage =
     ? createWebStorage('local')
     : createNoopStorage()
 
-export default storage
 const authPersistConfig = {
   key: 'auth',
   storage,
@@ -54,14 +53,11 @@ const userSettingsPersistedReducer = persistReducer(
   userSettingsReducer,
 )
 
-export const Store = configureStore({
+const Store = configureStore({
   reducer: {
-    userActivation: userActivateAccountReducer,
     auth: authPersistedReducer,
     userSettings: userSettingsPersistedReducer,
-    [recipeReactionsApi.reducerPath]: recipeReactionsApi.reducer,
-    [recipeApi.reducerPath]: recipeApi.reducer,
-    [userApi.reducerPath]: userApi.reducer,
+    [mainApi.reducerPath]: mainApi.reducer,
   },
   devTools: process.env.NODE_ENV !== 'production',
   middleware: (getDefaultMiddleware) =>
@@ -69,10 +65,7 @@ export const Store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    })
-      .concat(recipeReactionsApi.middleware)
-      .concat(userApi.middleware)
-      .concat(recipeApi.middleware),
+    }).concat(mainApi.middleware),
 })
 
 export const makeStore = () => Store
@@ -80,5 +73,5 @@ export const persistor = persistStore(Store)
 export const storeWrapper = createWrapper<AppStore>(makeStore, { debug: true })
 
 export type AppStore = ReturnType<typeof makeStore>
-export type RootState = ReturnType<typeof Store.getState>
-export type AppDispatch = typeof Store.dispatch
+export type RootState = ReturnType<AppStore['getState']>
+export type AppDispatch = AppStore['dispatch']

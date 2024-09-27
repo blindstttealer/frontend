@@ -11,11 +11,11 @@ import { useRouter } from 'next/navigation'
 import Layout from "@/components/layout/layout"
 import { useEffect, useRef, useState } from "react"
 import Select from 'react-select'
-import { resultCountry } from "@/helpers/setCountries"
+import { COUNTRIES } from "@/helpers/countries"
 import { customStyles } from "@/helpers/customStylesFromReactSelect"
 import { Loader } from "@/components/ui/Loader/Loader"
 import { PatternFormat } from 'react-number-format'
-import { useAppDispatch, useAppSelector } from "@/store/features/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 // import { fetchDataUser, fetchFormDataUser } from "@/store/features/user/user.actions";
 import { IDataForm } from "./user-data-form.types";
 
@@ -185,7 +185,7 @@ export default function Registration() {
                                         name="country"
                                         render={({ field }) => (
                                             <Select {...field}
-                                                options={resultCountry}
+                                                options={COUNTRIES}
                                                 placeholder="Россия"
                                                 styles={customStyles}
                                                 inputId={Date.now().toString()}

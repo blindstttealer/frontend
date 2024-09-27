@@ -24,9 +24,10 @@
     justify-content: space-between;
   }
 
-  button[type='submit'] {
+  button {
     width: 100%;
     height: 40px;
+    border-radius: 18px;
   }
 
   .center {
@@ -73,7 +74,7 @@
 }
 
 .field {
-  .label{
+  .label {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -82,10 +83,55 @@
   label {
     display: flex;
     margin-bottom: 12px;
-}
+  }
 
   .error {
     color: var(--input-invalid);
     text-align: left;
+  }
+}
+
+.centerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input {
+  border-radius: 12px;
+  border: 1px solid var(--input-stroke);
+  outline: none;
+  padding: 12px 14px;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
+  color: var(--base-color-dark);
+
+  &:focus {
+    border: 1px solid var(--base-color-dark);
+    color: var(--base-color-dark);
+  }
+
+  &:hover {
+    border: 1px solid var(--base-color-dark);
+  }
+}
+
+// стили для Select from 'react-select'
+.selector > div > div {
+  border-radius: 12px;
+  border: 1px solid var(--input-stroke);
+  outline: none;
+  padding: 3px 4px;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
+  color: var(--base-color-dark);
+
+  &:focus {
+    border: 1px solid var(--base-color-dark);
+    color: var(--base-color-dark);
+  }
+
+  &:hover {
+    border: 1px solid var(--base-color-dark);
   }
 }
